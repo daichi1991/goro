@@ -13,7 +13,7 @@ class ItemsController < ApplicationController
 
     private
     def item_params
-        params.require(:item).permit(:title, :year, :year_type, :description)
+        params.require(:item).permit(:title, :year, :year_type, :goro_text,:description)
     end
     
 end

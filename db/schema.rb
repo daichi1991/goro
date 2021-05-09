@@ -14,10 +14,11 @@ ActiveRecord::Schema.define(version: 2021_05_06_144105) do
 
   create_table "items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "title", null: false
-    t.integer "year", null: false
-    t.string "year_type", null: false
-    t.string "description", null: false
+    t.string "title"
+    t.integer "year"
+    t.string "year_type"
+    t.string "goro_text"
+    t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_items_on_user_id"
