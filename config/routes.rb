@@ -1,9 +1,14 @@
 Rails.application.routes.draw do
-  devise_for :users,
+  devise_for :users, path: 'api/v1/auth',
   controllers: {
-    registrations: :registrations,
-    sessions: :sessions
+    registrations: "api/v1/auth/registrations",
+    sessions: "api/v1/auth/sessions"
   }
-  root to: "home#index"
-  resources :items
+  namespace :api do
+    namespace :v1 do
+      resources :items
+    end
+  end
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
+
 end

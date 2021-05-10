@@ -1,15 +1,18 @@
 import React from 'react';
-import './App.css'
+import './App.css';
 import {
   BrowserRouter as Router,
   Redirect,
   Route,
   RouteProps,
   Switch,
-} from 'react-router-dom'
-import AuthUserProvider, { useAuthUser } from './contexts/authUserContext'
-import { Header } from '../src/components/molecules/header'
-import { Menu } from '../src/components/molecules/menu'
+} from 'react-router-dom';
+import AuthUserProvider, { useAuthUser } from './contexts/authUserContext';
+import { Header } from '../src/components/molecules/header';
+import { Menu } from '../src/components/molecules/menu';
+import { UserSignIn } from './components/molecules/user/userSignIn';
+import { UserSignUp } from './components/molecules/user/userSignUp';
+import { UserSignUpSendMail } from './components/molecules/user/userSignUpSentMail';
 
 const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
   const authUser = useAuthUser()
@@ -45,8 +48,11 @@ function App() {
   return (
     <AuthUserProvider>
       <Router>
+        <Header />
         <Switch>
-          <Header />
+          <UnAuthRoute exact path='/sign_in' component={UserSignIn}/>
+          <UnAuthRoute exact path='/sign_up' component={UserSignUp}/>
+          <UnAuthRoute exact path='/sign_up_send_mail' component={UserSignUpSendMail}/>
           <Menu />
         </Switch>
       </Router>
