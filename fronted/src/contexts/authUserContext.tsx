@@ -56,8 +56,9 @@ const AuthUserProvider: React.FC = (children) =>{
             email: email,
             password: password,
             password_confirmation: passwordConfirm,
-            confirm_success_url: signInUrl
         }
+    },{
+        headers:{'Content-Type':'application/json'}
     })
     .then(res =>{
         return res;
