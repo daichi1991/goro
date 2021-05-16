@@ -8,6 +8,7 @@ const {useState, useContext} = React;
 
 interface Props {
     history: H.History;
+    message: string;
 }
 
 export const UserSignIn:React.FC<Props> = (props: Props) =>{
@@ -41,9 +42,7 @@ export const UserSignIn:React.FC<Props> = (props: Props) =>{
 
     return(
         <>
-            {
-                accountConfirmCheck()?<h2>認証が成功しました</h2>:<span></span>
-            }
+            <h2>{props.message}</h2>
             <h3>ログイン</h3>
             {
                 signInCheck?<p style={{color:"red"}}>メールアドレスないしパスワードが正しくありません</p>:<span></span>

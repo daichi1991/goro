@@ -13,6 +13,7 @@ import { Menu } from '../src/components/molecules/menu';
 import { UserSignIn } from './components/molecules/user/userSignIn';
 import { UserSignUp } from './components/molecules/user/userSignUp';
 import { UserSignUpSendMail } from './components/molecules/user/userSignUpSentMail';
+import { UserSignUpConfirm } from './components/molecules/user/userSignUpConfirm';
 
 const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
   const authUser = useAuthUser()
@@ -53,6 +54,7 @@ function App() {
           <UnAuthRoute exact path='/sign_in' component={UserSignIn}/>
           <UnAuthRoute exact path='/sign_up' component={UserSignUp}/>
           <UnAuthRoute exact path='/sign_up_send_mail' component={UserSignUpSendMail}/>
+          <UnAuthRoute exact path='/sign_up_confirm' component={UserSignUpConfirm}/>
           <Menu />
         </Switch>
       </Router>

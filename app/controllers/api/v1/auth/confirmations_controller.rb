@@ -4,9 +4,9 @@ class Api::V1::Auth::ConfirmationsController < Devise::ConfirmationsController
         yield resource if block_given?
     
         if resource.errors.empty?
-            respond_with_navigational(resource){ redirect_to after_confirmation_path_for(resource_name, resource) }
+            render json: {result:"ok"}
         else
-            respond_with_navigational(resource.errors, :status => :unprocessable_entity){ render :new }
+            render json: { result:'ng' }, status: :unprocessable_entity
         end
     end
 end

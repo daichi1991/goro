@@ -10,6 +10,7 @@ type OperationType = {
     handleSetAuthUser:(token:AuthUser) => void;
     deleteAuthUser:() => void;
     signUp:(email:string, password:string, passwordConfirm:string) => void;
+    signUpConfirm :(token:string|null) => void;
     signIn:(email:string, password:string) => void;
     signOut:() => void;
     signInCheck:() => void;
@@ -22,6 +23,7 @@ const AuthOperationContext = createContext<OperationType>({
     handleSetAuthUser: () => console.error("Proveiderが設定されていません"),
     deleteAuthUser: () => console.error("Proveiderが設定されていません"),
     signUp: () => console.error("Proveiderが設定されていません"),
+    signUpConfirm: () => console.error("Proveiderが設定されていません"),
     signIn: () => console.error("Proveiderが設定されていません"),
     signOut:() => console.error("Providerが設定されていません"),
     signInCheck: () => console.error("signInCheckのProviderが設定されていません")
@@ -63,6 +65,21 @@ const AuthUserProvider: React.FC = (children) =>{
     .then(res =>{
         return res;
     })
+
+
+    const signUpConfirm =(confirmationToken:string|null) => {
+        const getUserConfirmUrl = userUrl + "/confirmation?confirmation_token=" + confirmationToken
+        axios.get(
+            getUserConfirmUrl
+            )
+            .then(res=>{
+                console.log(res);
+                return res.data;
+            })
+            .catch((e)=>{
+                return e;
+            })
+    };
 
     const signIn = (email:string, password:string) => axios.post(postUserSignInUrl,
         {user:{
@@ -136,7 +153,7 @@ const AuthUserProvider: React.FC = (children) =>{
     } ,[])
 
     return (
-        <AuthOperationContext.Provider value={{handleSetAuthUser,deleteAuthUser,signUp,signIn,signOut,signInCheck}}>
+        <AuthOperationContext.Provider value={{handleSetAuthUser,deleteAuthUser,signUp,signUpConfirm, signIn,signOut,signInCheck}}>
             <AuthUserContext.Provider value={authUser}>
                 <SignInErrorContext.Provider value={signInError}>
                     {children.children}
@@ -158,6 +175,7 @@ export const useAuthUser = () => useContext(AuthUserContext)
 export const useHandleSetAuthUser = (token:AuthUser) => useContext(AuthOperationContext).handleSetAuthUser
 export const useDeleteAuthUser = () => useContext(AuthOperationContext).deleteAuthUser
 export const useSignUp = (email:string, password:string) => useContext(AuthOperationContext).signUp
+export const useSignUpConfirm = (token:string|null) => useContext(AuthOperationContext).signUpConfirm
 export const useSignIn = (email:string, password:string) => useContext(AuthOperationContext).signIn
 export const useSignOut = () => useContext(AuthOperationContext).signOut
 export const useSignInCheck = () => useContext(AuthOperationContext).signInCheck
