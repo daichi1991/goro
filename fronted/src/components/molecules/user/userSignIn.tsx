@@ -1,23 +1,30 @@
 import * as React from 'react';
 import * as H from 'history';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps, useLocation, useParams } from 'react-router-dom';
 import { useSignIn, SignInErrorContext } from '../../../contexts/authUserContext';
 import { LinkButton,linkStyle, StyledInput, StyleSubmit, tableStyle }from '../../../components/atoms/styles';
+import queryString from 'query-string';
 
 const {useState, useContext} = React;
 
 interface Props {
     history: H.History;
-    message: string;
+    urlProps: RouteComponentProps<{status: string}>;
 }
 
-export const UserSignIn:React.FC<Props> = (props: Props) =>{
+type PageProps = Record<string,null> & RouteComponentProps<{status: string}>;
+
+
+export const UserSignIn:React.FC<PageProps> = (props: PageProps) =>{
 
 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const signIn = useSignIn(email, password);
-    const signInCheck = useContext(SignInErrorContext)
+    const signInCheck = useContext(SignInErrorContext);
+    const location = useLocation<{ status:string}>();
+    const qs = queryString.parse(location.search);
+    console.log(qs.confirm)
 
     const userSignIn = (e:React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
@@ -42,7 +49,11 @@ export const UserSignIn:React.FC<Props> = (props: Props) =>{
 
     return(
         <>
-            <h2>{props.message}</h2>
+            {/* {location.state.message?<h3>location.state.message</h3>:null} */}
+            {qs.confirm==='success'?
+                <h3>認証が成功しました</h3>:
+                <span></span>
+            }
             <h3>ログイン</h3>
             {
                 signInCheck?<p style={{color:"red"}}>メールアドレスないしパスワードが正しくありません</p>:<span></span>

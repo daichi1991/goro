@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useSignUpConfirm } from '../../../contexts/authUserContext';
 import { userUrl } from '../../../urls';
 import * as H from 'history';
+import {Link} from 'react-router-dom'
 
 const {useEffect, useContext,useState} = React;
 
@@ -26,9 +27,13 @@ export const UserSignUpConfirm:React.FC<Props> = (props:Props) =>{
                 console.log(res);
                 if(res.status === 200){
                     setStatus('scucess');
-
+                    props.history.push({
+                        pathname: '/sign_in',
+                        search: '?confirm=success'
+                    });
                 }else{
                     setStatus('fail');
+                    
                 }
                 return res.data;
             })
@@ -58,6 +63,10 @@ export const UserSignUpConfirm:React.FC<Props> = (props:Props) =>{
                 status==='success'?
                 <p>ログインしてください</p>:
                 <p>ユーザー登録をやり直してください</p>
+            }
+            {status==='fail'?
+                <Link to="/sign_up">ユーザー登録へ</Link>:
+                <span></span>
             }
         </>
     )
