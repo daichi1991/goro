@@ -82,17 +82,16 @@ const AuthUserProvider: React.FC = (children) =>{
     };
 
     const signIn = (email:string, password:string) => axios.post(postUserSignInUrl,
-        {user:{
+        {
+        user:{
             email: email,
             password: password
         }
+    },{ 
+        withCredentials: true
     })
     .then(res =>{
         setSignInError(false);
-        userToken.uid = res.headers['uid'];
-        userToken.accessToken = res.headers['access-token'];
-        userToken.client = res.headers['client'];
-        localStorage.setItem('token',JSON.stringify(userToken))
     })
     .then(res =>{
         setAuthUser(userToken);

@@ -14,6 +14,7 @@ import { UserSignIn } from './components/molecules/user/userSignIn';
 import { UserSignUp } from './components/molecules/user/userSignUp';
 import { UserSignUpSendMail } from './components/molecules/user/userSignUpSentMail';
 import { UserSignUpConfirm } from './components/molecules/user/userSignUpConfirm';
+import ItemsProvider from './contexts/itemsContexts';
 
 const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
   const authUser = useAuthUser()
@@ -39,7 +40,7 @@ const PrivateRoute: React.FC<RouteProps> = ({ ...props }) => {
     )
     return (
       <Redirect
-        to={{ pathname: '/top', state: { from: props.location?.pathname } }}
+        to={{ pathname: '/', state: { from: props.location?.pathname } }}
       />
     )
   }
@@ -51,11 +52,12 @@ function App() {
       <Router>
         <Header />
         <Switch>
+          <Route exact path = '/' component={ItemsProvider}/>
           <UnAuthRoute exact path='/sign_in' component={UserSignIn}/>
           <UnAuthRoute exact path='/sign_up' component={UserSignUp}/>
           <UnAuthRoute exact path='/sign_up_send_mail' component={UserSignUpSendMail}/>
           <UnAuthRoute exact path='/sign_up_confirm' component={UserSignUpConfirm}/>
-          <Menu />
+          <Redirect to="/"/>
         </Switch>
       </Router>
     </AuthUserProvider>
