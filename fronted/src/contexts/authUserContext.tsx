@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+
 import axios from 'axios';
 import { userUrl, defaultUrl, itemUrl } from '../urls';
 import {AuthUser} from '../components/molecules/types';
@@ -160,14 +160,6 @@ const AuthUserProvider: React.FC = (children) =>{
             </AuthUserContext.Provider>
         </AuthOperationContext.Provider>
     )
-};
-
-AuthUserProvider.propTypes ={
-    children: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.element,
-    ]).isRequired,
-    type: PropTypes.string,
 };
 
 export const useAuthUser = () => useContext(AuthUserContext)

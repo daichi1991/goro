@@ -7,6 +7,11 @@ module Api
                 render :index
             end
 
+            def user_index
+                @items = Item.find_by(user_id: current_user.id)
+                render :user_index
+            end
+
             def create
                 @item = Item.new(item_params)
                 @item.user_id = current_user.id
