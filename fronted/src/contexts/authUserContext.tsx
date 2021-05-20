@@ -36,9 +36,7 @@ const AuthUserProvider: React.FC = (children) =>{
     const signInUrl = defaultUrl + 'sign_in';
 
     const userToken:AuthUser= {
-        uid:"",
-        accessToken:"",
-        client:"",
+        token:"",
     };
 
     const postUserSignInUrl:string = userUrl + "/sign_in";
@@ -94,7 +92,9 @@ const AuthUserProvider: React.FC = (children) =>{
         setSignInError(false);
     })
     .then(res =>{
+        userToken.token = 'nowSignIn'
         setAuthUser(userToken);
+        console.log(userToken)
         return res;
     })
     .catch((e) => 

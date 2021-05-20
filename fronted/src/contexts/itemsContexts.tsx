@@ -11,9 +11,9 @@ export const ItemsContext = React.createContext({} as {
     setItems:React.Dispatch<React.SetStateAction<ItemType[]>>
 });
 
-export const UserItemsContext = React.createContext({} as {
-    userItemsState:ItemType[],
-    setUserItems:React.Dispatch<React.SetStateAction<ItemType[]>>
+export const MyItemsContext = React.createContext({} as {
+    myItemsState:ItemType[],
+    setMyItems:React.Dispatch<React.SetStateAction<ItemType[]>>
 });
 
 
@@ -21,7 +21,7 @@ export const UserItemsContext = React.createContext({} as {
 const ItemsProvider:React.FC = (children) => {
 
     const [itemsState, setItems] = useState<ItemType[]>([]);
-    const [userItemsState, setUserItems] = useState<ItemType[]>([]);
+    const [myItemsState, setMyItems] = useState<ItemType[]>([]);
 
     useEffect(() =>{
         getItems()
@@ -32,9 +32,9 @@ const ItemsProvider:React.FC = (children) => {
 
     return(
         <ItemsContext.Provider value={{itemsState, setItems}}>
-            <UserItemsContext.Provider value={{userItemsState, setUserItems}}>
-                {children}
-            </UserItemsContext.Provider>
+            <MyItemsContext.Provider value={{myItemsState, setMyItems}}>
+                {children.children}
+            </MyItemsContext.Provider>
         </ItemsContext.Provider>
     )
 }

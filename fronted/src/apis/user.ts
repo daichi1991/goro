@@ -66,9 +66,7 @@ export const changePassword = (password: string, passwordConfirm: string) =>{
     const userToken = JSON.parse(localStorage.getItem('token')!)
     const changePasswordUrl = userUrl + '/password';
     const newToken:AuthUser = {
-        uid:"",
-        accessToken:"",
-        client:"",
+        token:""
     }
     return axios.patch(changePasswordUrl,{
         password:password,
@@ -82,10 +80,8 @@ export const changePassword = (password: string, passwordConfirm: string) =>{
         }
     })
     .then(res =>{
-        newToken.uid = res.headers['uid'];
-        newToken.accessToken = res.headers['access-token'];
-        newToken.client = res.headers['client'];
-        localStorage.setItem('token',JSON.stringify(newToken))
+        const cookies = document.cookie;
+        userToken.token = cookies;
         return res.data
     })
     .catch((e) => console.error(e))
@@ -107,9 +103,7 @@ export const postPassword = (email:string) =>{
 export const resetPassword = (password: string, passwordConfirm: string, uid:string, accessToken:string, client:string) =>{
     const changePasswordUrl = userUrl + '/password';
     const newToken:AuthUser = {
-        uid:"",
-        accessToken:"",
-        client:"",
+        token:""
     }
     return axios.patch(changePasswordUrl,{
         password:password,
@@ -123,10 +117,8 @@ export const resetPassword = (password: string, passwordConfirm: string, uid:str
         }
     })
     .then(res =>{
-        newToken.uid = res.headers['uid'];
-        newToken.accessToken = res.headers['access-token'];
-        newToken.client = res.headers['client'];
-        localStorage.setItem('token',JSON.stringify(newToken))
+        const cookies = document.cookie;
+        newToken.token = cookies;
         return res.data
     })
     .catch((e) => console.error(e))
@@ -135,9 +127,7 @@ export const resetPassword = (password: string, passwordConfirm: string, uid:str
 export const resetPasswordNoSignIn = (password: string, passwordConfirm: string, uid:string, accessToken:string, client:string) =>{
     const changePasswordUrl = userUrl + '/password';
     const newToken:AuthUser = {
-        uid:"",
-        accessToken:"",
-        client:"",
+        token:""
     }
     return axios.patch(changePasswordUrl,{
         password:password,
@@ -145,9 +135,6 @@ export const resetPasswordNoSignIn = (password: string, passwordConfirm: string,
     },{
         headers:{
             "Content-Type": "application/json",
-            "uid": uid,
-            "access-token": accessToken,
-            "client": client,
         }
     })
     .then(res =>{

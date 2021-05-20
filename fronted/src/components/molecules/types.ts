@@ -1,7 +1,5 @@
 export type AuthUser = {
-    uid:string,
-    accessToken:string,
-    client:string,
+    token:string
 }
 
 export type ItemType =
