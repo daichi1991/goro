@@ -20,7 +20,8 @@ import { MyItemsList } from './components/molecules/item/myItemsList';
 
 const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
   const authUser = useAuthUser()
-  const isAuthenticated = authUser != null
+  console.log(authUser);
+  const isAuthenticated = authUser === true;
   //const {from} = useLocation<{from:string | undefined}>().state
 
   if (isAuthenticated) {

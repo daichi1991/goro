@@ -16,7 +16,7 @@ type OperationType = {
     signInCheck:() => void;
 }
 
-export const AuthUserContext = createContext<AuthUser | null>(null);
+export const AuthUserContext = createContext<boolean>(false);
 export const SignInErrorContext = createContext<boolean>(false);
 
 const AuthOperationContext = createContext<OperationType>({
@@ -31,7 +31,7 @@ const AuthOperationContext = createContext<OperationType>({
 
 
 const AuthUserProvider: React.FC = (children) =>{
-    const [authUser, setAuthUser] = useState<AuthUser | null>(null);
+    const [authUser, setAuthUser] = useState<boolean>(false);
     const [signInError, setSignInError] = useState<boolean>(false);
     const signInUrl = defaultUrl + 'sign_in';
 
@@ -41,13 +41,12 @@ const AuthUserProvider: React.FC = (children) =>{
 
     const postUserSignInUrl:string = userUrl + "/sign_in";
 
-    const handleSetAuthUser = (token:AuthUser) =>{
-        setAuthUser(token);
+    const handleSetAuthUser = () =>{
+        setAuthUser(true);
     };
 
     const deleteAuthUser = () =>{
-        setAuthUser(null);
-        console.log('setAuthUser => null')
+        setAuthUser(false);
     };
 
 
@@ -93,8 +92,7 @@ const AuthUserProvider: React.FC = (children) =>{
     })
     .then(res =>{
         userToken.token = 'nowSignIn'
-        setAuthUser(userToken);
-        console.log(userToken)
+        setAuthUser(true);
         return res;
     })
     .catch((e) => 
@@ -116,7 +114,7 @@ const AuthUserProvider: React.FC = (children) =>{
             }
             })
         .then(res =>{
-            setAuthUser(null);
+            setAuthUser(false);
             localStorage.removeItem('token');
             return res;
     
