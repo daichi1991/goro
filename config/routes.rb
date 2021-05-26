@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :items do
         collection do
-          get 'user_item'
+          get 'user_index'
         end
       end
     end

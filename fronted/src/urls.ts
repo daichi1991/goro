@@ -4,4 +4,6 @@ export const userUrl= `${DEDAUTL_API_LOCALHOST}/auth`;
 
 export const defaultUrl= 'http://localhost:3001/';
 
-export const itemUrl = `${DEDAUTL_API_LOCALHOST}/items.json`;
+export const itemJsonUrl = `${DEDAUTL_API_LOCALHOST}/items.json`;
+
+export const itemUrl = `${DEDAUTL_API_LOCALHOST}/items`;

@@ -4,19 +4,25 @@ module Api
 
             def index
                 @items = Item.all
+                logger.debug(@items)
                 render :index
             end
 
             def user_index
-                @items = Item.find_by(user_id: current_user.id)
+                @items = Item.where(user_id: current_user.id)
+                logger.debug(@items)
                 render :user_index
             end
 
             def create
                 @item = Item.new(item_params)
+                
                 @item.user_id = current_user.id
+
+                @items = Item.where(user_id: current_user.id)
+
                 if @item.save
-                    render json:@item
+                    render :user_index
                 else
                     render json: { errors:'error'  }, status: :unprocessable_entity
                 end

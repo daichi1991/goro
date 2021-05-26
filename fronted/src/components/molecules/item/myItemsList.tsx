@@ -1,6 +1,6 @@
 import { Backdrop, Fade, makeStyles, Modal } from '@material-ui/core';
 import * as React from 'react';
-import { getItems, getMyItems } from '../../../apis/item';
+import { getItems, getMyItems, postItems } from '../../../apis/item';
 import { MyItemsContext } from '../../../contexts/itemsContexts';
 import { ItemType } from '../types';
 import { ItemsWrapper } from './itemsWrapper';
@@ -27,6 +27,13 @@ export const MyItemsList:React.FC = () =>{
     const {myItemsState, setMyItems} = useContext(MyItemsContext);
     const classes = useStyles();
     const [open, setOpen] = useState(false);
+    
+    const [itemTitle, setItemTitle] = useState("");
+    const [itemYear, setItemYear] = useState<number>(0);
+    const [itemYearType, setItemYearType] = useState("");
+    const [itemGoroText, setItemGoroText] = useState("");
+    const [itemDescription, setItemDescription] = useState("");
+
 
     const handleOpenForm = () =>{
         setOpen(true);
@@ -34,6 +41,30 @@ export const MyItemsList:React.FC = () =>{
 
     const handleClose = () =>{
         setOpen(false);
+    };
+
+    const handleItemTitle = (event:React.ChangeEvent<HTMLInputElement>) =>{
+        setItemTitle(event.target.value);
+    };
+
+    const handleItemYearType = (event:React.ChangeEvent<HTMLInputElement>) =>{
+        setItemYearType(event.target.value);
+    };
+
+    const handleItemYear = (event:React.ChangeEvent<HTMLInputElement>) =>{
+        setItemYear(parseInt(event.target.value));
+    };
+
+    const handleItemGoroText = (event:React.ChangeEvent<HTMLInputElement>) =>{
+        setItemGoroText(event.target.value);
+    };
+
+    const handleItemDescription = (event:React.ChangeEvent<HTMLInputElement>) =>{
+        setItemDescription(event.target.value);
+    };
+
+    const handleAddItem = () =>{
+        postItems(itemTitle, itemYear, itemYearType, itemGoroText, itemDescription)
     };
 
     useEffect(() =>{
@@ -66,34 +97,60 @@ export const MyItemsList:React.FC = () =>{
                         <form>
                             <label>
                                 できごと:
-                                <input type="text" name="title"/>
-                            </label>
-
-                            <label>
-                                年代タイプ:
-                                <input type="text" name="year_type"/>
-                            </label>
+                                <input 
+                                    type="text"
+                                    value={itemTitle}
+                                    onChange={handleItemTitle}
+                                />
+                            </label><br/>
 
                             <label>
                                 年:
-                                <input type="text" name="year"/>
-                            </label>
+                                <input
+                                    type="text"
+                                    value={itemYear}
+                                    onChange={handleItemYear}
+                                    />
+                            </label><br/>
 
                             <label>
-                                できごとの説明:
-                                <input type="textarea" name="description"/>
-                            </label>
+                                年代タイプ:
+                                <input 
+                                    type="text"
+                                    value={itemYearType}
+                                    onChange={handleItemYearType}
+                                />
+                            </label><br/>
 
-                            <input type="submit" value="Submit">作成</input>
+                            <label>
+                                語呂:
+                                <input
+                                    type="text"
+                                    value={itemGoroText}
+                                    onChange={handleItemGoroText}
+                                />
+                            </label><br/>
+
+                            <label>
+                                説明:
+                                <input
+                                    type="textarea"
+                                    value={itemDescription}
+                                    onChange={handleItemDescription}
+                                />
+                            </label><br/>
+
+                            <button onClick={() => handleAddItem()}>作成</button>
                         </form>
                     </div>
                 </Fade>
             </Modal>
-            <h3>アイテムリスト</h3>
-            {myItemsState.map((myItem,index) =>
-                <ItemsWrapper key={index} item={myItem} />
-                
-            )}
+                <h3>アイテムリスト</h3>
+                {myItemsState.map((myItem,index) =>
+                    <ItemsWrapper key={index} item={myItem} />
+                )}
+                :<h3>アイテムリスト</h3>
+
         </>
     )
 }
