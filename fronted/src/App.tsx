@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import {
   BrowserRouter as Router,
+  Link,
   Redirect,
   Route,
   RouteProps,
@@ -17,6 +18,7 @@ import { UserSignUpConfirm } from './components/molecules/user/userSignUpConfirm
 import ItemsProvider, { ItemsContext } from './contexts/itemsContexts';
 import { ItemsList } from './components/molecules/item/itemsList';
 import { MyItemsList } from './components/molecules/item/myItemsList';
+import { FooterMenu } from './components/molecules/footerMenu';
 
 const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
   const authUser = useAuthUser()
@@ -50,6 +52,8 @@ const PrivateRoute: React.FC<RouteProps> = ({ ...props }) => {
   }
 }
 
+
+
 function App() {
   return (
     <AuthUserProvider>
@@ -65,6 +69,7 @@ function App() {
             <UnAuthRoute exact path='/sign_up_confirm' component={UserSignUpConfirm}/>
             <Redirect to="/"/>
           </Switch>
+          <FooterMenu />
         </Router>
       </ItemsProvider>
     </AuthUserProvider>
