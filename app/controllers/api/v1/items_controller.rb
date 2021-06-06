@@ -27,6 +27,19 @@ module Api
                     render json: { errors:'error'  }, status: :unprocessable_entity
                 end
             end
+
+            def search
+                if params[:keyword]
+                    keywords = params[:keyword].split(/[[:blank:]]+/).select(&:present?)
+                    items = []
+                    keywords.each do |keyword|
+                        items += Item.where('title LIKE (?) OR year LIKE(?) OR goro_text LIKE(?) OR description LIKE(?)', "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%")
+                    end
+                else
+                    items = Items.all
+                end
+                render json: items
+            end
             
         
             private

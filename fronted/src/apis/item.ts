@@ -44,3 +44,18 @@ export const postItems = (title:string, year:number, year_type:string, goro_text
         return res.data
     })
 };
+
+export const searchItems = (keyword:string) =>{
+    const searchItemsUrl = itemUrl + '/search'
+    return axios.get(searchItemsUrl,{
+        headers:{
+            "Content-Type": "application/json",
+        },
+        params:{
+            keyword:keyword
+        }
+    })
+    .then(res =>{
+        return res.data
+    })
+};
