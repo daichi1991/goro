@@ -18,7 +18,9 @@ module Api
                 @item = Item.new(item_params)
                 
                 @item.user_id = current_user.id
-                
+
+                @items = Item.where(user_id: current_user.id)
+
                 if @item.save
                     render :user_index
                 else

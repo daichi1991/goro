@@ -8,13 +8,16 @@ module Api
             end
 
             def show
-                @my_list = MyList.find(id: params[:id])
+                @my_list = MyList.find(params[:id])
+                logger.debug(@my_list)
                 render :show
             end
         
             def create
-                @my_list = MyList.new(item_params)
+                @my_list = MyList.new(my_list_params)
+                @my_list.user_id = current_user.id
                 if @my_list.save
+                    logger.debug(@my_list)
                     render :show
                 else
                     render json: {error:'error'}, status: :unprocessable_entity
@@ -23,7 +26,7 @@ module Api
 
             private
             def my_list_params
-                params.require(:my_list).permit(:user_id, :item_id, :name)
+                params.require(:my_list).permit(:user_id,:name)
             end
 
         end

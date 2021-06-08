@@ -1,14 +1,21 @@
 module Api
     module V1
-        class ItemMyListsController < ApplicationController
+        class ItemMylistsController < ApplicationController
 
             def index
-                @item_mylists = ItemMylist.where(mylist_id: params[:mylist_id])
+                @item_mylists = ItemMylist.all
+                logger.debug(@item_mylists)
+                render :index
+            end
+
+            def mylist_index
+                @item_mylists = ItemMylist.where(my_list_id: params[:my_list_id])
+                logger.debug(@item_mylists)
                 render :index
             end
 
             def show
-                @item_mylist = ItemMylist.find(id: params[:id])
+                @item_mylist = ItemMylist.find(params[:id])
                 render :show
             end
 
@@ -23,7 +30,7 @@ module Api
 
             private
             def item_mylist_params
-                params.require(:item_mylist).permit(:user_id, :my_list_id)
+                params.require(:item_mylist).permit(:my_list_id, :item_id)
             end
             
             

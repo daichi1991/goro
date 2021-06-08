@@ -1,0 +1,1 @@
+json.(@my_list, :id, :user_id, :name)

@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_07_150141) do
+ActiveRecord::Schema.define(version: 2021_06_07_152235) do
+
+  create_table "item_mylists", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "my_list_id", null: false
+    t.bigint "item_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_id"], name: "index_item_mylists_on_item_id"
+    t.index ["my_list_id"], name: "index_item_mylists_on_my_list_id"
+  end
 
   create_table "items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -56,6 +65,8 @@ ActiveRecord::Schema.define(version: 2021_06_07_150141) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "item_mylists", "items"
+  add_foreign_key "item_mylists", "my_lists"
   add_foreign_key "items", "users"
   add_foreign_key "my_lists", "users"
   add_foreign_key "tests", "users"
