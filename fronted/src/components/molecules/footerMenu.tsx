@@ -1,6 +1,6 @@
 import React, { ReactEventHandler } from 'react';
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
-import { Home, Folder } from '@material-ui/icons';
+import { Home, Folder, Search, Person } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
 
@@ -25,17 +25,25 @@ export const FooterMenu:React.FC = () =>{
             <BottomNavigationAction
                 component={Link}
                 to="/"
-                label="home"
-                value="home"
-                icon={<Home />}
+                label="search"
+                value="search"
+                icon={<Search />}
                 className={classes.content}
             />
             <BottomNavigationAction
                 component={Link}
-                to="/my_item"
-                label="my_item"
-                value="my_item"
+                to="/mylist"
+                label="mylist"
+                value="mylist"
                 icon={<Folder />}
+                className={classes.content}
+            />
+            <BottomNavigationAction
+                component={Link}
+                to="/user_menu"
+                label="user_menu"
+                value="user_menu"
+                icon={<Person />}
                 className={classes.content}
             />
         </BottomNavigation>

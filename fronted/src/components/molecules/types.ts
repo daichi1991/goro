@@ -12,3 +12,10 @@ export type ItemType =
         goro_text:string,
         description:string        
     };
+
+export type MylistType =
+    {
+        id:string,
+        user_id:string,
+        name:string
+    }

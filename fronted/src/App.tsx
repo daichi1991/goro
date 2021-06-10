@@ -17,8 +17,10 @@ import { UserSignUpSendMail } from './components/molecules/user/userSignUpSentMa
 import { UserSignUpConfirm } from './components/molecules/user/userSignUpConfirm';
 import ItemsProvider, { ItemsContext } from './contexts/itemsContexts';
 import { ItemsList } from './components/molecules/item/itemsList';
-import { MyItemsList } from './components/molecules/item/myItemsList';
+import { UserMenu } from './components/molecules/item/UserMenu';
 import { FooterMenu } from './components/molecules/footerMenu';
+import { Mylists } from './components/molecules/mylist/mylists';
+import MylistsProvider from './contexts/mylistContexts';
 
 const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
   const authUser = useAuthUser()
@@ -58,19 +60,22 @@ function App() {
   return (
     <AuthUserProvider>
       <ItemsProvider>
-        <Router>
-          <Header />
-          <Switch>
-            <Route exact path = '/' component={ItemsList}/>
-            <PrivateRoute exact path = '/my_item' component={MyItemsList}/>
-            <UnAuthRoute exact path='/sign_in' component={UserSignIn}/>
-            <UnAuthRoute exact path='/sign_up' component={UserSignUp}/>
-            <UnAuthRoute exact path='/sign_up_send_mail' component={UserSignUpSendMail}/>
-            <UnAuthRoute exact path='/sign_up_confirm' component={UserSignUpConfirm}/>
-            <Redirect to="/"/>
-          </Switch>
-          <FooterMenu />
-        </Router>
+        <MylistsProvider>
+          <Router>
+            <Header />
+            <Switch>
+              <Route exact path = '/' component={ItemsList}/>
+              <PrivateRoute exact path = '/mylist' component={Mylists}/>
+              <PrivateRoute exact path = '/user_menu' component={UserMenu}/>
+              <UnAuthRoute exact path='/sign_in' component={UserSignIn}/>
+              <UnAuthRoute exact path='/sign_up' component={UserSignUp}/>
+              <UnAuthRoute exact path='/sign_up_send_mail' component={UserSignUpSendMail}/>
+              <UnAuthRoute exact path='/sign_up_confirm' component={UserSignUpConfirm}/>
+              <Redirect to="/"/>
+            </Switch>
+            <FooterMenu />
+          </Router>
+        </MylistsProvider>
       </ItemsProvider>
     </AuthUserProvider>
   )

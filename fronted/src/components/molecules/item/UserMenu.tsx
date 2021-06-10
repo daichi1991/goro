@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export const MyItemsList:React.FC = () =>{
+export const UserMenu:React.FC = () =>{
     
     const {myItemsState, setMyItems} = useContext(MyItemsContext);
     const classes = useStyles();
