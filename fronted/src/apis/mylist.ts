@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { mylistUrl } from '../urls';
+import { mylistJsonUrl, mylistUrl } from '../urls';
 
 export const getMylists = () =>{
-    return axios.get(mylistUrl, {
+    return axios.get(mylistJsonUrl, {
         headers:{
             "Content-Type": "application/json",
-        }
+        },
+        withCredentials: true
     })
     .then(res => {
         return res.data
@@ -15,12 +16,12 @@ export const getMylists = () =>{
 export const postMylists = (name: string) => {
     return axios({
         method: 'post',
-        url: mylistUrl,
+        url: mylistJsonUrl,
         headers:{"Content-Type": "application/json"},
         withCredentials: true,
         data:
             {
-                mylist:{
+                my_list:{
                     name:name
                 }
             }

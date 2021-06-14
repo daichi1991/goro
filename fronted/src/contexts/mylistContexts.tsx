@@ -17,6 +17,7 @@ const MylistsProvider:React.FC = (children) => {
     useEffect(() =>{
         getMylists()
         .then((data: React.SetStateAction<MylistType[]>) =>{
+            
             setMylists(data);
         })
     },[])

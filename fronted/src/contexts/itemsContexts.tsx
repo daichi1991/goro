@@ -26,6 +26,7 @@ const ItemsProvider:React.FC = (children) => {
     useEffect(() =>{
         getItems()
         .then((data: React.SetStateAction<ItemType[]>) =>{
+            console.log(data);
             setItems(data);
         })
     },[])

@@ -15,7 +15,7 @@ export type ItemType =
 
 export type MylistType =
     {
-        id:string,
-        user_id:string,
+        id:number,
+        user_id:number,
         name:string
     }

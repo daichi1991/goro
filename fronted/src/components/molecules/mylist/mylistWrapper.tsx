@@ -10,7 +10,7 @@ export const MylistWrapper:React.FC<Props> = (props:Props) => {
 
     return(
         <>
-            {mylist}
+            {mylist.name}
         </>
     )
 }
