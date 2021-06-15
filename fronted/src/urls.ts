@@ -11,3 +11,7 @@ export const itemUrl = `${DEDAUTL_API_LOCALHOST}/items`;
 export const mylistUrl = `${DEDAUTL_API_LOCALHOST}/my_lists`
 
 export const mylistJsonUrl = `${DEDAUTL_API_LOCALHOST}/my_lists.json`
+
+export const itemMylistUrl = `${DEDAUTL_API_LOCALHOST}/item_mylists`
+
+export const itemMylistJsonUrl = `${DEDAUTL_API_LOCALHOST}/item_mylists.json`
