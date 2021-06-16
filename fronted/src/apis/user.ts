@@ -33,7 +33,6 @@ export const userSignOut = (uid:string, accessToken:string, client:string) =>{
     })
     .then(res =>{
         console.log('success');
-        console.log(res.data);
         return true;
 
     })
@@ -53,7 +52,6 @@ export const deleteUser = () =>{
     })
     .then(res =>{
         console.log('success');
-        console.log(res.data);
         localStorage.removeItem('token');
         console.log('removeToken')
         return true;

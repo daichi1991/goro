@@ -32,9 +32,9 @@ export const FooterMenu:React.FC = () =>{
             />
             <BottomNavigationAction
                 component={Link}
-                to="/mylist"
-                label="mylist"
-                value="mylist"
+                to="/mylists"
+                label="mylists"
+                value="mylists"
                 icon={<Folder />}
                 className={classes.content}
             />

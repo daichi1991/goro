@@ -19,3 +19,10 @@ export type MylistType =
         user_id:string,
         name:string
     }
+
+export type MylistContentsType =
+    {
+        id:string,
+        my_list_id:string,
+        item_id:string
+    }

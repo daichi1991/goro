@@ -70,7 +70,6 @@ const AuthUserProvider: React.FC = (children) =>{
             getUserConfirmUrl
             )
             .then(res=>{
-                console.log(res);
                 return res.data;
             })
             .catch((e)=>{

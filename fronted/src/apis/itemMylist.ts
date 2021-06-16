@@ -13,6 +13,25 @@ export const getItemMylists = () =>{
     })
 };
 
+export const getItemMylistsIndex = (mylistId:string) =>{
+
+    const mylistIndexUrl = itemMylistUrl + '/mylist_index.json'
+
+    return axios({
+        method: 'get',
+        url: mylistIndexUrl,
+        headers:{"Content-Type": "application/json"},
+        withCredentials: true,
+        params:
+            {
+                "my_list_id":mylistId
+            }
+    })
+    .then(res => {
+        return res.data
+    })
+};
+
 export const postItemMylists = (mylistId:string, itemId:string ) => {
     return axios({
         method: 'post',

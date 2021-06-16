@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { MylistType } from '../types';
 
 interface Props{
@@ -10,7 +11,11 @@ export const MylistWrapper:React.FC<Props> = (props:Props) => {
 
     return(
         <>
-            {mylist.name}
+            <div>
+                <Link to={`/mylist_contents/${mylist.id}`} >
+                    {mylist.name}
+                </Link>
+            </div>
         </>
     )
 }

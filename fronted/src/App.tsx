@@ -21,6 +21,7 @@ import { UserMenu } from './components/molecules/item/UserMenu';
 import { FooterMenu } from './components/molecules/footerMenu';
 import { Mylists } from './components/molecules/mylist/mylists';
 import MylistsProvider from './contexts/mylistContexts';
+import { MylistContents } from './components/molecules/mylist/mylistContents';
 
 const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
   const authUser = useAuthUser()
@@ -65,8 +66,9 @@ function App() {
             <Header />
             <Switch>
               <Route exact path = '/' component={ItemsList}/>
-              <PrivateRoute exact path = '/mylist' component={Mylists}/>
+              <PrivateRoute exact path = '/mylists' component={Mylists}/>
               <PrivateRoute exact path = '/user_menu' component={UserMenu}/>
+              <PrivateRoute exact path = '/mylist_contents/:mylistId' component={MylistContents}/>
               <UnAuthRoute exact path='/sign_in' component={UserSignIn}/>
               <UnAuthRoute exact path='/sign_up' component={UserSignUp}/>
               <UnAuthRoute exact path='/sign_up_send_mail' component={UserSignUpSendMail}/>
