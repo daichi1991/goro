@@ -2,7 +2,7 @@ import * as React from 'react'
 import { MylistsContext } from '../../../contexts/mylistContexts';
 import { MylistContentsType, MylistType } from '../types'
 import {useParams} from 'react-router-dom'
-import { getItemMylistsIndex } from '../../../apis/itemMylist';
+import { getItemMylistShow } from '../../../apis/itemMylist';
 import { MylistContentsWrapper } from './mylistContensWrapper';
 
 const {useEffect, useState} = React;
@@ -14,20 +14,20 @@ interface ParamTypes {
 export const MylistContents:React.FC = ()=> {
 
     const {mylistId} = useParams<ParamTypes>();
-    const [mylistContents, setMylistContents] = useState<MylistContentsType[]>([]);
+    const [mylistContents, setMylistContents] = useState<MylistContentsType | undefined>(undefined);
 
     useEffect(() => {
-        getItemMylistsIndex(mylistId)
+        getItemMylistShow(mylistId)
         .then((data) =>{
-            setMylistContents(data);
             console.log(data);
+            setMylistContents(data);
         })
     }, [])
 
     return(
         <>
-            {mylistContents.map((mylistContens, index) =>
-                <MylistContentsWrapper key={index} mylistContens={mylistContens} />
+            {mylistContents?.items?.map((item, index) =>
+                <MylistContentsWrapper key={index} item={item} />
             )}
         </>
     )

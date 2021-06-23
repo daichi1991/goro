@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { itemMylistJsonUrl, itemMylistUrl } from '../urls';
+import { itemMylistJsonUrl, itemMylistUrl ,mylistUrl} from '../urls';
 
 export const getItemMylists = () =>{
     return axios.get(itemMylistJsonUrl, {
@@ -31,6 +31,22 @@ export const getItemMylistsIndex = (mylistId:string) =>{
         return res.data
     })
 };
+
+export const getItemMylistShow = (mylistId:string) =>{
+
+    const mylistShowUrl = mylistUrl + '/' + mylistId + '.json';
+
+    return axios({
+        method: 'get',
+        url: mylistShowUrl,
+        headers:{"Content-Type": "application/json"},
+        withCredentials: true,
+    })
+    .then(res => {
+        return res.data
+    })
+};
+
 
 export const postItemMylists = (mylistId:string, itemId:string ) => {
     return axios({

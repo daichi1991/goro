@@ -4,13 +4,11 @@ module Api
 
             def index
                 @item_mylists = ItemMylist.all
-                logger.debug(@item_mylists)
                 render :index
             end
 
             def mylist_index
                 @item_mylists = ItemMylist.where(my_list_id: params[:my_list_id])
-                logger.debug(@item_mylists)
                 render :index
             end
 

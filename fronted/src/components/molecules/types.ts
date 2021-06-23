@@ -23,6 +23,16 @@ export type MylistType =
 export type MylistContentsType =
     {
         id:string,
-        my_list_id:string,
-        item_id:string
+        name:string,
+        items?:MylistItemType[]
+        
     }
+
+export type MylistItemType = {
+    id:string,
+    title:string,
+    year:number,
+    year_type:string,
+    goro_text:string,
+    description:string
+}

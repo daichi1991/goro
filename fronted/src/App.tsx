@@ -68,7 +68,7 @@ function App() {
               <Route exact path = '/' component={ItemsList}/>
               <PrivateRoute exact path = '/mylists' component={Mylists}/>
               <PrivateRoute exact path = '/user_menu' component={UserMenu}/>
-              <PrivateRoute exact path = '/mylist_contents/:mylistId' component={MylistContents}/>
+              <PrivateRoute exact path = '/mylist/show/:mylistId' component={MylistContents}/>
               <UnAuthRoute exact path='/sign_in' component={UserSignIn}/>
               <UnAuthRoute exact path='/sign_up' component={UserSignUp}/>
               <UnAuthRoute exact path='/sign_up_send_mail' component={UserSignUpSendMail}/>

@@ -12,7 +12,7 @@ export const MylistWrapper:React.FC<Props> = (props:Props) => {
     return(
         <>
             <div>
-                <Link to={`/mylist_contents/${mylist.id}`} >
+                <Link to={`/mylist/show/${mylist.id}`} >
                     {mylist.name}
                 </Link>
             </div>
