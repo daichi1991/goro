@@ -26,6 +26,16 @@ module Api
                 end
             end
 
+
+            def destroy
+                @item_mylist = ItemMylist.find(params[:id])
+                if @item_mylist.delete
+                    render json: {success:'success'}, status: 200
+                else
+                    render json: {error:'error'}, status: unprocessable_entity
+                end
+            end
+
             private
             def item_mylist_params
                 params.require(:item_mylist).permit(:my_list_id, :item_id)

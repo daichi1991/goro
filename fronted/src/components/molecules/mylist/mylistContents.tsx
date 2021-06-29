@@ -19,7 +19,6 @@ export const MylistContents:React.FC = ()=> {
     useEffect(() => {
         getItemMylistShow(mylistId)
         .then((data) =>{
-            console.log(data);
             setMylistContents(data);
         })
     }, [])

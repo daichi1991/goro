@@ -2,6 +2,7 @@ json.id(@my_list.id)
 json.name(@my_list.name)
 json.items do
     json.array!(@my_list.item_mylists) do |item_mylist|
+        json.item_mylist_id(item_mylist.id)
         json.id(item_mylist.item.id)
         json.title(item_mylist.item.title)
         json.year(item_mylist.item.year)

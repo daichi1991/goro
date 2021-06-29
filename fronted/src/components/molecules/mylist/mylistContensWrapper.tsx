@@ -7,6 +7,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
+import { deleteItemMylist } from '../../../apis/itemMylist';
 
 
 interface Props{
@@ -26,8 +27,14 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
         setAnchorEl(null);
     };
 
+    const handleDeletMylistContent = () =>{
+        deleteItemMylist(item.item_mylist_id);
+        
+    };
+
     return(
         <>
+            <p>{item.item_mylist_id}</p>
             <p>{item.id}</p>
             <p>{item.title}</p>
             <p>{item.year}</p>
@@ -53,7 +60,11 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
                         }}
                     >
                         <Box p={2}>
-                        <Typography>The content of the Popover.</Typography>
+                        <Typography>
+                            <div onClick={handleDeletMylistContent}>
+                                削除
+                            </div>
+                        </Typography>
                         </Box>
                     </Popover>
                     </div>
