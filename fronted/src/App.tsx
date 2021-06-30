@@ -21,6 +21,7 @@ import { UserMenu } from './components/molecules/item/UserMenu';
 import { FooterMenu } from './components/molecules/footerMenu';
 import { Mylists } from './components/molecules/mylist/mylists';
 import MylistsProvider from './contexts/mylistContexts';
+import MylistContentsProvider from './contexts/mylistContensContexts';
 import { MylistContents } from './components/molecules/mylist/mylistContents';
 
 const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
@@ -62,21 +63,23 @@ function App() {
     <AuthUserProvider>
       <ItemsProvider>
         <MylistsProvider>
-          <Router>
-            <Header />
-            <Switch>
-              <Route exact path = '/' component={ItemsList}/>
-              <PrivateRoute exact path = '/mylists' component={Mylists}/>
-              <PrivateRoute exact path = '/user_menu' component={UserMenu}/>
-              <PrivateRoute exact path = '/mylist/show/:mylistId' component={MylistContents}/>
-              <UnAuthRoute exact path='/sign_in' component={UserSignIn}/>
-              <UnAuthRoute exact path='/sign_up' component={UserSignUp}/>
-              <UnAuthRoute exact path='/sign_up_send_mail' component={UserSignUpSendMail}/>
-              <UnAuthRoute exact path='/sign_up_confirm' component={UserSignUpConfirm}/>
-              <Redirect to="/"/>
-            </Switch>
-            <FooterMenu />
-          </Router>
+          <MylistContentsProvider>
+            <Router>
+              <Header />
+              <Switch>
+                <Route exact path = '/' component={ItemsList}/>
+                <PrivateRoute exact path = '/mylists' component={Mylists}/>
+                <PrivateRoute exact path = '/user_menu' component={UserMenu}/>
+                <PrivateRoute exact path = '/mylist/show/:mylistId' component={MylistContents}/>
+                <UnAuthRoute exact path='/sign_in' component={UserSignIn}/>
+                <UnAuthRoute exact path='/sign_up' component={UserSignUp}/>
+                <UnAuthRoute exact path='/sign_up_send_mail' component={UserSignUpSendMail}/>
+                <UnAuthRoute exact path='/sign_up_confirm' component={UserSignUpConfirm}/>
+                <Redirect to="/"/>
+              </Switch>
+              <FooterMenu />
+            </Router>
+          </MylistContentsProvider>
         </MylistsProvider>
       </ItemsProvider>
     </AuthUserProvider>

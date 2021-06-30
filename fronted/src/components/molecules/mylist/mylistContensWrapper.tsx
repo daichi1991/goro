@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { MylistItemType } from '../types'
+import { MylistContentsType, MylistItemType } from '../types'
 
 import Typography from '@material-ui/core/Typography';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { deleteItemMylist } from '../../../apis/itemMylist';
+import { MylistContentsContext } from '../../../contexts/mylistContensContexts';
 
 
 interface Props{
@@ -15,7 +16,8 @@ interface Props{
 }
 
 export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
-
+    
+    const {mylistContentsState, setMylistContents} = React.useContext(MylistContentsContext);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);    
     const item = props.item
 
@@ -27,8 +29,20 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
         setAnchorEl(null);
     };
 
-    const handleDeletMylistContent = () =>{
+    const handleDeleteMylistContent = () =>{
+        const newMylistContents:MylistContentsType = {id:'',name:''};
+        newMylistContents.id = mylistContentsState.id;
+        newMylistContents.name = mylistContentsState.name;
+
+        const allMylistContents = [...mylistContentsState.items!];
+        const targetIndex:number = allMylistContents.findIndex(({item_mylist_id}) => item_mylist_id ===item.item_mylist_id);
+        allMylistContents.splice(targetIndex,1);
+
         deleteItemMylist(item.item_mylist_id);
+        
+        newMylistContents.items = allMylistContents;
+
+        setMylistContents(newMylistContents);
         
     };
 
@@ -61,7 +75,7 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
                     >
                         <Box p={2}>
                         <Typography>
-                            <div onClick={handleDeletMylistContent}>
+                            <div onClick={handleDeleteMylistContent}>
                                 削除
                             </div>
                         </Typography>
