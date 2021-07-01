@@ -1,6 +1,6 @@
 import { Backdrop, Fade, makeStyles, Modal } from '@material-ui/core';
 import * as React from 'react';
-import { searchItems } from '../../../apis/item';
+import { getItems, searchItems } from '../../../apis/item';
 import { ItemsContext } from '../../../contexts/itemsContexts';
 import { ItemType } from '../types';
 import { ItemsWrapper } from './itemsWrapper';
@@ -12,6 +12,7 @@ export const ItemsList:React.FC = () =>{
     
     const {itemsState, setItems} = useContext(ItemsContext);
     const [keyword, setKeyword] = useState("");
+    const [showKeyword, setShowKeyword] = useState("");
 
     const handleKeyword = (e:React.ChangeEvent<HTMLInputElement>) =>{
         setKeyword(e.target.value);
@@ -22,7 +23,16 @@ export const ItemsList:React.FC = () =>{
         .then((data: React.SetStateAction<ItemType[]>) =>{
             setItems(data);
         })
-    }
+        setShowKeyword(keyword)
+    };
+
+    const handleClearSearch = () =>{
+        getItems()
+        .then((data: React.SetStateAction<ItemType[]>) =>{
+            setItems(data);
+        })
+        setShowKeyword("");
+    };
 
 
     return(
@@ -30,6 +40,8 @@ export const ItemsList:React.FC = () =>{
             <p>検索</p>
             <input type="text" onChange={e => handleKeyword(e)} value={keyword}/>
             <button onClick={handleSearch}>検索</button>
+            <button onClick={handleClearSearch}>クリア</button>
+            {showKeyword}
 
             <h3>アイテムリスト</h3>
             {itemsState.map((item,index) =>
