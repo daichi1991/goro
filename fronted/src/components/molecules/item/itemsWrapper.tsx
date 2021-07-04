@@ -45,7 +45,7 @@ export const ItemsWrapper:React.FC<Props> = (props:Props) =>{
         <>
             {item.title}
             <button type="button" onClick={handleOpenForm}>
-                マイリスト作成
+                マイリストに追加
             </button>
             <Modal
                 aria-labelledby="transition-modal-title"

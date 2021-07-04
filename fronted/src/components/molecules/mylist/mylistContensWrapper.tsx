@@ -9,6 +9,23 @@ import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { deleteItemMylist } from '../../../apis/itemMylist';
 import { MylistContentsContext } from '../../../contexts/mylistContensContexts';
+import { Backdrop, Fade, makeStyles, Modal } from '@material-ui/core';
+
+const {useContext, useEffect, useState} = React;
+
+const useStyles = makeStyles((theme) => ({
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    paper: {
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+    },
+}));
 
 
 interface Props{
@@ -21,12 +38,11 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);    
     const item = props.item
 
+    const classes = useStyles();
+    const [open, setOpen] = useState(false);
+
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
-    };
-    
-    const handleClose = () => {
-        setAnchorEl(null);
     };
 
     const handleDeleteMylistContent = () =>{
@@ -46,44 +62,70 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
         
     };
 
+    const handleOpen = () =>{
+        setOpen(true);
+    };
+
+    const handleClose = () =>{
+        setOpen(false);
+    };
+
     return(
         <>
-            <p>{item.item_mylist_id}</p>
-            <p>{item.id}</p>
-            <p>{item.title}</p>
-            <p>{item.year}</p>
-            <p>{item.year_type}</p>
-            <p>{item.goro_text}</p>
-            <p>{item.description}</p>
+            <p onClick={handleOpen}>{item.title}</p>
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                timeout: 500,
+                }}
+            >
+                <Fade in={open}>
 
-            <PopupState variant="popover" popupId="demo-popup-popover">
-                {(popupState: any) => (
-                    <div>
-                    <Button variant="contained" color="primary" {...bindTrigger(popupState)}>
-                        <MoreHorizIcon/>
-                    </Button>
-                    <Popover
-                        {...bindPopover(popupState)}
-                        anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'center',
-                        }}
-                        transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'center',
-                        }}
-                    >
-                        <Box p={2}>
-                        <Typography>
-                            <div onClick={handleDeleteMylistContent}>
-                                削除
+                    <div className={classes.paper}>
+                        {item.title}
+                        <PopupState variant="popover" popupId="demo-popup-popover">
+                        {(popupState: any) => (
+                            <div>
+                                <Button variant="contained" color="primary" {...bindTrigger(popupState)}>
+                                    <MoreHorizIcon/>
+                                </Button>
+                                <Popover
+                                    {...bindPopover(popupState)}
+                                    anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'center',
+                                    }}
+                                    transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'center',
+                                    }}
+                                    >
+                                    <Box p={2}>
+                                    <Typography>
+                                        <div onClick={handleDeleteMylistContent}>
+                                            削除
+                                        </div>
+                                    </Typography>
+                                    </Box>
+                                </Popover>
                             </div>
-                        </Typography>
-                        </Box>
-                    </Popover>
+                            )}
+                        </PopupState>
+                        <p>{item.year}</p>
+                        <p>{item.year_type}</p>
+                        <p>{item.goro_text}</p>
+                        <p>{item.description}</p>
                     </div>
-                )}
-            </PopupState>
+                </Fade>
+            </Modal>
+
+
 
         </>
     )

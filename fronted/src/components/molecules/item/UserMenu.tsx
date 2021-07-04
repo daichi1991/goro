@@ -115,6 +115,13 @@ export const UserMenu:React.FC = () =>{
 
                             <label>
                                 年代タイプ:
+                                <select>
+                                    <option selected value="紀元後">紀元後</option>
+                                    <option value="紀元前">紀元前</option>
+                                    <option value="年前">年前</option>
+                                    <option value="万年前">万年前</option>
+                                    <option value="億年前">億年前</option>
+                                </select>
                                 <input 
                                     type="text"
                                     value={itemYearType}
@@ -149,7 +156,6 @@ export const UserMenu:React.FC = () =>{
                 {myItemsState.map((myItem,index) =>
                     <ItemsWrapper key={index} item={myItem} />
                 )}
-                :<h3>アイテムリスト</h3>
 
         </>
     )
