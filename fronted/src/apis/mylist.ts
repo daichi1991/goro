@@ -30,3 +30,18 @@ export const postMylists = (name: string) => {
         return res.data
     })
 };
+
+export const deleteMylist = (id: string) =>{
+
+    const deleteMylistUrl = mylistUrl + '/' + id + '.json'
+
+    return axios({
+        method: 'delete',
+        url: deleteMylistUrl,
+        headers:{"Content-Type": "application/json"},
+        withCredentials: true,
+    })
+    .then(res =>{
+        return res.data
+    })
+}

@@ -3,8 +3,15 @@ import * as React from 'react';
 import { postMylists } from '../../../apis/mylist';
 import { MylistsContext } from '../../../contexts/mylistContexts';
 import { MylistWrapper } from './mylistWrapper';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import { Snackbar } from '@material-ui/core';
+import { History, LocationState } from 'history';
 
 const {useContext, useState} = React;
+
+function Alert(props: JSX.IntrinsicAttributes & AlertProps) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -20,13 +27,31 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const Mylists:React.FC = () =>{
+interface MylistLocationState {
+    deleteMylistName?: string;
+}
+
+interface MylistState{
+    state: MylistLocationState;
+}
+
+interface Props{
+    history: History;
+    location: LocationState & MylistState;
+}
+
+export const Mylists:React.FC<Props> = (props:Props) =>{
+
+    const location = props.location;
+    console.log(location);
     
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const {mylistsState, setMylists} = useContext(MylistsContext);
 
     const [mylistName, setMylistName] = useState("");
+
+    const [openSnackbar, setOpenSnackbar] = useState(false);
 
     const handleOpenForm = () =>{
         setOpen(true);
@@ -42,6 +67,10 @@ export const Mylists:React.FC = () =>{
 
     const handleAddMylist = () =>{
         postMylists(mylistName)
+    };
+
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
     };
 
 
@@ -84,6 +113,15 @@ export const Mylists:React.FC = () =>{
                     </div>
                 </Fade>
             </Modal>
+
+            {/* {location.state.deleteMylistName?
+            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+                <Alert onClose={handleCloseSnackbar} severity="success">
+                {location.state.deleteMylistName}を削除しました。
+                </Alert>
+            </Snackbar>:
+            <span></span>
+            } */}
         </>
     )
 }
