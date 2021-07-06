@@ -47,7 +47,7 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
         setMylists(newMylists);
         props.history.replace(
             {pathname: "/mylists",
-            state: { deleteMylistName: mylistContentsState.name}
+            state: { mylistLocationState: mylistContentsState.name}
             }
         )
     }

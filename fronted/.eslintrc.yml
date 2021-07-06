@@ -22,3 +22,9 @@ extends:
   - plugin:react/recommended
   - plugin:react-hooks/recommended
   - prettier
+rules:
+  "@typescript-eslint/ban-types":
+  - error
+  - extendDefaults: true
+    types:
+      "{}": false

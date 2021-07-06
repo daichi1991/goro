@@ -5,7 +5,7 @@ import { MylistsContext } from '../../../contexts/mylistContexts';
 import { MylistWrapper } from './mylistWrapper';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { Snackbar } from '@material-ui/core';
-import { History, LocationState } from 'history';
+import { RouteComponentProps } from "react-router-dom";
 
 const {useContext, useState} = React;
 
@@ -28,30 +28,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface MylistLocationState {
-    deleteMylistName?: string;
+    mylistLocationState: string;
 }
 
-interface MylistState{
-    state: MylistLocationState;
-}
-
-interface Props{
-    history: History;
-    location: LocationState & MylistState;
-}
-
-export const Mylists:React.FC<Props> = (props:Props) =>{
-
-    const location = props.location;
-    console.log(location);
-    
+export const Mylists = (props: RouteComponentProps<{}, any, MylistLocationState | any>) =>{    
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const {mylistsState, setMylists} = useContext(MylistsContext);
 
     const [mylistName, setMylistName] = useState("");
 
-    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(true);
 
     const handleOpenForm = () =>{
         setOpen(true);
@@ -114,14 +101,15 @@ export const Mylists:React.FC<Props> = (props:Props) =>{
                 </Fade>
             </Modal>
 
-            {/* {location.state.deleteMylistName?
-            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-                <Alert onClose={handleCloseSnackbar} severity="success">
-                {location.state.deleteMylistName}を削除しました。
-                </Alert>
-            </Snackbar>:
-            <span></span>
-            } */}
+            {props.location.state?
+                <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+                    <Alert onClose={handleCloseSnackbar} severity="success">
+                    {props.location.state.mylistLocationState}を削除しました。
+                    </Alert>
+                </Snackbar>:
+                <span></span>
+            }
+
         </>
     )
 }
