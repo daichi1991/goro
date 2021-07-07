@@ -70,6 +70,8 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
         setOpen(false);
     };
 
+    console.log(item)
+
     return(
         <>
             <p onClick={handleOpen}>{item.title}</p>
@@ -89,6 +91,7 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
 
                     <div className={classes.paper}>
                         {item.title}
+                        
                         <PopupState variant="popover" popupId="demo-popup-popover">
                         {(popupState: any) => (
                             <div>
@@ -117,6 +120,7 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
                             </div>
                             )}
                         </PopupState>
+                        <p>{item.memory_level}</p>
                         <p>{item.year}</p>
                         <p>{item.year_type}</p>
                         <p>{item.goro_text}</p>

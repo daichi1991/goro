@@ -59,6 +59,7 @@ export const ItemsWrapper:React.FC<Props> = (props:Props) =>{
                 timeout: 500,
                 }}
             >
+                {mylistsState.length?
                 <Fade in={open}>
                     <div className={classes.paper}>
                         <p id="transition-modal-title">マイリストに追加</p>
@@ -66,7 +67,9 @@ export const ItemsWrapper:React.FC<Props> = (props:Props) =>{
                             <MylistModal key={index} mylist={mylist} item={item}/>
                         )}
                     </div>
-                </Fade>
+                </Fade>:
+                <span></span>    
+            }
             </Modal>
         </>
     )

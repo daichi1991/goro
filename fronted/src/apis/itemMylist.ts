@@ -58,7 +58,29 @@ export const postItemMylists = (mylistId:string, itemId:string ) => {
             {
                 item_mylist:{
                     my_list_id:mylistId,
-                    item_id:itemId
+                    item_id:itemId,
+                    memory_level:0
+                }
+            }
+    })
+    .then(res =>{
+        return res.data
+    })
+};
+
+export const patchItemMylists = (itemMylistId:string, mylistId:string, itemId:string, memoryLevel:number ) => {
+    return axios({
+        method: 'patch',
+        url: itemMylistJsonUrl,
+        headers:{"Content-Type": "application/json"},
+        withCredentials: true,
+        data:
+            {
+                item_mylist:{
+                    item_mylist_id:itemMylistId,
+                    my_list_id:mylistId,
+                    item_id:itemId,
+                    memory_level:memoryLevel
                 }
             }
     })

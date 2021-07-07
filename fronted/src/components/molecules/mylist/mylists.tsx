@@ -64,9 +64,14 @@ export const Mylists = (props: RouteComponentProps<{}, any, MylistLocationState 
     return(
         <>
             <h3>マイリスト</h3>
-            {mylistsState.map((mylist, index) => 
-                <MylistWrapper key={index} mylist={mylist} />
-            )}
+            {mylistsState.length?
+            <div>
+                {mylistsState?.map((mylist, index) => 
+                    <MylistWrapper key={index} mylist={mylist} />
+                )}
+            </div>:
+            <span></span>
+            }
             <button type="button" onClick={handleOpenForm}>
                 マイリスト作成
             </button>

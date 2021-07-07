@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 2021_06_07_152235) do
   create_table "item_mylists", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "my_list_id", null: false
     t.bigint "item_id", null: false
+    t.integer "memory_level", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["item_id"], name: "index_item_mylists_on_item_id"
