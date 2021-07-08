@@ -10,6 +10,12 @@ import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { deleteItemMylist } from '../../../apis/itemMylist';
 import { MylistContentsContext } from '../../../contexts/mylistContensContexts';
 import { Backdrop, Fade, makeStyles, Modal } from '@material-ui/core';
+import SvgIcon from '@material-ui/core/SvgIcon';
+import StarIcon from './star.svg';
+import StarHarfIcon from './star.svg';
+import StarBorderIcon from './star.svg';
+import { Star, StarBorder, StarHalf } from '@material-ui/icons';
+
 
 const {useContext, useEffect, useState} = React;
 
@@ -34,9 +40,11 @@ interface Props{
 
 export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
     
-    const {mylistContentsState, setMylistContents} = React.useContext(MylistContentsContext);
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);    
+    const {mylistContentsState, setMylistContents} = useContext(MylistContentsContext);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);    
     const item = props.item
+    const [memoryLevelState, setMemoryLevel] = useState<number>(item.memory_level);
+    const [memoryLevelIcon, setMemoryLevelIcon] = useState<any>(StarBorder)
 
     const classes = useStyles();
     const [open, setOpen] = useState(false);
@@ -70,11 +78,35 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
         setOpen(false);
     };
 
-    console.log(item)
+    const handleMemoryLevel = () => {
+        let memoryLevel = memoryLevelState;
+        memoryLevel < 2?memoryLevel += 1:memoryLevel=0
+        setMemoryLevel(memoryLevel);
+
+        switch (memoryLevel) {
+            case 0:
+                setMemoryLevelIcon(StarBorder);
+                break;
+            case 1:
+                setMemoryLevelIcon(StarHalf);
+                break;
+            case 2:
+                setMemoryLevelIcon(Star);
+                break;
+            default:
+                setMemoryLevelIcon(StarBorder);
+        }
+
+    }
+
 
     return(
         <>
-            <p onClick={handleOpen}>{item.title}</p>
+            <span onClick={handleOpen}>{item.title}</span>
+            <span onClick={handleMemoryLevel}>
+                <SvgIcon component={memoryLevelIcon} color="primary"/>
+            </span>
+            
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -120,7 +152,9 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
                             </div>
                             )}
                         </PopupState>
-                        <p>{item.memory_level}</p>
+                        <span onClick={handleMemoryLevel}>
+                            記憶度：<SvgIcon component={memoryLevelIcon} color="primary"/>
+                        </span>
                         <p>{item.year}</p>
                         <p>{item.year_type}</p>
                         <p>{item.goro_text}</p>
