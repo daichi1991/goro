@@ -7,7 +7,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
-import { deleteItemMylist } from '../../../apis/itemMylist';
+import { deleteItemMylist, patchItemMylists } from '../../../apis/itemMylist';
 import { MylistContentsContext } from '../../../contexts/mylistContensContexts';
 import { Backdrop, Fade, makeStyles, Modal } from '@material-ui/core';
 import SvgIcon from '@material-ui/core/SvgIcon';
@@ -37,6 +37,30 @@ const useStyles = makeStyles((theme) => ({
 interface Props{
     item:MylistItemType;
 }
+
+interface MemoryIconProps{
+    memoryLevel:number
+}
+
+const MemoryIcon = (props:MemoryIconProps) =>{
+    let memIcon;
+    switch (props.memoryLevel) {
+        case 0:
+            memIcon = <StarBorder />;
+            break;
+        case 1:
+            memIcon = <StarHalf />;
+            break;
+        case 2:
+            memIcon = <Star />;
+            break;
+        default:
+            memIcon = <StarBorder />;
+            break;
+    }
+    return memIcon;
+};
+
 
 export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
     
@@ -97,6 +121,8 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
                 setMemoryLevelIcon(StarBorder);
         }
 
+        patchItemMylists(item.item_mylist_id, mylistContentsState.id, item.id, memoryLevel)
+
     }
 
 
@@ -104,7 +130,7 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
         <>
             <span onClick={handleOpen}>{item.title}</span>
             <span onClick={handleMemoryLevel}>
-                <SvgIcon component={memoryLevelIcon} color="primary"/>
+                <MemoryIcon memoryLevel={memoryLevelState} />
             </span>
             
             <Modal
@@ -153,7 +179,7 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
                             )}
                         </PopupState>
                         <span onClick={handleMemoryLevel}>
-                            記憶度：<SvgIcon component={memoryLevelIcon} color="primary"/>
+                            記憶度：<MemoryIcon memoryLevel={memoryLevelState} />
                         </span>
                         <p>{item.year}</p>
                         <p>{item.year_type}</p>

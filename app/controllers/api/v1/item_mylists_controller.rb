@@ -26,6 +26,15 @@ module Api
                 end
             end
 
+            def update
+                @item_mylist = ItemMylist.find(params[:id])
+                if @item_mylist.update(item_mylist_params)
+                    render :show
+                else
+                    render json: {error:'error'}, status: unprocessable_entity
+                end
+            end
+
 
             def destroy
                 @item_mylist = ItemMylist.find(params[:id])
@@ -38,7 +47,7 @@ module Api
 
             private
             def item_mylist_params
-                params.require(:item_mylist).permit(:my_list_id, :item_id, :memory_level)
+                params.require(:item_mylist).permit(:id, :my_list_id, :item_id, :memory_level)
             end
             
             
