@@ -8,6 +8,8 @@ import {
   RouteProps,
   Switch,
 } from 'react-router-dom';
+import {useStyles} from './utils/style';
+import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import AuthUserProvider, { useAuthUser } from './contexts/authUserContext';
 import { Header } from '../src/components/molecules/header';
 import { Menu } from '../src/components/molecules/menu';
@@ -23,6 +25,9 @@ import { Mylists } from './components/molecules/mylist/mylists';
 import MylistsProvider from './contexts/mylistContexts';
 import MylistContentsProvider from './contexts/mylistContensContexts';
 import { MylistContents } from './components/molecules/mylist/mylistContents';
+import SideMenu from './components/molecules/sideMenu';
+import useMedia from 'use-media';
+import { CssBaseline } from '@material-ui/core';
 
 const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
   const authUser = useAuthUser()
@@ -56,33 +61,38 @@ const PrivateRoute: React.FC<RouteProps> = ({ ...props }) => {
   }
 }
 
-
-
 function App() {
+  const classes = useStyles();
+  const isWide = useMedia({ minWidth: "750px" });
   return (
-    <AuthUserProvider>
-      <ItemsProvider>
-        <MylistsProvider>
-          <MylistContentsProvider>
-            <Router>
-              <Header />
-              <Switch>
-                <Route exact path = '/' component={ItemsList}/>
-                <PrivateRoute exact path = '/mylists' component={Mylists}/>
-                <PrivateRoute exact path = '/user_menu' component={UserMenu}/>
-                <PrivateRoute exact path = '/mylist/show/:mylistId' component={MylistContents}/>
-                <UnAuthRoute exact path='/sign_in' component={UserSignIn}/>
-                <UnAuthRoute exact path='/sign_up' component={UserSignUp}/>
-                <UnAuthRoute exact path='/sign_up_send_mail' component={UserSignUpSendMail}/>
-                <UnAuthRoute exact path='/sign_up_confirm' component={UserSignUpConfirm}/>
-                <Redirect to="/"/>
-              </Switch>
-              <FooterMenu />
-            </Router>
-          </MylistContentsProvider>
-        </MylistsProvider>
-      </ItemsProvider>
-    </AuthUserProvider>
+    <div className = {classes.root}>
+      <CssBaseline/>
+      <AuthUserProvider>
+        <ItemsProvider>
+          <MylistsProvider>
+            <MylistContentsProvider>
+              <Router>
+                <Header />
+                {isWide? <SideMenu /> : <FooterMenu />}
+                <main className={classes.content}>
+                <Switch>
+                  <Route exact path = '/' component={ItemsList}/>
+                  <PrivateRoute exact path = '/mylists' component={Mylists}/>
+                  <PrivateRoute exact path = '/user_menu' component={UserMenu}/>
+                  <PrivateRoute exact path = '/mylist/show/:mylistId' component={MylistContents}/>
+                  <UnAuthRoute exact path='/sign_in' component={UserSignIn}/>
+                  <UnAuthRoute exact path='/sign_up' component={UserSignUp}/>
+                  <UnAuthRoute exact path='/sign_up_send_mail' component={UserSignUpSendMail}/>
+                  <UnAuthRoute exact path='/sign_up_confirm' component={UserSignUpConfirm}/>
+                  <Redirect to="/"/>
+                </Switch>
+                </main>
+              </Router>
+            </MylistContentsProvider>
+          </MylistsProvider>
+        </ItemsProvider>
+      </AuthUserProvider>
+    </div>
   )
 }
 

@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom'
+import AppBar from '@material-ui/core/AppBar';
+import {useStyles} from '../../utils/style';
+
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu, { MenuProps } from '@material-ui/core/Menu';
@@ -7,12 +10,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import ToolBar from '@material-ui/core/Toolbar'
 import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
 import {useSignOut} from '../../contexts/authUserContext'
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {AuthUserContext} from '../../contexts/authUserContext';
+import { Typography } from '@material-ui/core';
 
 const StyledMenu = withStyles({
     paper: {
@@ -70,6 +75,7 @@ const UserMenu = styled.div`
 
 
 export const Header: React.FC = () => {
+    const classes = useStyles();
     const authUser = React.useContext(AuthUserContext);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -89,11 +95,13 @@ export const Header: React.FC = () => {
     };
 
     return(
-        <HeaderWrapper>
-            <HeaderTitle>
-                <Link to={'/'} style={{textDecoration:'none', color:'#fff'}}>ごろりんちょ</Link>
-            </HeaderTitle>
-            {authUser?
+        <AppBar position="fixed" className={classes.appBar}>
+            <ToolBar>
+                <Typography variant="h6" noWrap>
+                    ごろりんちょ
+                </Typography>
+            </ToolBar>
+            {/* {authUser?
                 <>
                     <UserMenu
                         aria-controls="customized-menu"
@@ -127,7 +135,7 @@ export const Header: React.FC = () => {
                     </StyledMenu>
                 </>:
                 <></>
-            }
-        </HeaderWrapper>
+            } */}
+        </AppBar>
     )
 }

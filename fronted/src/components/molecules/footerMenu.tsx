@@ -1,6 +1,6 @@
 import React, { ReactEventHandler } from 'react';
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
-import { Home, Folder, Search, Person } from '@material-ui/icons';
+import { Folder, Search, Person } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
 
@@ -8,6 +8,8 @@ export const FooterMenu:React.FC = () =>{
 
     const useStyles = makeStyles({
         root: {
+        position: 'fixed',
+        bottom: 0,
         width: 500,
         },
         content:{
