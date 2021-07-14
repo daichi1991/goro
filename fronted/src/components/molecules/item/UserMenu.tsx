@@ -56,7 +56,7 @@ export const UserMenu:React.FC = () =>{
     const [open, setOpen] = useState(false);
     
     const [itemTitle, setItemTitle] = useState("");
-    const [itemYear, setItemYear] = useState<number>(0);
+    const [itemYear, setItemYear] = useState("");
     const [itemYearType, setItemYearType] = useState("");
     const [itemGoroText, setItemGoroText] = useState("");
     const [itemDescription, setItemDescription] = useState("");
@@ -79,7 +79,7 @@ export const UserMenu:React.FC = () =>{
     };
 
     const handleItemYear = (event:React.ChangeEvent<HTMLInputElement>) =>{
-        setItemYear(parseInt(event.target.value));
+        setItemYear(event.target.value);
     };
 
     const handleItemGoroText = (event:React.ChangeEvent<HTMLInputElement>) =>{
@@ -90,8 +90,39 @@ export const UserMenu:React.FC = () =>{
         setItemDescription(event.target.value);
     };
 
+    const handleClearState = () =>{
+        setItemTitle("");
+        setItemYear("");
+        setItemYearType("");
+        setItemGoroText("");
+        setItemDescription("");
+    };
+
+    const handleMyItems = () =>{
+        const randomId = Math.random().toString(36).slice(-8);
+        const newItem:ItemType = {
+            id:randomId,
+            user_id:"",
+            title:itemTitle,
+            year:itemYear,
+            year_type:itemYearType,
+            goro_text:itemGoroText,
+            description:itemDescription
+        }
+        const newMyItems = [...myItemsState, newItem];
+        setMyItems(newMyItems);
+
+    }
+
     const handleAddItem = () =>{
         postItems(itemTitle, itemYear, itemYearType, itemGoroText, itemDescription)
+        .then(() =>{
+            handleMyItems();
+            handleClearState();
+            setOpen(false);        
+        }
+        )
+        
     };
 
     useEffect(() =>{
@@ -125,7 +156,7 @@ export const UserMenu:React.FC = () =>{
                         onChange={handleItemTitle}
                     />
                     <TextField
-                        value={itemTitle}
+                        value={itemYear}
                         margin="dense"
                         id="year-text-field"
                         label="年"
@@ -174,6 +205,7 @@ export const UserMenu:React.FC = () =>{
                         multiline
                         rows={4}
                         variant="outlined"
+                        onChange={handleItemDescription}
                     />
                 </DialogContent>
                 <DialogActions>
@@ -223,7 +255,7 @@ export const UserMenu:React.FC = () =>{
                             onChange={handleItemTitle}
                         />
                         <TextField
-                            value={itemTitle}
+                            value={itemYear}
                             margin="dense"
                             id="year-text-field"
                             label="年"
@@ -272,6 +304,7 @@ export const UserMenu:React.FC = () =>{
                             multiline
                             rows={4}
                             variant="outlined"
+                            onChange={handleItemDescription}
                         />
                     </DialogContent>
                 </Dialog>

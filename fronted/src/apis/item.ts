@@ -24,7 +24,7 @@ export const getMyItems = () =>{
     })
 };
 
-export const postItems = (title:string, year:number, year_type:string, goro_text:string, description:string) =>{
+export const postItems = (title:string, year:string, year_type:string, goro_text:string, description:string) =>{
     return axios({
         method: 'post',
         url: itemJsonUrl,

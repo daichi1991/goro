@@ -7,7 +7,7 @@ export type ItemType =
         id:string,
         user_id:string,
         title:string,
-        year:number,
+        year:string,
         year_type:string,
         goro_text:string,
         description:string        

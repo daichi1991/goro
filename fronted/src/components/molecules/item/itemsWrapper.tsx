@@ -1,30 +1,47 @@
 import * as React from 'react';
+import useMedia from "use-media";
 import { ItemType } from '../types';
-import { Backdrop, Fade, makeStyles, Modal } from '@material-ui/core';
+import { AppBar, Backdrop, Button, createStyles, Dialog, Fade, IconButton, makeStyles, Modal, Paper, Theme, Toolbar } from '@material-ui/core';
 import { MylistsContext } from '../../../contexts/mylistContexts';
 import { MylistModal } from './mylistModal';
+import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import { TransitionProps } from '@material-ui/core/transitions';
+import Slide from "@material-ui/core/Slide";
+import CloseIcon from "@material-ui/icons/Close";
+import Typography from "@material-ui/core/Typography";
 
 const {useState, useContext} = React;
 
-const useStyles = makeStyles((theme) => ({
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    paper: {
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-    },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        appBar: {
+        position: "relative"
+        },
+        title: {
+        marginLeft: theme.spacing(2),
+        flex: 1
+        }
+    })
+);
+
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & { children?: React.ReactElement },
+    ref: React.Ref<unknown>
+    ) {
+        return <Slide direction="up" ref={ref} {...props} />;
+    });
 
 interface Props{
     item:ItemType;
 }
 
 export const ItemsWrapper:React.FC<Props> = (props:Props) =>{
+
+    const isWide = useMedia({ minWidth: "750px" });
 
     const [open, setOpen] = useState(false);
     const {mylistsState, setMylists} = useContext(MylistsContext);
@@ -43,34 +60,68 @@ export const ItemsWrapper:React.FC<Props> = (props:Props) =>{
 
     return(
         <>
-            {item.title}
-            <button type="button" onClick={handleOpenForm}>
-                マイリストに追加
-            </button>
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className={classes.modal}
-                open={open}
-                onClose={handleClose}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                timeout: 500,
-                }}
-            >
-                {mylistsState.length?
-                <Fade in={open}>
-                    <div className={classes.paper}>
-                        <p id="transition-modal-title">マイリストに追加</p>
-                        {mylistsState.map((mylist, index) =>
-                            <MylistModal key={index} mylist={mylist} item={item}/>
-                        )}
-                    </div>
-                </Fade>:
-                <span></span>    
-            }
-            </Modal>
+            <Paper variant="outlined">
+                {item.title}
+                <Button onClick={handleOpenForm}>
+                    <LibraryAddIcon/>
+                </Button>
+                {isWide? (
+                    <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="form-dialog-title"
+                    >
+                        <DialogTitle id="form-dialog-title">マイリストに追加</DialogTitle>
+                        <DialogContent>
+                            {mylistsState.length?(
+                                mylistsState.map((mylist, index) =>
+                                    <MylistModal key={index} mylist={mylist} item={item}/>
+                                )
+                            ):(<></>)  
+                            }
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} color="primary">
+                                キャンセル
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                    ) : (
+                    <Dialog
+                        fullScreen
+                        open={open}
+                        onClose={handleClose}
+                        TransitionComponent={Transition}
+                        >
+                        <AppBar className={classes.appBar}>
+                            <Toolbar>
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                onClick={handleClose}
+                                aria-label="close"
+                            >
+                                <CloseIcon />
+                            </IconButton>
+                            <Typography variant="h6" className={classes.title}>
+                                マイリストに追加
+                            </Typography>
+                            </Toolbar>
+                        </AppBar>
+                        <DialogContent>
+                            {mylistsState.length?(
+                                mylistsState.map((mylist, index) =>
+                                    <MylistModal key={index} mylist={mylist} item={item}/>
+                                )
+                            ):(<></>)  
+                            }
+                        </DialogContent>
+                    </Dialog>
+                    )
+                }
+
+
+            </Paper>
         </>
     )
 }
