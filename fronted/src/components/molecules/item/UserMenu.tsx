@@ -1,31 +1,58 @@
-import { Backdrop, Fade, makeStyles, Modal } from '@material-ui/core';
 import * as React from 'react';
 import { getItems, getMyItems, postItems } from '../../../apis/item';
 import { MyItemsContext } from '../../../contexts/itemsContexts';
 import { ItemType } from '../types';
 import { ItemsWrapper } from './itemsWrapper';
+import useMedia from "use-media";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItem from "@material-ui/core/ListItem";
+import List from "@material-ui/core/List";
+import Divider from "@material-ui/core/Divider";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import CloseIcon from "@material-ui/icons/Close";
+import Slide from "@material-ui/core/Slide";
+import { TransitionProps } from "@material-ui/core/transitions";
+import { InputLabel, MenuItem, Select } from '@material-ui/core';
+
 
 const {useContext, useEffect, useState} = React;
 
-const useStyles = makeStyles((theme) => ({
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    paper: {
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-    },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        appBar: {
+        position: "relative"
+        },
+        title: {
+        marginLeft: theme.spacing(2),
+        flex: 1
+        }
+    })
+);
 
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & { children?: React.ReactElement },
+    ref: React.Ref<unknown>
+    ) {
+        return <Slide direction="up" ref={ref} {...props} />;
+    });
 
 export const UserMenu:React.FC = () =>{
+    const classes = useStyles();
+    const isWide = useMedia({ minWidth: "750px" });
     
     const {myItemsState, setMyItems} = useContext(MyItemsContext);
-    const classes = useStyles();
+    
     const [open, setOpen] = useState(false);
     
     const [itemTitle, setItemTitle] = useState("");
@@ -76,82 +103,180 @@ export const UserMenu:React.FC = () =>{
 
     return(
         <>
-            <button type="button" onClick={handleOpenForm}>
+            <Button variant="outlined" color="primary" onClick={handleOpenForm}>
                 語呂合わせ作成
-            </button>
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className={classes.modal}
+            </Button>
+            {isWide ? (
+                <Dialog
                 open={open}
                 onClose={handleClose}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                timeout: 500,
-                }}
+                aria-labelledby="form-dialog-title"
             >
-                <Fade in={open}>
-                    <div className={classes.paper}>
-                        <p id="transition-modal-title">語呂合わせ新規作成</p>
-                        <form>
-                            <label>
-                                できごと:
-                                <input 
-                                    type="text"
-                                    value={itemTitle}
-                                    onChange={handleItemTitle}
-                                />
-                            </label><br/>
-
-                            <label>
-                                年:
-                                <input
-                                    type="text"
-                                    value={itemYear}
-                                    onChange={handleItemYear}
-                                    />
-                            </label><br/>
-
-                            <label>
-                                年代タイプ:
-                                <select>
-                                    <option selected value="紀元後">紀元後</option>
-                                    <option value="紀元前">紀元前</option>
-                                    <option value="年前">年前</option>
-                                    <option value="万年前">万年前</option>
-                                    <option value="億年前">億年前</option>
-                                </select>
-                                <input 
-                                    type="text"
-                                    value={itemYearType}
-                                    onChange={handleItemYearType}
-                                />
-                            </label><br/>
-
-                            <label>
-                                語呂:
-                                <input
-                                    type="text"
-                                    value={itemGoroText}
-                                    onChange={handleItemGoroText}
-                                />
-                            </label><br/>
-
-                            <label>
-                                説明:
-                                <input
-                                    type="textarea"
-                                    value={itemDescription}
-                                    onChange={handleItemDescription}
-                                />
-                            </label><br/>
-
-                            <button onClick={() => handleAddItem()}>作成</button>
-                        </form>
-                    </div>
-                </Fade>
-            </Modal>
+                <DialogTitle id="form-dialog-title">語呂合わせ新規作成</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        value={itemTitle}
+                        margin="dense"
+                        id="title-text-field"
+                        label="できごと"
+                        type="text"
+                        fullWidth
+                        onChange={handleItemTitle}
+                    />
+                    <TextField
+                        value={itemTitle}
+                        margin="dense"
+                        id="year-text-field"
+                        label="年"
+                        type="text"
+                        fullWidth
+                        onChange={handleItemYear}
+                    />
+                    <TextField
+                        id="year-type-select"
+                        margin="dense"
+                        select
+                        label="年代タイプ"
+                        fullWidth
+                        onChange={handleItemYearType}
+                    >
+                        <MenuItem selected value="紀元後">
+                            紀元後
+                        </MenuItem>
+                        <MenuItem value="紀元前">
+                            紀元前
+                        </MenuItem>
+                        <MenuItem value="年前">
+                            年前
+                        </MenuItem>
+                        <MenuItem value="万年前">
+                            万年前
+                        </MenuItem>
+                        <MenuItem value="億年前">
+                            億年前
+                        </MenuItem>
+                    </TextField>
+                    <TextField
+                        value={itemGoroText}
+                        margin="dense"
+                        id="goro-text-field"
+                        label="語呂"
+                        type="text"
+                        fullWidth
+                        onChange={handleItemGoroText}
+                    />
+                    <TextField
+                        id="description-text-field"
+                        label="説明"
+                        margin="dense"
+                        fullWidth
+                        multiline
+                        rows={4}
+                        variant="outlined"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        キャンセル
+                    </Button>
+                    <Button onClick={() =>handleAddItem()}>
+                        作成
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            ):
+            (
+                <Dialog
+                    fullScreen
+                    open={open}
+                    onClose={handleClose}
+                    TransitionComponent={Transition}
+                    >
+                    <AppBar className={classes.appBar}>
+                        <Toolbar>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={handleClose}
+                            aria-label="close"
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                        <Typography variant="h6" className={classes.title}>
+                            新規語呂作成
+                        </Typography>
+                        <Button autoFocus color="inherit" onClick={() =>handleAddItem()}>
+                            作成
+                        </Button>
+                        </Toolbar>
+                    </AppBar>
+                    <DialogContent>
+                        <TextField
+                            autoFocus
+                            value={itemTitle}
+                            margin="dense"
+                            id="title-text-field"
+                            label="できごと"
+                            type="text"
+                            fullWidth
+                            onChange={handleItemTitle}
+                        />
+                        <TextField
+                            value={itemTitle}
+                            margin="dense"
+                            id="year-text-field"
+                            label="年"
+                            type="text"
+                            fullWidth
+                            onChange={handleItemYear}
+                        />
+                        <TextField
+                            id="year-type-select"
+                            margin="dense"
+                            select
+                            label="年代タイプ"
+                            fullWidth
+                            onChange={handleItemYearType}
+                        >
+                            <MenuItem selected value="紀元後">
+                                紀元後
+                            </MenuItem>
+                            <MenuItem value="紀元前">
+                                紀元前
+                            </MenuItem>
+                            <MenuItem value="年前">
+                                年前
+                            </MenuItem>
+                            <MenuItem value="万年前">
+                                万年前
+                            </MenuItem>
+                            <MenuItem value="億年前">
+                                億年前
+                            </MenuItem>
+                        </TextField>
+                        <TextField
+                            value={itemGoroText}
+                            margin="dense"
+                            id="goro-text-field"
+                            label="語呂"
+                            type="text"
+                            fullWidth
+                            onChange={handleItemGoroText}
+                        />
+                        <TextField
+                            id="description-text-field"
+                            label="説明"
+                            margin="dense"
+                            fullWidth
+                            multiline
+                            rows={4}
+                            variant="outlined"
+                        />
+                    </DialogContent>
+                </Dialog>
+            )
+            }
                 <h3>アイテムリスト</h3>
                 {myItemsState.map((myItem,index) =>
                     <ItemsWrapper key={index} item={myItem} />

@@ -10,7 +10,7 @@ export const FooterMenu:React.FC = () =>{
         root: {
         position: 'fixed',
         bottom: 0,
-        width: 500,
+        width: "100%",
         },
         content:{
             flexGrow: 1,
