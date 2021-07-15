@@ -1,9 +1,11 @@
 import { Backdrop, Fade, makeStyles, Modal } from '@material-ui/core';
+import { Search } from '@material-ui/icons';
 import * as React from 'react';
 import { getItems, searchItems } from '../../../apis/item';
 import { ItemsContext } from '../../../contexts/itemsContexts';
 import { ItemType } from '../types';
 import { ItemsWrapper } from './itemsWrapper';
+import {SearchBox} from './searchBox';
 
 const {useContext, useState} = React;
 
@@ -37,11 +39,7 @@ export const ItemsList:React.FC = () =>{
 
     return(
         <>
-            <p>検索</p>
-            <input type="text" onChange={e => handleKeyword(e)} value={keyword}/>
-            <button onClick={handleSearch}>検索</button>
-            <button onClick={handleClearSearch}>クリア</button>
-            {showKeyword}
+            <SearchBox />
 
             <h3>アイテムリスト</h3>
             {itemsState.map((item,index) =>
