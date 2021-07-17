@@ -17,67 +17,21 @@ import {useSignOut} from '../../contexts/authUserContext'
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {AuthUserContext} from '../../contexts/authUserContext';
-import { Typography } from '@material-ui/core';
+import { IconButton, Typography } from '@material-ui/core';
+import { AccountCircle } from '@material-ui/icons';
 
-const StyledMenu = withStyles({
-    paper: {
-        border: '1px solid #d3d4d5',
-    },
-})((props: MenuProps) => (
-    <Menu
-        elevation={0}
-        getContentAnchorEl={null}
-        anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-        }}
-        transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-        }}
-        {...props}
-    />
-));
 
-const StyledMenuItem = withStyles((theme) => ({
-    root: {
-        '&:focus': {
-            backgroundColor: theme.palette.primary.main,
-        '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-            color: theme.palette.common.white,
-        },
-        },
-    },
-}))(MenuItem);
 
-const HeaderWrapper = styled.header`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: black;
-    width:100vw;
-    max-height: 40px;
-    padding:4px;
-    line-height: 2rem;
-`
 
-const HeaderTitle = styled.div`
-    margin-left: 40px;
-    color: white;
-    font-size: 1.4rem;
-`
-const UserMenu = styled.div`
-    margin-left: auto;
-    margin-right: 40px;
-    color: white;
-    font-size: 1.6rem;
-`
 
 
 export const Header: React.FC = () => {
     const classes = useStyles();
     const authUser = React.useContext(AuthUserContext);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+
+    console.log(authUser);
 
     const signOut = useSignOut();
 
@@ -86,7 +40,7 @@ export const Header: React.FC = () => {
         signOut();
     }
 
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
     
@@ -95,47 +49,47 @@ export const Header: React.FC = () => {
     };
 
     return(
-        <AppBar position="fixed" className={classes.appBar}>
+        <div className={classes.header}>
+        <AppBar position="fixed">
             <ToolBar>
-                <Typography variant="h6" noWrap>
+                <Typography variant="h6" noWrap className={classes.headerTitle}>
                     ごろりんちょ
                 </Typography>
-            </ToolBar>
-            {/* {authUser?
-                <>
-                    <UserMenu
-                        aria-controls="customized-menu"
+
+            {authUser && (
+                    <div>
+                        <IconButton
+                        aria-label="account of current user"
+                        aria-controls="menu-appbar"
                         aria-haspopup="true"
-                        color="primary"
-                        onClick={handleClick}
-                    >
-                        <MenuIcon />
-                    </UserMenu>
-                    <StyledMenu
-                        id="customized-menu"
+                        onClick={handleMenu}
+                        color="inherit"
+                        >
+                            <AccountCircle />
+                        </IconButton>
+                        <Menu
+                        id="menu-appbar"
                         anchorEl={anchorEl}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                        }}
                         keepMounted
-                        open={Boolean(anchorEl)}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={open}
                         onClose={handleClose}
-                    >
-                        <Link to={'user_setting'} style={{ textDecoration: 'none',color:'black' }} onClick={handleClose}>
-                            <StyledMenuItem>
-                                    <ListItemIcon>
-                                        <PersonIcon fontSize="small" />
-                                    </ListItemIcon>
-                                    <ListItemText primary="アカウント設定" />
-                            </StyledMenuItem>
-                        </Link>
-                        <StyledMenuItem onClick={handleSignOut}>
-                            <ListItemIcon>
-                                <ExitToAppIcon fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText primary="ログアウト" />
-                        </StyledMenuItem>
-                    </StyledMenu>
-                </>:
-                <></>
-            } */}
+                        >
+                        <MenuItem onClick={handleClose}>Profile</MenuItem>
+                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                        </Menu>
+                </div>
+            )
+            }
+            </ToolBar>
         </AppBar>
+        </div>
     )
 }

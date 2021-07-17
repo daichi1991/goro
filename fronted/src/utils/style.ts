@@ -6,11 +6,14 @@ export const useStyles = makeStyles((theme: Theme) =>
         root: {
             display: 'flex',
         },
-        appBar: {
+        header: {
+            flexGrow: 1,
             zIndex: 2,
         },
+        headerTitle:{
+            flexGrow: 1,
+        },
         drawer: {
-            width: 240,
             flexShrink: 0,
             zIndex: 1,
         },
@@ -22,8 +25,9 @@ export const useStyles = makeStyles((theme: Theme) =>
             overflow: 'auto',
         },
         content: {
-            flexGrow: 1,
-            padding: theme.spacing(10),
+            flexGrow : 1,
+            paddingTop: theme.spacing(10),
+            paddingRight: theme.spacing(10),
         },
     }),
 );

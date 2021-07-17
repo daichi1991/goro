@@ -3,9 +3,7 @@ module Api
         class MyListsController < ApplicationController
             
             def index
-                logger.debug("aaaaaa")
                 @my_lists = MyList.where(user_id: current_user.id)
-                logger.debug("bbbbbb")
                 render :index
             end
 

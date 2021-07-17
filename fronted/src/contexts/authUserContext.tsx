@@ -122,25 +122,18 @@ const AuthUserProvider: React.FC = (children) =>{
     }
 
     const signInCheck = () =>{
-        const tempAuthUser = JSON.parse(localStorage.getItem('token')!)
-        return(
-            tempAuthUser?
-                axios.get(itemUrl,{
-                    headers: { 
-                        "Content-Type": "application/json",
-                        "uid": tempAuthUser.uid,
-                        "access-token": tempAuthUser.accessToken,
-                        "client": tempAuthUser.client,
-                    }
-                })
-                .then(res => {
-                    setAuthUser(tempAuthUser);
-                })
-                .catch(() => {
-                    localStorage.removeItem('token')
-                    console.log("ログアウトしました")
-                })
-            :console.log("tokenなし")
+        const myItemUrl = itemUrl + '/user_index.json';
+        return axios.get(myItemUrl,{
+            headers:{
+                "Content-Type": "application/json",
+            }, withCredentials: true 
+        })
+        .then(() =>{
+            setAuthUser(true);
+        })
+        .catch(() =>{
+            setAuthUser(false);
+        }
         )
     }
 
