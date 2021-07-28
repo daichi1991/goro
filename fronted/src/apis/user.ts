@@ -1,6 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
-import {defaultUrl, userUrl} from '../urls';
+import {defaultUrl, imageUploadUrl, userUrl} from '../urls';
 import { AuthUser } from '../components/molecules/types';
 
 export const userSignIn = (email:string, password:string) =>{
@@ -139,4 +139,14 @@ export const resetPasswordNoSignIn = (password: string, passwordConfirm: string,
         return res.data
     })
     .catch((e) => console.error(e))
+};
+
+export const uploadImage = (data: FormData) =>{
+    return axios.patch(userUrl,{
+        data:data
+    })
+    .then(res =>{
+        return res
+    })
+    .catch(e => {return e})
 }

@@ -11,7 +11,6 @@ Rails.application.routes.draw do
         collection do
           get 'user_index'
           get 'search'
-
         end
       end
       resources :my_lists
@@ -20,6 +19,7 @@ Rails.application.routes.draw do
           get 'mylist_index'
         end
       end
+      resources :profiles
     end
   end
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?

@@ -15,3 +15,5 @@ export const mylistJsonUrl = `${DEDAUTL_API_LOCALHOST}/my_lists.json`
 export const itemMylistUrl = `${DEDAUTL_API_LOCALHOST}/item_mylists`
 
 export const itemMylistJsonUrl = `${DEDAUTL_API_LOCALHOST}/item_mylists.json`
+
+export const imageUploadUrl = `${DEDAUTL_API_LOCALHOST}/users/image_upload`

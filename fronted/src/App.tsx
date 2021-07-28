@@ -28,6 +28,7 @@ import { MylistContents } from './components/molecules/mylist/mylistContents';
 import SideMenu from './components/molecules/sideMenu';
 import useMedia from 'use-media';
 import { CssBaseline } from '@material-ui/core';
+import { AvaterUpload } from './components/molecules/user/avaterUpload';
 
 const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
   const authUser = useAuthUser()
@@ -77,6 +78,7 @@ function App() {
                 <main className={classes.content}>
                 <Switch>
                   <Route exact path = '/' component={ItemsList}/>
+                  <PrivateRoute exact path = '/avater_upload' component={AvaterUpload}/>
                   <PrivateRoute exact path = '/mylists' component={Mylists}/>
                   <PrivateRoute exact path = '/user_menu' component={UserMenu}/>
                   <PrivateRoute exact path = '/mylist/show/:mylistId' component={MylistContents}/>

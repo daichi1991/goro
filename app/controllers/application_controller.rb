@@ -32,7 +32,7 @@ class ApplicationController < ActionController::API
     end
 
     # If user has not signed in, return unauthorized response (called only when auth is needed)
-    def authenticate_user!(options = {})
+    def authenticate_user!(options = {exept: [:index, :update]})
         head :unauthorized unless signed_in?
     end
 
@@ -45,5 +45,7 @@ class ApplicationController < ActionController::API
     def signed_in?
         @current_user_id.present?
     end
+
+
 
 end

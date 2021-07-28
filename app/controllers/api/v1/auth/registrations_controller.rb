@@ -19,4 +19,10 @@ class Api::V1::Auth::RegistrationsController < Devise::RegistrationsController
         admin_user_mail_sent_message_path
     end
 
+    def after_update_path_for(resource)
+        account_page_path
+    end
+
+    
+
 end
