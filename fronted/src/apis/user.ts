@@ -1,5 +1,5 @@
 import * as React from 'react';
-import axios from 'axios';
+import axios, { AxiosPromise } from 'axios';
 import {defaultUrl, imageUploadUrl, userUrl} from '../urls';
 import { AuthUser } from '../components/molecules/types';
 
@@ -141,8 +141,12 @@ export const resetPasswordNoSignIn = (password: string, passwordConfirm: string,
     .catch((e) => console.error(e))
 };
 
-export const uploadImage = (data: FormData) =>{
-    return axios.patch(userUrl,{
+export const createAvater = (data: FormData):AxiosPromise =>{
+    return axios.request({
+        method: 'post',
+        url: imageUploadUrl,
+        headers: {"Content-Type": "multipart/form-data"},
+        withCredentials: true,
         data:data
     })
     .then(res =>{

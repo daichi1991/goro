@@ -3,13 +3,17 @@ import Cropper, {Crop} from 'react-image-crop';
 import "react-image-crop/dist/ReactCrop.css";
 import { createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
-import { uploadImage } from '../../../apis/user';
+import { createAvater } from '../../../apis/user';
+import Box from "@material-ui/core/Box";
+import CancelIcon from "@material-ui/icons/Cancel";
+import IconButton from "@material-ui/core/IconButton";
 
 
 const {useState, useEffect, useRef} = React;
 
 export const AvaterUpload = () =>{
     const [src, setSrc] = useState<any>(null)
+    const [image, setImage] = useState<any>(null)
     const [crop, setCrop] = useState<Crop>({
         unit: "px",
         x: 0,
@@ -24,7 +28,6 @@ export const AvaterUpload = () =>{
         if( e.target.files && e.target.files.length > 0){
             const reader = new FileReader();
             reader.addEventListener('load', () =>{
-                console.log(reader.result);
                 setSrc(reader.result);
             });
             reader.readAsDataURL(e.target.files[0]);
@@ -61,39 +64,58 @@ export const AvaterUpload = () =>{
                     crop.height
                 )
             }
+            const contentType = imageRef.src.split(';')[0].split(':')[1];
+            const trimmedSrc = canvas.toDataURL(contentType);
+            const uploadImage = dataURIConverter(trimmedSrc);
+            setImage(uploadImage);
         }
     };
 
 
     const createFormData = (): FormData => {
         const formData = new FormData()
-        if (src) formData.append("image", src)
-        console.log(src)
+        if (src) formData.append("image", image);
         return formData
     }
 
-    const handleCreatePost =() => {    
+    const handleCreatePost = async (e: React.FormEvent<HTMLFormElement>) => {    
+        e.preventDefault()
+
         const data = createFormData()
-        uploadImage(data)
+
+        await createAvater(data)
         .then(() => {
             setSrc(undefined)
         })
     }
+
+    const dataURIConverter = (dataURI: string) =>{
+        const byteString = atob(dataURI.split(',')[1]);
+        const mimeType = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        const buffer = new Uint8Array(byteString.length);
+        for (let i = 0; i < byteString.length; i++) {
+            buffer[i] = byteString.charCodeAt(i);
+        }
+        return new File([buffer], 'avater.jpg', { type:mimeType } );
+    }
     
     return (
         <>
-            <input type='file' accept="image/*" onChange={onSelectFile}/>
-            { src && ( 
-            <Cropper
-                src={src}
-                crop={crop}
-                circularCrop
-                onImageLoaded={onImageLoaded}
-                onComplete={onCropComplete}
-                onChange={onCropChange}
-            />
-            )}
-            <Button onClick={handleCreatePost}>アップロード</Button>
+            <form onSubmit={handleCreatePost}>
+                <input type='file' accept="image/*" onChange={onSelectFile}/>
+                { src && ( 
+                <Cropper
+                    src={src}
+                    crop={crop}
+                    circularCrop
+                    onImageLoaded={onImageLoaded}
+                    onComplete={onCropComplete}
+                    onChange={onCropChange}
+                />
+                )}
+                <Button type="submit">アップロード</Button>
+            </form>
+
         </>
     );
 }
