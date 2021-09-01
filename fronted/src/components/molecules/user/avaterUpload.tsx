@@ -116,6 +116,7 @@ export const AvaterUpload = () =>{
                 <Button type="submit">アップロード</Button>
             </form>
 
+
         </>
     );
 }

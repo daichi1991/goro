@@ -19,7 +19,11 @@ Rails.application.routes.draw do
           get 'mylist_index'
         end
       end
-      resources :profiles
+      resources :profiles do
+        collection do
+          post 'upload_image'
+        end
+      end
     end
   end
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
