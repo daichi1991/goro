@@ -1,6 +1,6 @@
 import * as React from 'react';
 import axios, { AxiosPromise } from 'axios';
-import {defaultUrl, imageUploadUrl, userUrl} from '../urls';
+import {defaultUrl, imageUploadUrl, profileUrl, userUrl} from '../urls';
 import { AuthUser } from '../components/molecules/types';
 
 export const userSignIn = (email:string, password:string) =>{
@@ -153,4 +153,18 @@ export const createAvater = (data: FormData):AxiosPromise =>{
         return res
     })
     .catch(e => {return e})
+}
+
+export const getProfile = (userId: string) =>{
+    axios.get(profileUrl,{
+        headers:{
+            "Content-Type": "application/json",
+        },
+        params:{
+            userId:userId
+        }
+    })
+    .then(res =>{
+        return res.data
+    })
 }

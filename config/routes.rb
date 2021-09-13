@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       resources :profiles do
         collection do
           post 'upload_image'
+          get 'my_profile'
         end
       end
     end

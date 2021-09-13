@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import axios from 'axios';
-import { userUrl, defaultUrl, itemUrl } from '../urls';
+import { userUrl, defaultUrl, itemUrl, profileUrl, myProfileUrl } from '../urls';
 import {AuthUser} from '../components/molecules/types';
 
 const {createContext, useContext, useState, useEffect} = React;
@@ -17,6 +17,7 @@ type OperationType = {
 }
 
 export const AuthUserContext = createContext<boolean>(false);
+export const MyProfileIdContext = createContext<string>('');
 export const SignInErrorContext = createContext<boolean>(false);
 
 const AuthOperationContext = createContext<OperationType>({
@@ -33,6 +34,7 @@ const AuthOperationContext = createContext<OperationType>({
 const AuthUserProvider: React.FC = (children) =>{
     const [authUser, setAuthUser] = useState<boolean>(false);
     const [signInError, setSignInError] = useState<boolean>(false);
+    const [myProfileId, setMyProfileId] = useState<string>('');
     const signInUrl = defaultUrl + 'sign_in';
 
     const userToken:AuthUser= {
@@ -137,22 +139,37 @@ const AuthUserProvider: React.FC = (children) =>{
         )
     }
 
+    const getMyProfile = () =>{
+        axios.get(myProfileUrl,{
+            headers:{
+                "Content-Type": "application/json",
+            }, withCredentials: true 
+        })
+        .then(res =>{
+            setMyProfileId(res.data.id);
+        })
+    }
+
     useEffect(()=>{
-        signInCheck()
+        signInCheck();
+        getMyProfile();
     } ,[])
 
     return (
         <AuthOperationContext.Provider value={{handleSetAuthUser,deleteAuthUser,signUp,signUpConfirm, signIn,signOut,signInCheck}}>
             <AuthUserContext.Provider value={authUser}>
-                <SignInErrorContext.Provider value={signInError}>
-                    {children.children}
-                </SignInErrorContext.Provider>
+                <MyProfileIdContext.Provider value={myProfileId}>
+                    <SignInErrorContext.Provider value={signInError}>
+                        {children.children}
+                    </SignInErrorContext.Provider>
+                </MyProfileIdContext.Provider>
             </AuthUserContext.Provider>
         </AuthOperationContext.Provider>
     )
 };
 
 export const useAuthUser = () => useContext(AuthUserContext)
+export const useMyProfileId = () => useContext(MyProfileIdContext)
 export const useHandleSetAuthUser = (token:AuthUser) => useContext(AuthOperationContext).handleSetAuthUser
 export const useDeleteAuthUser = () => useContext(AuthOperationContext).deleteAuthUser
 export const useSignUp = (email:string, password:string) => useContext(AuthOperationContext).signUp

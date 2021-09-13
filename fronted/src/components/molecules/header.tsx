@@ -13,25 +13,40 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ToolBar from '@material-ui/core/Toolbar'
 import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
-import {useSignOut} from '../../contexts/authUserContext'
+import {useSignOut, AuthUserContext} from '../../contexts/authUserContext'
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import {AuthUserContext} from '../../contexts/authUserContext';
-import { IconButton, Typography } from '@material-ui/core';
+import { Avatar, IconButton, Typography } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
+import axios from 'axios';
+import { myProfileUrl } from '../../urls';
 
-
-
-
-
+const {useState, useEffect} = React;
 
 export const Header: React.FC = () => {
     const classes = useStyles();
     const authUser = React.useContext(AuthUserContext);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [myProfileId, setMyProfileId] = useState<string>('');
     const open = Boolean(anchorEl);
 
-    console.log(authUser);
+    const getMyProfile = () =>{
+        axios.get(myProfileUrl,{
+            headers:{
+                "Content-Type": "application/json",
+            }, withCredentials: true 
+        })
+        .then(res =>{
+            console.log(res.data.id);
+            setMyProfileId(res.data.id);
+        })
+    }
+
+    useEffect(()=>{
+        getMyProfile();
+    } ,[])
+
+    const avaterImageUrl = `http://localhost:3000/uploads/profile/image/${myProfileId}/avater.jpg`
 
     const signOut = useSignOut();
 
@@ -65,7 +80,7 @@ export const Header: React.FC = () => {
                         onClick={handleMenu}
                         color="inherit"
                         >
-                            <AccountCircle />
+                            <Avatar alt="g" src={avaterImageUrl} />
                         </IconButton>
                         <Menu
                         id="menu-appbar"

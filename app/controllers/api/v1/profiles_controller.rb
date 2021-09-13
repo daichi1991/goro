@@ -23,9 +23,19 @@ module Api
                 
             end
 
+            def show
+                @profile = Profile.find_by(user_id: params[:user_id])
+                render :show
+            end
+
+            def my_profile
+                @profile = Profile.find_by(user_id: current_user.id)
+                render :show
+            end
+            
+
             def upload_image
                 if Profile.exists?(user_id: current_user.id)
-                    logger.debug('aaaaa')
                     profile = Profile.find_by(user_id: current_user.id)
                     if profile.update(profile_params)
                         render json: {success:'success'}, status: 200

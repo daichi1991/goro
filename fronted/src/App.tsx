@@ -46,7 +46,6 @@ const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
 
 const PrivateRoute: React.FC<RouteProps> = ({ ...props }) => {
   const authUser = useAuthUser()
-  console.log(authUser);
   const isAuthenticated = authUser != null
   if (isAuthenticated) {
     return <Route {...props} />

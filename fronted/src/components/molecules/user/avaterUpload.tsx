@@ -79,7 +79,6 @@ export const AvaterUpload = () =>{
     }
 
     const handleCreatePost = async (e: React.FormEvent<HTMLFormElement>) => {    
-        e.preventDefault()
 
         const data = createFormData()
 
