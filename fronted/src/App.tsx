@@ -63,7 +63,7 @@ const PrivateRoute: React.FC<RouteProps> = ({ ...props }) => {
 
 function App() {
   const classes = useStyles();
-  const isWide = useMedia({ minWidth: "750px" });
+  const isWide = useMedia({ minWidth: "760px" });
   return (
     <div className = {classes.root}>
       <CssBaseline/>

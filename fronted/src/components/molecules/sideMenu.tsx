@@ -11,7 +11,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
+import ListItem,{ListItemProps} from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
@@ -20,6 +20,10 @@ import { Folder, Search, Person } from '@material-ui/icons';
 
     export default function SideMenu() {
     const classes = useStyles();
+
+    const ListItemLink = (props: ListItemProps<'a', { button?: true }>) =>{
+        return <ListItem button component="a" {...props} />
+    }  
 
     return (
         <Drawer
@@ -32,32 +36,26 @@ import { Folder, Search, Person } from '@material-ui/icons';
             <Toolbar />
             <div className={classes.drawerContainer}>
                 <List>
-                    <Link to="/" style={{ textDecoration: 'none',color:'black' }}>
-                        <ListItem button >
+                    <ListItemLink href="/">
+                        <ListItemIcon>
+                            <Search />
+                        </ListItemIcon>
+                        <ListItemText primary="Search" />
+                    </ListItemLink>
 
-                                <ListItemIcon>
-                                    <Search />
-                                </ListItemIcon>
-                                <ListItemText primary="Search" />
-                            
-                        </ListItem>
-                    </Link>
-                    <Link to="/mylists" style={{ textDecoration: 'none',color:'black' }}>
-                        <ListItem button >
-                            <ListItemIcon>
-                                <Folder />
-                            </ListItemIcon>
-                            <ListItemText primary="Mylist" />
-                        </ListItem>
-                    </Link>
-                    <Link to="/user_menu" style={{ textDecoration: 'none',color:'black' }}>
-                        <ListItem button >
-                            <ListItemIcon>
-                                <Person />
-                            </ListItemIcon>
-                            <ListItemText primary="Your Items" />
-                        </ListItem>
-                    </Link>
+                    <ListItemLink href="/mylists">
+                        <ListItemIcon>
+                            <Folder />
+                        </ListItemIcon>
+                        <ListItemText primary="Mylist" />
+                    </ListItemLink>
+
+                    <ListItemLink href="/user_menu" >
+                        <ListItemIcon>
+                            <Person />
+                        </ListItemIcon>
+                        <ListItemText primary="Your Items" />
+                    </ListItemLink>
                 </List>
             </div>
         </Drawer>

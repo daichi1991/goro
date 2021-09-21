@@ -6,12 +6,13 @@ import { ItemsContext } from '../../../contexts/itemsContexts';
 import { ItemType } from '../types';
 import { ItemsWrapper } from './itemsWrapper';
 import {SearchBox} from './searchBox';
+import {useStyles} from '../../../utils/style';
 
 const {useContext, useState} = React;
 
 
 export const ItemsList:React.FC = () =>{
-    
+    const classes = useStyles();
     const {itemsState, setItems} = useContext(ItemsContext);
     const [keyword, setKeyword] = useState("");
     const [showKeyword, setShowKeyword] = useState("");
@@ -39,13 +40,15 @@ export const ItemsList:React.FC = () =>{
 
     return(
         <>
-            <SearchBox />
+            <div className={classes.itemList}>
+                <SearchBox />
 
-            <h3>アイテムリスト</h3>
-            {itemsState.map((item,index) =>
-                <ItemsWrapper key={index} item={item} />
-                
-            )}
+                <h3>アイテムリスト</h3>
+                {itemsState.map((item,index) =>
+                    <ItemsWrapper key={index} item={item} />
+                    
+                )}
+            </div>
         </>
     )
 }

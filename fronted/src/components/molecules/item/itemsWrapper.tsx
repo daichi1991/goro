@@ -13,20 +13,9 @@ import { TransitionProps } from '@material-ui/core/transitions';
 import Slide from "@material-ui/core/Slide";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
+import {useStyles} from '../../../utils/style';
 
 const {useState, useContext} = React;
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        appBar: {
-        position: "relative"
-        },
-        title: {
-        marginLeft: theme.spacing(2),
-        flex: 1
-        }
-    })
-);
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & { children?: React.ReactElement },
@@ -60,9 +49,9 @@ export const ItemsWrapper:React.FC<Props> = (props:Props) =>{
 
     return(
         <>
-            <Paper variant="outlined">
+            <Paper variant="outlined" className={classes.itemListContent}>
                 {item.title}
-                <Button onClick={handleOpenForm}>
+                <Button onClick={handleOpenForm} className={classes.addMylistBtn}>
                     <LibraryAddIcon/>
                 </Button>
                 {isWide? (
@@ -93,7 +82,7 @@ export const ItemsWrapper:React.FC<Props> = (props:Props) =>{
                         onClose={handleClose}
                         TransitionComponent={Transition}
                         >
-                        <AppBar className={classes.appBar}>
+                        <AppBar className={classes.addMylistAppBar}>
                             <Toolbar>
                             <IconButton
                                 edge="start"
@@ -103,7 +92,7 @@ export const ItemsWrapper:React.FC<Props> = (props:Props) =>{
                             >
                                 <CloseIcon />
                             </IconButton>
-                            <Typography variant="h6" className={classes.title}>
+                            <Typography variant="h6" className={classes.addMylistTitle}>
                                 マイリストに追加
                             </Typography>
                             </Toolbar>

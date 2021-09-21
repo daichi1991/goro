@@ -68,7 +68,9 @@ export const Header: React.FC = () => {
         <AppBar position="fixed">
             <ToolBar>
                 <Typography variant="h6" noWrap className={classes.headerTitle}>
+                    <Link to="/" style={{textDecoration:"none",color:"#fff"}}>
                     ごろりんちょ
+                    </Link>
                 </Typography>
 
             {authUser && (
