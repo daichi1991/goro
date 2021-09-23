@@ -64,8 +64,7 @@ export const Header: React.FC = () => {
     };
 
     return(
-        <div className={classes.header}>
-        <AppBar position="fixed">
+        <AppBar position="fixed" className={classes.header}>
             <ToolBar>
                 <Typography variant="h6" noWrap className={classes.headerTitle}>
                     <Link to="/" style={{textDecoration:"none",color:"#fff"}}>
@@ -109,6 +108,5 @@ export const Header: React.FC = () => {
             }
             </ToolBar>
         </AppBar>
-        </div>
     )
 }

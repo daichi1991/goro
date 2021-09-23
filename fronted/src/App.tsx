@@ -64,6 +64,7 @@ const PrivateRoute: React.FC<RouteProps> = ({ ...props }) => {
 function App() {
   const classes = useStyles();
   const isWide = useMedia({ minWidth: "760px" });
+  const contentMarginLeft = isWide?170:0;
   return (
     <div className = {classes.root}>
       <CssBaseline/>
@@ -73,21 +74,23 @@ function App() {
             <MylistContentsProvider>
               <Router>
                 <Header />
-                {isWide? <SideMenu /> : <FooterMenu />}
-                <main className={classes.content}>
-                <Switch>
-                  <Route exact path = '/' component={ItemsList}/>
-                  <PrivateRoute exact path = '/avater_upload' component={AvaterUpload}/>
-                  <PrivateRoute exact path = '/mylists' component={Mylists}/>
-                  <PrivateRoute exact path = '/user_menu' component={UserMenu}/>
-                  <PrivateRoute exact path = '/mylist/show/:mylistId' component={MylistContents}/>
-                  <UnAuthRoute exact path='/sign_in' component={UserSignIn}/>
-                  <UnAuthRoute exact path='/sign_up' component={UserSignUp}/>
-                  <UnAuthRoute exact path='/sign_up_send_mail' component={UserSignUpSendMail}/>
-                  <UnAuthRoute exact path='/sign_up_confirm' component={UserSignUpConfirm}/>
-                  <Redirect to="/"/>
-                </Switch>
-                </main>
+                <div className={classes.appBody}>
+                  {isWide? <SideMenu /> : <FooterMenu />}
+                  <div className={classes.content} style={{marginLeft:contentMarginLeft}}>
+                    <Switch>
+                      <Route exact path = '/' component={ItemsList}/>
+                      <PrivateRoute exact path = '/avater_upload' component={AvaterUpload}/>
+                      <PrivateRoute exact path = '/mylists' component={Mylists}/>
+                      <PrivateRoute exact path = '/user_menu' component={UserMenu}/>
+                      <PrivateRoute exact path = '/mylist/show/:mylistId' component={MylistContents}/>
+                      <UnAuthRoute exact path='/sign_in' component={UserSignIn}/>
+                      <UnAuthRoute exact path='/sign_up' component={UserSignUp}/>
+                      <UnAuthRoute exact path='/sign_up_send_mail' component={UserSignUpSendMail}/>
+                      <UnAuthRoute exact path='/sign_up_confirm' component={UserSignUpConfirm}/>
+                      <Redirect to="/"/>
+                    </Switch>
+                  </div>
+                </div>
               </Router>
             </MylistContentsProvider>
           </MylistsProvider>

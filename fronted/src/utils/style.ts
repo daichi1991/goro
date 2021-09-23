@@ -1,24 +1,22 @@
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 
-
-
 export const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
         },
         header: {
             display: 'flex',
-            zIndex: 2,
+            zIndex: 100,
             height: 64
         },
         headerTitle:{
             flexGrow: 1,
         },
+        appBody:{
+            display: 'flex',
+            flexDirection: 'row',
+        },
         drawer: {
-            flexGrow:1,
             zIndex: 1,
         },
         drawerPaper: {
