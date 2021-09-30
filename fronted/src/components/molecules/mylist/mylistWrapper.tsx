@@ -4,13 +4,13 @@ import { MylistType } from '../types';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { Button } from '@material-ui/core';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import Popover from '@material-ui/core/Popover';
+import {Popover, Paper} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { MylistsContext } from '../../../contexts/mylistContexts';
 import { deleteItemMylist } from '../../../apis/itemMylist';
 import { deleteMylist } from '../../../apis/mylist';
-
+import {useStyles} from '../../../utils/style';
 
 
 interface Props{
@@ -20,6 +20,7 @@ interface Props{
 export const MylistWrapper:React.FC<Props> = (props:Props) => {
     const mylist = props.mylist
     const {mylistsState, setMylists} = React.useContext(MylistsContext);
+    const classes = useStyles();
 
     const handleDeleteMylist = () =>{
         const newMylists = [...mylistsState]
@@ -34,13 +35,15 @@ export const MylistWrapper:React.FC<Props> = (props:Props) => {
     return(
         <>
             <div>
-                <Link to={`/mylist/show/${mylist.id}`} >
-                    {mylist.name}
+                <Paper variant="outlined" className={classes.itemListContent}>
+                <Link to={`/mylist/show/${mylist.id}`} className={classes.itemLink}>
+                        {mylist.name}
                 </Link>
+
                 <PopupState variant="popover" popupId="demo-popup-popover">
                         {(popupState: any) => (
-                            <div>
-                                <Button variant="contained" color="primary" {...bindTrigger(popupState)}>
+                            <span style={{display: "inline"}}>
+                                <Button {...bindTrigger(popupState)} style={{position:"absolute"}} className={classes.addMylistBtn}>
                                     <MoreHorizIcon/>
                                 </Button>
                                 <Popover
@@ -62,9 +65,10 @@ export const MylistWrapper:React.FC<Props> = (props:Props) => {
                                     </Typography>
                                     </Box>
                                 </Popover>
-                            </div>
+                            </span>
                             )}
                         </PopupState>
+                </Paper>
             </div>
         </>
     )

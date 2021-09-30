@@ -46,8 +46,13 @@ export const useStyles = makeStyles((theme: Theme) =>
             flex: 1
         },
         addMylistBtn: {
-            position: 'absolute',
             right: 0
         },
+        itemLink :{
+            display: "inline-block",
+            width:"100%",
+            color:"black",
+            textDecoration:"none"
+        }
     }),
 );

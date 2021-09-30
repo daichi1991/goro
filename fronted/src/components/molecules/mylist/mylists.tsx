@@ -6,6 +6,7 @@ import { MylistWrapper } from './mylistWrapper';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { Snackbar } from '@material-ui/core';
 import { RouteComponentProps } from "react-router-dom";
+import Button from "@material-ui/core/Button";
 
 const {useContext, useState} = React;
 
@@ -64,6 +65,9 @@ export const Mylists = (props: RouteComponentProps<{}, any, MylistLocationState 
     return(
         <>
             <h3>マイリスト</h3>
+            <Button variant="outlined" color="primary" onClick={handleOpenForm}>
+                マイリスト作成
+            </Button>
             {mylistsState.length?
             <div>
                 {mylistsState?.map((mylist, index) => 
@@ -72,9 +76,6 @@ export const Mylists = (props: RouteComponentProps<{}, any, MylistLocationState 
             </div>:
             <span></span>
             }
-            <button type="button" onClick={handleOpenForm}>
-                マイリスト作成
-            </button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
