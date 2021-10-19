@@ -29,6 +29,7 @@ import SideMenu from './components/molecules/sideMenu';
 import useMedia from 'use-media';
 import { CssBaseline } from '@material-ui/core';
 import { AvaterUpload } from './components/molecules/user/avaterUpload';
+import { OtherUserMenu } from './components/molecules/item/otherUserItems';
 
 const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
   const authUser = useAuthUser()
@@ -83,6 +84,7 @@ function App() {
                       <PrivateRoute exact path = '/mylists' component={Mylists}/>
                       <PrivateRoute exact path = '/user_menu' component={UserMenu}/>
                       <PrivateRoute exact path = '/mylist/show/:mylistId' component={MylistContents}/>
+                      <PrivateRoute exact path = '/users/items/:userId' component={OtherUserMenu}/>
                       <UnAuthRoute exact path='/sign_in' component={UserSignIn}/>
                       <UnAuthRoute exact path='/sign_up' component={UserSignUp}/>
                       <UnAuthRoute exact path='/sign_up_send_mail' component={UserSignUpSendMail}/>

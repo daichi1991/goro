@@ -5,6 +5,7 @@ json.items do
         json.item_mylist_id(item_mylist.id)
         json.memory_level(item_mylist.memory_level)
         json.id(item_mylist.item.id)
+        json.item_user_id(item_mylist.item.user_id)
         json.title(item_mylist.item.title)
         json.year(item_mylist.item.year)
         json.year_type(item_mylist.item.year_type)

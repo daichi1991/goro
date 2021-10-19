@@ -18,6 +18,8 @@ export const itemMylistJsonUrl = `${DEDAUTL_API_LOCALHOST}/item_mylists.json`
 
 export const imageUploadUrl = `${DEDAUTL_API_LOCALHOST}/profiles/upload_image`
 
-export const profileUrl = `${DEDAUTL_API_LOCALHOST}/profile.json`
+export const profileUrl = `${DEDAUTL_API_LOCALHOST}/profiles.json`
+
+export const getProfileIdUrl = `${DEDAUTL_API_LOCALHOST}/profiles/get_profile_id.json`
 
 export const myProfileUrl = `${DEDAUTL_API_LOCALHOST}/profiles/my_profile.json`

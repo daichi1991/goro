@@ -10,7 +10,11 @@ module Api
 
             def user_index
                 @items = Item.where(user_id: current_user.id)
-                logger.debug(@items)
+                render :user_index
+            end
+
+            def other_user_index
+                @items = Item.where(user_id: params[:user_id])
                 render :user_index
             end
 

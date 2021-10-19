@@ -37,7 +37,6 @@ export const Header: React.FC = () => {
             }, withCredentials: true 
         })
         .then(res =>{
-            console.log(res.data.id);
             setMyProfileId(res.data.id);
         })
     }

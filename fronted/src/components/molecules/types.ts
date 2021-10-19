@@ -32,6 +32,7 @@ export type MylistItemType = {
     item_mylist_id:string,
     memory_level:number,
     id:string,
+    item_user_id:string,
     title:string,
     year:number,
     year_type:string,

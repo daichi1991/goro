@@ -24,6 +24,19 @@ export const getMyItems = () =>{
     })
 };
 
+export const getUserItems = (userId:string) =>{
+    const myItemUrl = itemUrl + '/' + userId +'/other_user_index.json';
+    return axios.get(myItemUrl,{
+        headers:{
+            "Content-Type": "application/json",
+        },
+        withCredentials: true 
+    })
+    .then(res =>{
+        return res.data
+    })
+};
+
 export const postItems = (title:string, year:string, year_type:string, goro_text:string, description:string) =>{
     return axios({
         method: 'post',

@@ -106,10 +106,13 @@ export const ItemsWrapper:React.FC<Props> = (props:Props) =>{
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                        malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor
-                        sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                        sit amet blandit leo lobortis eget.
+                        {item.year_type==='紀元前'?'紀元前':''}
+                        {item.year}
+                        {item.year_type==='紀元前'||item.year_type==='紀元後'?'年':item.year_type}
+                        <br/>
+                        {item.goro_text}
+                        <br/>
+                        {item.description}
                     </Typography>
                 </AccordionDetails>
             </Accordion>

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         collection do
           get 'user_index'
           get 'search'
+          get ':user_id/other_user_index', to: 'items#other_user_index'
         end
       end
       resources :my_lists
@@ -23,6 +24,7 @@ Rails.application.routes.draw do
         collection do
           post 'upload_image'
           get 'my_profile'
+          get 'get_profile_id'
         end
       end
     end
