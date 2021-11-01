@@ -2,6 +2,11 @@ export type AuthUser = {
     token:string
 }
 
+export type UserType = {
+    id:string,
+    username:string,
+}
+
 export type ItemType =
     {
         id:string,

@@ -98,7 +98,7 @@ export const Header: React.FC = () => {
                         onClose={handleClose}
                         >
                         <MenuItem onClick={handleClose}>Profile</MenuItem>
-                        <Link to="/avater_upload">
+                        <Link to="/user_setting">
                             <MenuItem onClick={handleClose}>アカウント設定</MenuItem>
                         </Link>
                         </Menu>

@@ -1,4 +1,5 @@
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+import { createTheme } from '@mui/system';
 
 export const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -48,11 +49,35 @@ export const useStyles = makeStyles((theme: Theme) =>
         addMylistBtn: {
             right: 0
         },
-        itemLink :{
-            display: "inline-block",
+        itemLinkIcon :{
             width:"100%",
             color:"black",
             textDecoration:"none"
+        },
+        itemLinkText :{
+            width:"100%",
+            color:"#3f51b5",
+            textDecoration:"none"
+        },
+        pageTitle:{
+            height:"40px",
+            color:"black",
+            fontSize:"24px",
+            fontWeight:"bold",
+            textDecoration:"none",
+            lineHeight:"24px",
+        },
+        pageTitleText:{
+            marginLeft:"10px",
+        },
+        textPrimary:{
+            color: '#173A5E',
+        },
+        textSecondary:{
+            color: '#46505A',
+        },
+        space:{
+            marginTop:'20px',
         }
     }),
 );

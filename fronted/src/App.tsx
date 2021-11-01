@@ -30,6 +30,8 @@ import useMedia from 'use-media';
 import { CssBaseline } from '@material-ui/core';
 import { AvaterUpload } from './components/molecules/user/avaterUpload';
 import { OtherUserMenu } from './components/molecules/item/otherUserItems';
+import { UserSetting } from './components/molecules/user/userSetting';
+import { UsernameSetting } from './components/molecules/user/usernameSetting';
 
 const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
   const authUser = useAuthUser()
@@ -80,6 +82,8 @@ function App() {
                   <div className={classes.content} style={{marginLeft:contentMarginLeft}}>
                     <Switch>
                       <Route exact path = '/' component={ItemsList}/>
+                      <PrivateRoute exact path = '/user_setting' component={UserSetting}/>
+                      <PrivateRoute exact path = '/username_setting' component={UsernameSetting} />
                       <PrivateRoute exact path = '/avater_upload' component={AvaterUpload}/>
                       <PrivateRoute exact path = '/mylists' component={Mylists}/>
                       <PrivateRoute exact path = '/user_menu' component={UserMenu}/>

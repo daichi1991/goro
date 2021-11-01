@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import axios from 'axios';
-import { userUrl, defaultUrl, itemUrl, profileUrl, myProfileUrl } from '../urls';
-import {AuthUser} from '../components/molecules/types';
+import { userUrl, defaultUrl, itemUrl, profileUrl, myProfileUrl, currentUserUrl, userInfoUrl } from '../urls';
+import {AuthUser, UserType} from '../components/molecules/types';
 
 const {createContext, useContext, useState, useEffect} = React;
 
@@ -14,11 +14,13 @@ type OperationType = {
     signIn:(email:string, password:string) => void;
     signOut:() => void;
     signInCheck:() => void;
+    postUserInfo:(id:string, username:string) => boolean;
 }
 
 export const AuthUserContext = createContext<boolean>(false);
 export const MyProfileIdContext = createContext<string>('');
 export const SignInErrorContext = createContext<boolean>(false);
+export const UserInfoContext = createContext<UserType>({id:'',username:''});
 
 const AuthOperationContext = createContext<OperationType>({
     handleSetAuthUser: () => console.error("Proveiderが設定されていません"),
@@ -27,7 +29,8 @@ const AuthOperationContext = createContext<OperationType>({
     signUpConfirm: () => console.error("Proveiderが設定されていません"),
     signIn: () => console.error("Proveiderが設定されていません"),
     signOut:() => console.error("Providerが設定されていません"),
-    signInCheck: () => console.error("signInCheckのProviderが設定されていません")
+    signInCheck: () => console.error("signInCheckのProviderが設定されていません"),
+    postUserInfo: () => false,
 })
 
 
@@ -35,6 +38,8 @@ const AuthUserProvider: React.FC = (children) =>{
     const [authUser, setAuthUser] = useState<boolean>(false);
     const [signInError, setSignInError] = useState<boolean>(false);
     const [myProfileId, setMyProfileId] = useState<string>('');
+    const [userInfo, setUserInfo] = useState<UserType>({id:'',username:''});
+    const [userInfoSuccess, setUserInfoSuccess] = useState<boolean>(false);
     const signInUrl = defaultUrl + 'sign_in';
 
     const userToken:AuthUser= {
@@ -150,18 +155,53 @@ const AuthUserProvider: React.FC = (children) =>{
         })
     }
 
+    const getUserInfo = () =>{
+        axios.get(currentUserUrl,{
+            headers:{
+                "Content-Type": "application/json",
+            }, withCredentials: true 
+        })
+        .then(res =>{
+            setUserInfo({id:res.data.id,username:res.data.username});
+        })
+    }
+
+    const postUserInfo = (id:string, username:string) =>{
+        const postUserUrl = userInfoUrl + id +'.json';
+        axios.put(postUserUrl,{
+            user:{
+                id:id,
+                username:username
+            }
+        },{
+            headers:{
+                'Content-Type':'application/json',
+        }, withCredentials: true 
+        })
+        .then(() =>{
+            setUserInfoSuccess(true);
+        })
+        .catch(() => {
+            setUserInfoSuccess(false);
+        })
+        return(userInfoSuccess);
+    }
+
     useEffect(()=>{
         signInCheck();
         getMyProfile();
+        getUserInfo();
     } ,[])
 
     return (
-        <AuthOperationContext.Provider value={{handleSetAuthUser,deleteAuthUser,signUp,signUpConfirm, signIn,signOut,signInCheck}}>
+        <AuthOperationContext.Provider value={{handleSetAuthUser,deleteAuthUser,signUp,signUpConfirm, signIn,signOut,signInCheck,postUserInfo}}>
             <AuthUserContext.Provider value={authUser}>
                 <MyProfileIdContext.Provider value={myProfileId}>
-                    <SignInErrorContext.Provider value={signInError}>
-                        {children.children}
-                    </SignInErrorContext.Provider>
+                    <UserInfoContext.Provider value={userInfo}>
+                        <SignInErrorContext.Provider value={signInError}>
+                            {children.children}
+                        </SignInErrorContext.Provider>
+                    </UserInfoContext.Provider>    
                 </MyProfileIdContext.Provider>
             </AuthUserContext.Provider>
         </AuthOperationContext.Provider>
@@ -170,6 +210,8 @@ const AuthUserProvider: React.FC = (children) =>{
 
 export const useAuthUser = () => useContext(AuthUserContext)
 export const useMyProfileId = () => useContext(MyProfileIdContext)
+export const useUserInfo = () => useContext(UserInfoContext)
+export const usePostUserInfo = (id:string, username:string) => useContext(AuthOperationContext).postUserInfo
 export const useHandleSetAuthUser = (token:AuthUser) => useContext(AuthOperationContext).handleSetAuthUser
 export const useDeleteAuthUser = () => useContext(AuthOperationContext).deleteAuthUser
 export const useSignUp = (email:string, password:string) => useContext(AuthOperationContext).signUp

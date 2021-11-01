@@ -23,3 +23,7 @@ export const profileUrl = `${DEDAUTL_API_LOCALHOST}/profiles.json`
 export const getProfileIdUrl = `${DEDAUTL_API_LOCALHOST}/profiles/get_profile_id.json`
 
 export const myProfileUrl = `${DEDAUTL_API_LOCALHOST}/profiles/my_profile.json`
+
+export const currentUserUrl = `${DEDAUTL_API_LOCALHOST}/users/current_user_show.json`
+
+export const userInfoUrl = `${DEDAUTL_API_LOCALHOST}/users/`

@@ -27,6 +27,11 @@ Rails.application.routes.draw do
           get 'get_profile_id'
         end
       end
+      resources :users do
+        collection do
+          get 'current_user_show'
+        end
+      end
     end
   end
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?

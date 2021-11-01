@@ -36,7 +36,7 @@ export const MylistWrapper:React.FC<Props> = (props:Props) => {
         <>
             <div>
                 <Paper variant="outlined" className={classes.itemListContent}>
-                <Link to={`/mylist/show/${mylist.id}`} className={classes.itemLink}>
+                <Link to={`/mylist/show/${mylist.id}`} className={classes.itemLinkText}>
                         {mylist.name}
                 </Link>
 
