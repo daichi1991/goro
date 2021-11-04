@@ -13,6 +13,9 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { deleteMylist } from '../../../apis/mylist';
 import * as H from 'history';
+import { Link } from 'react-router-dom';
+import { useStyles } from '../../../utils/style';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const {useEffect, useState} = React;
 
@@ -29,7 +32,7 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
     const {mylistId} = useParams<ParamTypes>();
     const {mylistContentsState, setMylistContents} = React.useContext(MylistContentsContext);
     const {mylistsState, setMylists} = React.useContext(MylistsContext);
-
+    const classes = useStyles();
 
     useEffect(() => {
         getItemMylistShow(mylistId)
@@ -54,6 +57,9 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
 
     return(
         <>
+            <Link to="/mylists" className={classes.itemLinkIcon}>
+                <ArrowBackIcon/>
+            </Link>
             {mylistContentsState.name}
             <PopupState variant="popover" popupId="demo-popup-popover">
                         {(popupState: any) => (

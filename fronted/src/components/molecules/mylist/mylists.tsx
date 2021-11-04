@@ -1,32 +1,26 @@
-import { Backdrop, Fade, makeStyles, Modal } from '@material-ui/core';
+import { Backdrop, Fade, makeStyles, Modal, Typography } from '@material-ui/core';
 import * as React from 'react';
-import { postMylists } from '../../../apis/mylist';
+import { getMylists, postMylists } from '../../../apis/mylist';
 import { MylistsContext } from '../../../contexts/mylistContexts';
 import { MylistWrapper } from './mylistWrapper';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { Snackbar } from '@material-ui/core';
+import TextField from "@material-ui/core/TextField";
 import { RouteComponentProps } from "react-router-dom";
 import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import { Link } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useStyles } from '../../../utils/style';
 
 const {useContext, useState} = React;
 
 function Alert(props: JSX.IntrinsicAttributes & AlertProps) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
-const useStyles = makeStyles((theme) => ({
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    paper: {
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-    },
-}));
 
 interface MylistLocationState {
     mylistLocationState: string;
@@ -53,8 +47,16 @@ export const Mylists = (props: RouteComponentProps<{}, any, MylistLocationState 
         setMylistName(event.target.value);
     };
 
-    const handleAddMylist = () =>{
-        postMylists(mylistName)
+    const handleAddMylist = async () =>{
+        await postMylists(mylistName)
+        .then(() => {
+            getMylists()
+            .then(data=>{
+                setMylists(data);
+            })
+            setMylistName("");
+            setOpen(false);
+        })
     };
 
     const handleCloseSnackbar = () => {
@@ -63,7 +65,7 @@ export const Mylists = (props: RouteComponentProps<{}, any, MylistLocationState 
 
 
     return(
-        <>
+        <>  
             <h3>マイリスト</h3>
             <Button variant="outlined" color="primary" onClick={handleOpenForm}>
                 マイリスト作成
@@ -76,37 +78,34 @@ export const Mylists = (props: RouteComponentProps<{}, any, MylistLocationState 
             </div>:
             <span></span>
             }
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className={classes.modal}
+            <Dialog
                 open={open}
                 onClose={handleClose}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                timeout: 500,
-                }}
+                aria-labelledby="form-dialog-title"
             >
-                <Fade in={open}>
-                    <div className={classes.paper}>
-                        <p id="transition-modal-title">マイリスト新規作成</p>
-                        <form>
-                            <label>
-                                マイリスト名
-                                <input 
-                                    type="text"
-                                    value={mylistName}
-                                    onChange={handleMylistName}
-                                />
-                            </label><br/>
-
-                            <button onClick={() => handleAddMylist()}>作成</button>
-                        </form>
-                    </div>
-                </Fade>
-            </Modal>
-
+                <DialogTitle id="form-dialog-title">語呂合わせ新規作成</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        value={mylistName}
+                        margin="dense"
+                        id="mylist-name-text-field"
+                        label="マイリスト名"
+                        type="text"
+                        fullWidth
+                        onChange={handleMylistName}
+                    />
+                    <br/>
+                </DialogContent>
+                <DialogActions>
+                    <Button variant="text" color="primary" onClick={handleClose}>
+                        キャンセル
+                    </Button>
+                    <Button variant="contained" color="primary" onClick={() => handleAddMylist()}>
+                        作成
+                    </Button>
+                </DialogActions>
+            </Dialog>
             {props.location.state?
                 <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
                     <Alert onClose={handleCloseSnackbar} severity="success">
