@@ -83,7 +83,7 @@ export const Mylists = (props: RouteComponentProps<{}, any, MylistLocationState 
                 onClose={handleClose}
                 aria-labelledby="form-dialog-title"
             >
-                <DialogTitle id="form-dialog-title">語呂合わせ新規作成</DialogTitle>
+                <DialogTitle id="form-dialog-title">マイリスト新規作成</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus

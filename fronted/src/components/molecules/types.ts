@@ -13,6 +13,7 @@ export type ItemType =
         user_id:string,
         title:string,
         year:string,
+        year_for_sort:number,
         year_type:string,
         goro_text:string,
         description:string        
@@ -40,6 +41,7 @@ export type MylistItemType = {
     item_user_id:string,
     title:string,
     year:number,
+    year_for_sort:number,
     year_type:string,
     goro_text:string,
     description:string

@@ -116,6 +116,7 @@ export const OtherUserMenu:React.FC = () =>{
             user_id:"",
             title:itemTitle,
             year:itemYear,
+            year_for_sort:0,
             year_type:itemYearType,
             goro_text:itemGoroText,
             description:itemDescription

@@ -8,6 +8,7 @@ json.items do
         json.item_user_id(item_mylist.item.user_id)
         json.title(item_mylist.item.title)
         json.year(item_mylist.item.year)
+        json.year_for_sort(item_mylist.item.year_for_sort)
         json.year_type(item_mylist.item.year_type)
         json.goro_text(item_mylist.item.goro_text)
         json.description(item_mylist.item.description)

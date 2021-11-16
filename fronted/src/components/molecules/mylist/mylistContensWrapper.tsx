@@ -80,8 +80,6 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
 
 
 
-
-    
     const {mylistContentsState, setMylistContents} = useContext(MylistContentsContext);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);    
     const item = props.item
@@ -233,7 +231,7 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
                         </Grid>                 
                         <Grid item md={1}>
                             <div onClick={handleMemoryLevel}>
-                                <MemoryIcon memoryLevel={memoryLevelState} />
+                                <MemoryIcon memoryLevel={item.memory_level} />
                             </div>
                         </Grid>
                         <Grid item md={1}>

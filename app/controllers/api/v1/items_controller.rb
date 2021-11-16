@@ -4,7 +4,6 @@ module Api
 
             def index
                 @items = Item.all
-                logger.debug(@items)
                 render :index
             end
 
@@ -22,6 +21,25 @@ module Api
                 @item = Item.new(item_params)
                 
                 @item.user_id = current_user.id
+                yearType = @item.year_type
+                year = @item.year
+                yearForSort = 0
+                nowYear = Date.today.year
+
+                case yearType
+                when "紀元後"
+                    yearForSort = year
+                when "紀元前"
+                    yearForSort = 0 - year
+                when "年前"
+                    yearForSort = nowYear - year
+                when "万年前"
+                    yearForSort = nowYear - year * 10000
+                when "億年前"
+                    yearForSort = nowYear - year * 100000000
+                end
+
+                @item.year_for_sort = yearForSort
 
                 @items = Item.where(user_id: current_user.id)
 

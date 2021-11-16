@@ -9,7 +9,6 @@ module Api
 
             def show
                 @my_list = MyList.find(params[:id])
-                logger.debug(@my_list)
                 render :show
             end
         
