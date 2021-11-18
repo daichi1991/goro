@@ -119,7 +119,7 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
             <Link to="/mylists" className={classes.itemLinkIcon}>
                 <ArrowBackIcon/>
             </Link>
-            {mylistContentsState.name}
+            <Typography variant="h4" component="span">{mylistContentsState.name}</Typography>
             <PopupState variant="popover" popupId="demo-popup-popover">
                 {(popupState: any) => (
                     <div>
