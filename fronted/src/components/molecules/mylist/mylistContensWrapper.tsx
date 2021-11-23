@@ -28,6 +28,7 @@ import { getProfile } from '../../../apis/user';
 
 import {Avatar, Dialog} from '@material-ui/core';
 import PersonIcon from '@mui/icons-material/Person';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 
 import DialogActions from "@material-ui/core/DialogActions";
@@ -67,7 +68,8 @@ const useStyles = makeStyles((theme) => ({
         position:"absolute",
         right: 0,
         top: '50%',
-        transform: 'translate(0, -50%)'
+        transform: 'translate(0, -50%)',
+        color: "#c1c1c1",
     },
 }));
 
@@ -105,7 +107,6 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
     const item = props.item
     const {mylistContentsState, setMylistContents} = useContext(MylistContentsContext);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [memoryLevelState, setMemoryLevel] = useState<number>(item.memory_level);
 
     const [expanded, setExpanded] = React.useState<string | false>('panel1');
     const [newExpanded, setNewExpanded] = React.useState<boolean>(false);
@@ -171,7 +172,6 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
             items:mylistContentItems,
         }
         const itemIndex = newMylistContent.items!.findIndex( ({item_mylist_id}) => item_mylist_id === item.item_mylist_id );
-        console.log(newMylistContent)
         newMylistContent.items![itemIndex].memory_level = memoryLevel;
         setMylistContents(newMylistContent);
 
@@ -243,7 +243,7 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
                             <MemoryIcon memoryLevel={item.memory_level} />
                         </Button>
                         <Button onClick={handleOpenForm} className={classes.deleteBtn}>
-                            <MoreHorizIcon/>
+                            <DeleteIcon/>
                         </Button>
                     </AccordionSummary>
                     <AccordionDetails>

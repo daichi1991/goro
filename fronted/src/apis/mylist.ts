@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { mylistJsonUrl, mylistUrl } from '../urls';
+import { itemMylistUrl, mylistJsonUrl, mylistUrl } from '../urls';
 
 export const getMylists = () =>{
     return axios.get(mylistJsonUrl, {
@@ -30,6 +30,8 @@ export const postMylists = (name: string) => {
         return res.data
     })
 };
+
+
 
 export const deleteMylist = (id: string) =>{
 

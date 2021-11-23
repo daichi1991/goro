@@ -2,17 +2,44 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { getMylists } from '../apis/mylist';
 import { MylistType } from '../components/molecules/types';
+import { mylistUrl } from '../urls';
+import axios from 'axios';
 
-const {useEffect, useState} = React;
+const {useEffect, useState, useContext, createContext} = React;
 
-export const MylistsContext = React.createContext({} as {
+export const MylistsContext = createContext({} as {
     mylistsState:MylistType[],
     setMylists:React.Dispatch<React.SetStateAction<MylistType[]>>
 });
 
+type OperationType = {
+    putMylist:(id: string, name: string) => void;
+}
+
+const MylistOperationContext = createContext<OperationType>({
+    putMylist: () => console.error("Proveiderが設定されていません"),
+})
+
 const MylistsProvider:React.FC = (children) => {
 
     const [mylistsState, setMylists] = useState<MylistType[]>([]);
+
+    const putMylist = (id: string, name: string) => {
+        const putMylistUrl = mylistUrl + '/' + id + '.json';
+        return axios({
+            method: 'put',
+            url: putMylistUrl,
+            headers:{"Content-Type": "application/json"},
+            withCredentials: true,
+            data:
+                {
+                    name:name
+                }
+        })
+        .then(res =>{
+            return res.data
+        })
+    };
 
     useEffect(() =>{
         getMylists()
@@ -23,9 +50,11 @@ const MylistsProvider:React.FC = (children) => {
     },[])
 
     return(
-        <MylistsContext.Provider value={{mylistsState, setMylists}}>
-            {children.children}
-        </MylistsContext.Provider>
+        <MylistOperationContext.Provider value={{putMylist}}>
+            <MylistsContext.Provider value={{mylistsState, setMylists}}>
+                {children.children}
+            </MylistsContext.Provider>
+        </MylistOperationContext.Provider>
     )
 }
 
@@ -36,5 +65,7 @@ MylistsProvider.propTypes = {
     ]).isRequired,
     type: PropTypes.string,
 }
+
+export const usePutMylist = (id: string, name: string) => useContext(MylistOperationContext).putMylist
 
 export default MylistsProvider

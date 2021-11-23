@@ -16,7 +16,15 @@ module Api
                 @my_list = MyList.new(my_list_params)
                 @my_list.user_id = current_user.id
                 if @my_list.save
-                    logger.debug(@my_list)
+                    render :show
+                else
+                    render json: {error:'error'}, status: :unprocessable_entity
+                end
+            end
+
+            def update
+                @my_list = MyList.find(params[:id])
+                if @my_list.update(name: params[:name])
                     render :show
                 else
                     render json: {error:'error'}, status: :unprocessable_entity

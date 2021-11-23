@@ -78,6 +78,13 @@ export const useStyles = makeStyles((theme: Theme) =>
         },
         space:{
             marginTop:'20px',
+        },
+        mylistMenubtn:{
+            right:0,
+            color:"black",
+        },
+        dialogContent:{
+            display:"block",
         }
     }),
 );
