@@ -209,10 +209,10 @@ export const UserMenu:React.FC = () =>{
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleClose} color="primary" style={{position:"absolute",left:"20px"}}>
                         キャンセル
                     </Button>
-                    <Button onClick={() =>handleAddItem()}>
+                    <Button color="primary" variant="contained" onClick={() =>handleAddItem()}>
                         作成
                     </Button>
                 </DialogActions>

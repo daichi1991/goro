@@ -2,17 +2,18 @@ import React, { ReactEventHandler } from 'react';
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import { Folder, Search, Person } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@mui/styles';
 
 export const FooterMenu:React.FC = () =>{
 
     const useStyles = makeStyles({
-        root: {
+        footer: {
         position: 'fixed',
+        zIndex:101,
         bottom: 0,
         width: "100%",
         },
-        content:{
+        footerContent:{
             flexGrow: 1,
             paddingLeft: 0,
             paddingRight: 0,
@@ -23,14 +24,14 @@ export const FooterMenu:React.FC = () =>{
     const [value, setValue] = React.useState('recents');
 
     return(
-        <BottomNavigation value={value} className={classes.root}>
+        <BottomNavigation value={value} className={classes.footer}>
             <BottomNavigationAction
                 component={Link}
                 to="/"
                 label="search"
                 value="search"
                 icon={<Search />}
-                className={classes.content}
+                className={classes.footerContent}
             />
             <BottomNavigationAction
                 component={Link}
@@ -38,7 +39,7 @@ export const FooterMenu:React.FC = () =>{
                 label="mylists"
                 value="mylists"
                 icon={<Folder />}
-                className={classes.content}
+                className={classes.footerContent}
             />
             <BottomNavigationAction
                 component={Link}
@@ -46,7 +47,7 @@ export const FooterMenu:React.FC = () =>{
                 label="user_menu"
                 value="user_menu"
                 icon={<Person />}
-                className={classes.content}
+                className={classes.footerContent}
             />
         </BottomNavigation>
     );

@@ -98,7 +98,7 @@ export const Mylists = (props: RouteComponentProps<{}, any, MylistLocationState 
                     <br/>
                 </DialogContent>
                 <DialogActions>
-                    <Button variant="text" color="primary" onClick={handleClose}>
+                    <Button variant="text" color="primary" onClick={handleClose} style={{position:"absolute",left:"20px"}}>
                         キャンセル
                     </Button>
                     <Button variant="contained" color="primary" onClick={() => handleAddMylist()}>

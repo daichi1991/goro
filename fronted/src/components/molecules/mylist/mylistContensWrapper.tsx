@@ -54,13 +54,13 @@ const useStyles = makeStyles((theme) => ({
     },
     avaterBtn:{
         position:"absolute",
-        right: '160px',
+        right: '140px',
         top: '50%',
         transform: 'translate(0, -50%)'
     },
     memoryBtn: {
         position:"absolute",
-        right: '80px',
+        right: '64px',
         top: '50%',
         transform: 'translate(0, -50%)'
     },
@@ -264,21 +264,19 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
                 onClose={handleClose}
                 aria-labelledby="form-dialog-title"
             >
-                <DialogTitle id="form-dialog-title">マイリストから削除</DialogTitle>
+                <DialogTitle id="form-dialog-title">マイリストからゴロを削除しますか？</DialogTitle>
                 <DialogContent>
                     <DialogActions>
                     <Typography>
-                        <div onClick={handleDeleteMylistContent}>
+                        <Button onClick={handleClose} color="primary" style={{position:"absolute",left:"20px"}}>
+                            キャンセル
+                        </Button>
+                        <Button color="primary" variant="contained" onClick={handleDeleteMylistContent}>
                             完了
-                        </div>
+                        </Button>
                     </Typography>
                     </DialogActions>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        キャンセル
-                    </Button>
-                </DialogActions>
             </Dialog>
         </>
 
