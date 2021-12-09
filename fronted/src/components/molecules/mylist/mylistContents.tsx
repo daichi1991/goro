@@ -66,6 +66,10 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
         halfStar: false,
         fullStar: false
     })
+    const [yearTypeStart, setYearTypeStart] = useState<string>('全て');
+    const [yearTypeEnd, setYearTypeEnd] = useState<string>('全て');
+    const [yearStart, setYearStart] = useState<number|null>(null);
+    const [yearEnd, setYearEnd] = useState<number|null>(null);
     const open = Boolean(anchorEl);
     const putMylist = usePutMylist(mylistContentsState.id, newMylistName)
     const classes = useStyles();
@@ -135,19 +139,18 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
         setMylistContents(newMylistContent);
     }
 
-    const handleFilterContents = (yearStart:number, yearTypeStart:string, yearEnd:number, yearTypeEnd:string) => {
+    const handleFilterContents = () => {
         const mylistContentItems = mylistContentsState.items?[...mylistContentsState.items]:undefined;
 
         let arrayFilterBy = mylistContentItems
 
         if(arrayFilterBy){
             arrayFilterBy = filterByMemory(arrayFilterBy)
-            console.log(arrayFilterBy)
     
-            if(yearStart != 0 && yearTypeStart){
+            if(yearTypeStart != "全て" && yearStart){
                 const d = new Date();
                 const nowYear = d.getFullYear();
-                let yearForSort = 0;
+                let yearForSort:number|null = null;
 
                 switch(yearTypeStart){
                     case "紀元後":
@@ -166,32 +169,34 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
                         yearForSort = nowYear - yearStart * 100000000;
                         break;
                 }
-                arrayFilterBy = filterByYearStart(arrayFilterBy, yearForSort)
+                arrayFilterBy = filterByYearStart(arrayFilterBy)
             }
+            
 
-            if(yearEnd != 0 && yearTypeEnd){
+            if(yearTypeEnd != "全て" && yearEnd){
                 const d = new Date();
                 const nowYear = d.getFullYear();
-                let yearForSort = 0;
+                let yearForSort:number|null = null;
 
-                switch(yearTypeStart){
+                switch(yearTypeEnd){
                     case "紀元後":
-                        yearForSort = yearStart;
+                        yearForSort = yearEnd;
                         break;
                     case "紀元前":
-                        yearForSort = 0 - yearStart;
+                        yearForSort = 0 - yearEnd;
                         break;
                     case "年前":
-                        yearForSort = nowYear - yearStart;
+                        yearForSort = nowYear - yearEnd;
                         break;
                     case "万年前":
-                        yearForSort = nowYear - yearStart * 10000;
+                        yearForSort = nowYear - yearEnd * 10000;
                         break;
                     case "億年前":
-                        yearForSort = nowYear - yearStart * 100000000;
+                        yearForSort = nowYear - yearEnd * 100000000;
                         break;
                 }
-                arrayFilterBy = filterByYearStart(arrayFilterBy, yearForSort)
+                arrayFilterBy = filterByYearEnd(arrayFilterBy)
+                
             }
         }
 
@@ -226,21 +231,21 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
         return outputArray
     }
 
-    const filterByYearStart = (inputArray:MylistItemType[], year:number) =>{
+    const filterByYearStart = (inputArray:MylistItemType[]) =>{
         const tmpArray =[...inputArray]
 
         const outputArray = tmpArray.filter(function(tmp){
-            return tmp.year_for_sort >= year;
+            return tmp.year_for_sort >= yearStart!;
         })
 
         return outputArray
     }
 
-    const filterByYearEnd = (inputArray:MylistItemType[], year:number) =>{
+    const filterByYearEnd = (inputArray:MylistItemType[]) =>{
         const tmpArray =[...inputArray]
 
         const outputArray = tmpArray.filter(function(tmp){
-            return tmp.year_for_sort <= year;
+            return tmp.year_for_sort <= yearEnd!;
         })
 
         return outputArray
@@ -282,6 +287,22 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
     }
 
     const {noStar, halfStar, fullStar} = filterStar;
+
+    const handleChangeYearTypeStart = (event: SelectChangeEvent) =>{
+        setYearTypeStart(event.target.value);
+    }
+
+    const handleChangeYearStart = (event:React.ChangeEvent<HTMLInputElement>) =>{
+        setYearStart(parseInt(event.target.value));
+    }
+
+    const handleChangeYearTypeEnd = (event: SelectChangeEvent) =>{
+        setYearTypeEnd(event.target.value);
+    }
+
+    const handleChangeYearEnd = (event:React.ChangeEvent<HTMLInputElement>) =>{
+        setYearEnd(parseInt(event.target.value));
+    }
 
     return(
         <>
@@ -379,7 +400,46 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
                                     label={<Star />}
                                 />
                         </Box>
-                        <Button onClick={() => handleFilterContents(2000,"紀元前", 2000, "紀元後")}>
+                        <Box>
+                            <FormLabel component="legend">年代</FormLabel>
+                            <FormControl variant="standard" sx={{display:'flex',flexDirection:'row'}}>
+                                <Select
+                                    labelId="year-type-start-label"
+                                    id="year-type-start"
+                                    value={yearTypeStart}
+                                    onChange={handleChangeYearTypeStart}
+                                    label="year-type-start"
+                                    defaultValue="全て"
+                                >
+                                    <MenuItem value="全て">全て</MenuItem>
+                                    <MenuItem value="紀元後">紀元後</MenuItem>
+                                    <MenuItem value="紀元前">紀元前</MenuItem>
+                                    <MenuItem value="年前">年前</MenuItem>
+                                    <MenuItem value="万年前">万年前</MenuItem>
+                                    <MenuItem value="億年前">億年前</MenuItem>
+                                </Select>
+                                <TextField id="standard-basic" label="検索開始年代" variant="outlined" type="number" value={yearStart} onChange={handleChangeYearStart}/>
+                                <span>〜</span>
+                                <Select
+                                    labelId="year-type-end-label"
+                                    id="year-type-end"
+                                    value={yearTypeEnd}
+                                    onChange={handleChangeYearTypeEnd}
+                                    label="year-type-end"
+                                    defaultValue="全て"
+                                >
+                                    <MenuItem value="全て">全て</MenuItem>
+                                    <MenuItem value="紀元後">紀元後</MenuItem>
+                                    <MenuItem value="紀元前">紀元前</MenuItem>
+                                    <MenuItem value="年前">年前</MenuItem>
+                                    <MenuItem value="万年前">万年前</MenuItem>
+                                    <MenuItem value="億年前">億年前</MenuItem>
+                                </Select>
+                                <TextField id="standard-basic" label="検索終了年代" variant="outlined" type="number" value={yearEnd} onChange={handleChangeYearEnd}/>
+                            </FormControl>
+                        </Box>
+                        
+                        <Button onClick={() => handleFilterContents()}>
                             検索
                         </Button>
                     </FormControl>
