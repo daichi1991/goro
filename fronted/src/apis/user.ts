@@ -1,6 +1,6 @@
 import * as React from 'react';
 import axios, { AxiosPromise } from 'axios';
-import {defaultUrl, getProfileIdUrl, imageUploadUrl, userUrl} from '../urls';
+import {defaultUrl, getProfileIdUrl, imageUploadUrl, userUrl} from '../utils/urls';
 import { AuthUser } from '../components/molecules/types';
 
 export const userSignIn = (email:string, password:string) =>{

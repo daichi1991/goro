@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom';
 import {useStyles} from './utils/style';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import AuthUserProvider, { useAuthUser } from './contexts/authUserContext';
+import AuthUserProvider, { useAuthUser,useSignInCheck } from './contexts/authUserContext';
 import { Header } from '../src/components/molecules/header';
 import { Menu } from '../src/components/molecules/menu';
 import { UserSignIn } from './components/molecules/user/userSignIn';
@@ -32,42 +32,45 @@ import { AvaterUpload } from './components/molecules/user/avaterUpload';
 import { OtherUserMenu } from './components/molecules/item/otherUserItems';
 import { UserSetting } from './components/molecules/user/userSetting';
 import { UsernameSetting } from './components/molecules/user/usernameSetting';
+import { Container } from './components/molecules/container'
 
-const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
-  const authUser = useAuthUser()
-  console.log(authUser);
-  const isAuthenticated = authUser === true;
-  //const {from} = useLocation<{from:string | undefined}>().state
+// const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
+//   const authUser = useAuthUser()
+//   const isAuthenticated = authUser === true;
+//   //const {from} = useLocation<{from:string | undefined}>().state
 
-  if (isAuthenticated) {
-    console.log(`ログイン済みのユーザーは${props.path}へはアクセスできません`)
-    return <Redirect to={'/'} />
-  } else {
-    return <Route {...props} />
-  }
-}
+//   if (isAuthenticated) {
+//     console.log(`ログイン済みのユーザーは${props.path}へはアクセスできません`)
+//     return <Redirect to={'/'} />
+//   } else {
+//     return <Route {...props} />
+//   }
+// }
 
-const PrivateRoute: React.FC<RouteProps> = ({ ...props }) => {
-  const authUser = useAuthUser()
-  const isAuthenticated = authUser != null
-  if (isAuthenticated) {
-    return <Route {...props} />
-  } else {
-    console.log(
-      `ログインしていないユーザーは${props.path}へはアクセスできません`,
-    )
-    return (
-      <Redirect
-        to={{ pathname: '/', state: { from: props.location?.pathname } }}
-      />
-    )
-  }
-}
+// const PrivateRoute: React.FC<RouteProps> = ({ ...props }) => {
+//   const authUser = useAuthUser()
+//   const isAuthenticated = authUser != false;
+//   if (isAuthenticated) {
+//     return <Route {...props} />
+//   } else {
+//     console.log(
+//       `ログインしていないユーザーは${props.path}へはアクセスできません`,
+//     )
+//     return (
+//       <Redirect
+//         to={{ pathname: '/sign_in', state: { from: props.location?.pathname } }}
+//       />
+//     )
+//   }
+// }
+
+
 
 function App() {
   const classes = useStyles();
   const isWide = useMedia({ minWidth: "760px" });
   const contentMarginLeft = isWide?170:0;
+
   return (
     <div className = {classes.root}>
       <CssBaseline/>
@@ -75,7 +78,7 @@ function App() {
         <ItemsProvider>
           <MylistsProvider>
             <MylistContentsProvider>
-              <Router>
+              {/* <Router>
                 <Header />
                 <div className={classes.appBody}>
                   {isWide? <SideMenu /> : <FooterMenu />}
@@ -97,7 +100,8 @@ function App() {
                     </Switch>
                   </div>
                 </div>
-              </Router>
+              </Router> */}
+              <Container />
             </MylistContentsProvider>
           </MylistsProvider>
         </ItemsProvider>

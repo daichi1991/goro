@@ -5,6 +5,11 @@ export const linkStyle = {
     textDecoration: "none",
 }
 
+export const linkText = {
+    display: "block",
+    margin: "10px auto"
+}
+
 export const linkStyleMain = {
     color:"#fff",
     textDecoration: "none",
@@ -15,6 +20,14 @@ export const LinkButton = styled.div`
     height: 40px;
     width: 300px;
     background: #f2f2f2;
+    text-align:center;
+    line-height: 40px;
+`;
+
+export const LinkText = styled.div`
+    margin: 10px auto;
+    height: 40px;
+    width: 300px;
     text-align:center;
     line-height: 40px;
 `;
@@ -35,6 +48,7 @@ export const StyledInput = styled.input`
 `
 
 export const StyleSubmit = styled.input`
+    display: block;
     margin: 10px auto;
     height: 40px;
     width: 300px;
@@ -46,6 +60,7 @@ export const StyleSubmit = styled.input`
 `
 
 export const StyleSubmitDisable = styled.input`
+    display: block;
     margin: 10px auto;
     height: 40px;
     width: 300px;

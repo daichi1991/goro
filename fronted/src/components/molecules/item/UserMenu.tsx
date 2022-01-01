@@ -311,10 +311,16 @@ export const UserMenu:React.FC = () =>{
             )
             }
                 <h3>アイテムリスト</h3>
-                {myItemsState.map((myItem,index) =>
-                    <ItemsWrapper key={index} item={myItem} />
-                )}
-            
+                {
+                    Object.keys(myItemsState).length != 0?
+                    <span>
+                        {myItemsState.map((myItem,index) =>
+                            <ItemsWrapper key={index} item={myItem} />
+                        )}
+                    </span>
+                    :
+                    <span></span>
+                }
         </>
     )
 }

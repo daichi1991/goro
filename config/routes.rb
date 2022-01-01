@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     sessions: "api/v1/auth/sessions",
     confirmations: "api/v1/auth/confirmations"
   }
+    
+
   namespace :api do
     namespace :v1 do
       resources :items do
@@ -30,6 +32,7 @@ Rails.application.routes.draw do
       resources :users do
         collection do
           get 'current_user_show'
+          get 'sign_in_check'
         end
       end
     end

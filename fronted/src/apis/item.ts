@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { itemUrl, itemJsonUrl } from '../urls';
+import { itemUrl, itemJsonUrl } from '../utils/urls';
 
 export const getItems = () =>{
     return axios.get(itemJsonUrl,{

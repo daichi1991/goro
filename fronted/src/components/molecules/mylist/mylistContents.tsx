@@ -54,6 +54,7 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
 
     const {mylistId} = useParams<ParamTypes>();
     const {mylistContentsState, setMylistContents} = React.useContext(MylistContentsContext);
+    const [mylistItems, setMylistItems] = useState<MylistContentsType>({id:'',name:''});
     const {mylistsState, setMylists} = React.useContext(MylistsContext);
     const [displayOrder, setDisplayOrder] = useState<string>('mylistId');
     const [filterBy, setFilterBy] = useState<string>('');
@@ -70,6 +71,9 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
     const [yearTypeEnd, setYearTypeEnd] = useState<string>('全て');
     const [yearStart, setYearStart] = useState<number|null>(null);
     const [yearEnd, setYearEnd] = useState<number|null>(null);
+    const [yearStartDisabled, setYearStartDisabled] = useState<boolean>(true);
+    const [yearEndDisabled, setYearEndDisabled] = useState<boolean>(true);
+    const [filterOn, setFilterOn] = useState<boolean>(false);
     const open = Boolean(anchorEl);
     const putMylist = usePutMylist(mylistContentsState.id, newMylistName)
     const classes = useStyles();
@@ -78,6 +82,7 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
         getItemMylistShow(mylistId)
         .then((data) =>{
             setMylistContents(data);
+            setMylistItems(data)
         })
     }, [])
 
@@ -85,7 +90,7 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
         const newMylists = mylistContentsState;
         newMylists.name = newMylistName;
         await putMylist(mylistContentsState.id, newMylistName);
-        setMylistContents(newMylists);
+        setMylistItems(newMylists);
         setOpenEditMylistName(false);
     }
 
@@ -107,10 +112,10 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
         const changeValue = event.target.value;
         setDisplayOrder(changeValue);
 
-        const mylistContentItems = mylistContentsState.items?[...mylistContentsState.items]:undefined;
+        const mylistContentItems = mylistItems.items?[...mylistItems.items]:undefined;
         const newMylistContent:MylistContentsType ={
-            id:mylistContentsState.id,
-            name:mylistContentsState.name,
+            id:mylistItems.id,
+            name:mylistItems.name,
             items:mylistContentItems,
         }
         if(mylistContentItems){
@@ -136,18 +141,17 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
                 newMylistContent.items = orderByTitle;
             }
         }
-        setMylistContents(newMylistContent);
+        setMylistItems(newMylistContent);
     }
 
     const handleFilterContents = () => {
         const mylistContentItems = mylistContentsState.items?[...mylistContentsState.items]:undefined;
-
         let arrayFilterBy = mylistContentItems
 
         if(arrayFilterBy){
             arrayFilterBy = filterByMemory(arrayFilterBy)
     
-            if(yearTypeStart != "全て" && yearStart){
+            if(yearTypeStart != "全て" && yearStart != null){
                 const d = new Date();
                 const nowYear = d.getFullYear();
                 let yearForSort:number|null = null;
@@ -169,11 +173,11 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
                         yearForSort = nowYear - yearStart * 100000000;
                         break;
                 }
-                arrayFilterBy = filterByYearStart(arrayFilterBy)
+                arrayFilterBy = filterByYearStart(arrayFilterBy, yearForSort)
             }
             
 
-            if(yearTypeEnd != "全て" && yearEnd){
+            if(yearTypeEnd != "全て" && yearEnd != null){
                 const d = new Date();
                 const nowYear = d.getFullYear();
                 let yearForSort:number|null = null;
@@ -195,7 +199,7 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
                         yearForSort = nowYear - yearEnd * 100000000;
                         break;
                 }
-                arrayFilterBy = filterByYearEnd(arrayFilterBy)
+                arrayFilterBy = filterByYearEnd(arrayFilterBy, yearForSort)
                 
             }
         }
@@ -205,9 +209,10 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
             name:mylistContentsState.name,
             items:arrayFilterBy,
         }
-        console.log(newMylistContent)
-        setMylistContents(newMylistContent);
-
+        
+        setMylistItems(newMylistContent);
+        setFilterOn(true);
+        handleClose();
     }
 
     const filterByMemory = (inputArray:MylistItemType[]) =>{
@@ -231,7 +236,7 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
         return outputArray
     }
 
-    const filterByYearStart = (inputArray:MylistItemType[]) =>{
+    const filterByYearStart = (inputArray:MylistItemType[], yearStart:number|null) =>{
         const tmpArray =[...inputArray]
 
         const outputArray = tmpArray.filter(function(tmp){
@@ -241,7 +246,7 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
         return outputArray
     }
 
-    const filterByYearEnd = (inputArray:MylistItemType[]) =>{
+    const filterByYearEnd = (inputArray:MylistItemType[], yearEnd:number|null) =>{
         const tmpArray =[...inputArray]
 
         const outputArray = tmpArray.filter(function(tmp){
@@ -249,6 +254,10 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
         })
 
         return outputArray
+    }
+
+    const filterClear = () =>{
+        setFilterOn(false);
     }
 
     const handleOpenEditMylistName = () =>{
@@ -290,6 +299,11 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
 
     const handleChangeYearTypeStart = (event: SelectChangeEvent) =>{
         setYearTypeStart(event.target.value);
+        if(event.target.value === "全て"){
+            setYearStartDisabled(true);
+        }else{
+            setYearStartDisabled(false);
+        }
     }
 
     const handleChangeYearStart = (event:React.ChangeEvent<HTMLInputElement>) =>{
@@ -298,10 +312,32 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
 
     const handleChangeYearTypeEnd = (event: SelectChangeEvent) =>{
         setYearTypeEnd(event.target.value);
+        if(event.target.value === "全て"){
+            setYearEndDisabled(true);
+        }else{
+            setYearEndDisabled(false);
+        }
     }
 
     const handleChangeYearEnd = (event:React.ChangeEvent<HTMLInputElement>) =>{
         setYearEnd(parseInt(event.target.value));
+    }
+
+    const handelClearFilter = () =>{
+        setFilterStar({
+            noStar: false,
+            halfStar: false,
+            fullStar: false
+        });
+        setYearTypeStart('全て');
+        setYearTypeEnd('全て');
+        setYearStart(null);
+        setYearEnd(null);
+        setYearStartDisabled(true);
+        setYearEndDisabled(true);
+        setFilterOn(false);
+
+        setMylistItems(mylistContentsState);
     }
 
     return(
@@ -356,9 +392,11 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
             </FormControl>
 
             <Button
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
+                id="filter-menu"
+                aria-label="filter-menu"
+                aria-controls="filter-menu"
                 aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
                 onClick={handleMenu}
                 color="inherit"
             >
@@ -367,15 +405,15 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
 
             <Menu
                 id="filter-menu"
+                aria-aria-labelledby="filter-menu"
                 anchorEl={anchorEl}
                 anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
+                    vertical: 'top',
+                    horizontal: 'center',
                 }}
-                keepMounted
                 transformOrigin={{
                     vertical: 'top',
-                    horizontal: 'right',
+                    horizontal: 'center',
                 }}
                 open={open}
                 onClose={handleClose}
@@ -410,6 +448,7 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
                                     onChange={handleChangeYearTypeStart}
                                     label="year-type-start"
                                     defaultValue="全て"
+                                    sx={{m: 1}}
                                 >
                                     <MenuItem value="全て">全て</MenuItem>
                                     <MenuItem value="紀元後">紀元後</MenuItem>
@@ -418,8 +457,17 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
                                     <MenuItem value="万年前">万年前</MenuItem>
                                     <MenuItem value="億年前">億年前</MenuItem>
                                 </Select>
-                                <TextField id="standard-basic" label="検索開始年代" variant="outlined" type="number" value={yearStart} onChange={handleChangeYearStart}/>
-                                <span>〜</span>
+                                <TextField
+                                    id="standard-basic"
+                                    label="検索開始年代"
+                                    variant="standard"
+                                    type="number"
+                                    value={yearStart}
+                                    onChange={handleChangeYearStart}
+                                    sx={{m: 1}}
+                                    disabled={yearStartDisabled}
+                                />
+                                <span style={{margin:"auto 0"}}>〜</span>
                                 <Select
                                     labelId="year-type-end-label"
                                     id="year-type-end"
@@ -427,6 +475,7 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
                                     onChange={handleChangeYearTypeEnd}
                                     label="year-type-end"
                                     defaultValue="全て"
+                                    sx={{m: 1}}
                                 >
                                     <MenuItem value="全て">全て</MenuItem>
                                     <MenuItem value="紀元後">紀元後</MenuItem>
@@ -435,11 +484,20 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
                                     <MenuItem value="万年前">万年前</MenuItem>
                                     <MenuItem value="億年前">億年前</MenuItem>
                                 </Select>
-                                <TextField id="standard-basic" label="検索終了年代" variant="outlined" type="number" value={yearEnd} onChange={handleChangeYearEnd}/>
+                                <TextField
+                                    id="standard-basic"
+                                    label="検索終了年代"
+                                    variant="standard"
+                                    type="number"
+                                    value={yearEnd}
+                                    onChange={handleChangeYearEnd}
+                                    sx={{m: 1}}
+                                    disabled={yearEndDisabled}
+                                />
                             </FormControl>
                         </Box>
-                        
-                        <Button onClick={() => handleFilterContents()}>
+                        <br/>
+                        <Button onClick={() => handleFilterContents()} variant="contained" color="primary">
                             検索
                         </Button>
                     </FormControl>
@@ -485,7 +543,14 @@ export const MylistContents:React.FC<Props> = (props:Props)=> {
                     </DialogActions>
                 </DialogContent>
             </Dialog>
-            {mylistContentsState?.items?.map((item, index) =>
+            {filterOn?
+            <div>
+                {filterStar.noStar?<span></span>:<span></span>}
+                {yearTypeStart}{yearStart}〜{yearTypeEnd}{yearEnd}
+                <Button onClick={() => handelClearFilter()}>クリア</Button>
+            </div>:
+            <span></span>}
+            {mylistItems?.items?.map((item, index) =>
                 <MylistContentsWrapper key={index} item={item} />
             )}
         </>

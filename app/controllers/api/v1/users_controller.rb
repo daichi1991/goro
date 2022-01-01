@@ -17,6 +17,15 @@ module Api
                 render :show
             end
 
+            def sign_in_check
+                token = cookies[:token]
+                if signed_in?
+                    render json: {status: 'SUCCESS', data: token}
+                else
+                    render json: {status: 'SUCCESS', data: nil}
+                end
+            end
+
             private
 
                 def user_params

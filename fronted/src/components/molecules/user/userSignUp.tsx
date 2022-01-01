@@ -1,7 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import * as H from 'history';
-import {userUrl} from '../../../urls';
+import {userUrl} from '../../../utils/urls';
 import { Link } from 'react-router-dom';
 import { useSignUp } from '../../../contexts/authUserContext';
 import { LinkButton,linkStyle, StyledInput, StyleSubmit, tableStyle }from '../../../components/atoms/styles';
@@ -22,22 +22,8 @@ export const UserSignUp:React.FC<Props> = (props: Props) =>{
 
     const userSignUp = (e:React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
-        console.log(passwordConfirm);
         signUp(email, password, passwordConfirm);
         props.history.replace("/sign_up_send_mail")
-        
-
-        // const postUserSignUpUrl:string = userUrl;
-
-        // return axios.post(postUserSignUpUrl,{
-        //     email: email,
-        //     password: password
-        // })
-        // .then(res =>{
-        //     props.history.replace("/");
-        //     return res;
-        // })
-        // .catch((e) => console.error(e))
 
     };
 

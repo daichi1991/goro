@@ -35,7 +35,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { itemJsonUrl } from '../../../urls';
+import { itemJsonUrl } from '../../../utils/urls';
 
 
 const {useContext, useEffect, useState} = React;
@@ -63,6 +63,12 @@ const useStyles = makeStyles((theme) => ({
         right: '64px',
         top: '50%',
         transform: 'translate(0, -50%)'
+    },
+    menuBtn: {
+        position:"absolute",
+        right: 0,
+        top: '50%',
+        transform: 'translate(0, -50%)',
     },
     deleteBtn: {
         position:"absolute",
@@ -242,8 +248,8 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
                         <Button onClick={handleMemoryLevel} className={classes.memoryBtn}>
                             <MemoryIcon memoryLevel={item.memory_level} />
                         </Button>
-                        <Button onClick={handleOpenForm} className={classes.deleteBtn}>
-                            <DeleteIcon/>
+                        <Button onClick={handleOpenForm} className={classes.menuBtn}>
+                            <MoreHorizIcon/>
                         </Button>
                     </AccordionSummary>
                     <AccordionDetails>

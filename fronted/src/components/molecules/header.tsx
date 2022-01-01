@@ -13,15 +13,21 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ToolBar from '@material-ui/core/Toolbar'
 import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
-import {useSignOut, AuthUserContext} from '../../contexts/authUserContext'
+import {useSignOut, AuthUserContext, useSignInCheck} from '../../contexts/authUserContext'
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { Avatar, IconButton, Typography } from '@material-ui/core';
+import { Avatar, Button, IconButton, Typography } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import axios from 'axios';
-import { myProfileUrl } from '../../urls';
+import { myProfileUrl } from '../../utils/urls';
+import * as H from 'history';
 
 const {useState, useEffect} = React;
+
+const handleSignInCheck = async() =>{
+    await useSignInCheck;
+}
+
 
 export const Header: React.FC = () => {
     const classes = useStyles();
@@ -43,6 +49,7 @@ export const Header: React.FC = () => {
 
     useEffect(()=>{
         getMyProfile();
+        handleSignInCheck();
     } ,[])
 
     const avaterImageUrl = `http://localhost:3000/uploads/profile/image/${myProfileId}/avater.jpg`
@@ -67,7 +74,7 @@ export const Header: React.FC = () => {
             <ToolBar>
                 <Typography variant="h6" noWrap className={classes.headerTitle}>
                     <Link to="/" style={{textDecoration:"none",color:"#fff"}}>
-                    ごろりんちょ
+                    語呂合わせアプリ
                     </Link>
                 </Typography>
 
@@ -101,6 +108,9 @@ export const Header: React.FC = () => {
                         <Link to="/user_setting">
                             <MenuItem onClick={handleClose}>アカウント設定</MenuItem>
                         </Link>
+                        <Button onClick={handleSignOut}>
+                            ログアウト
+                        </Button>
                         </Menu>
                 </div>
             )

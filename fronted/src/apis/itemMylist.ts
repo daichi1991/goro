@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { itemMylistJsonUrl, itemMylistUrl ,mylistUrl} from '../urls';
+import { itemMylistJsonUrl, itemMylistUrl ,mylistUrl} from '../utils/urls';
 
 export const getItemMylists = () =>{
     return axios.get(itemMylistJsonUrl, {

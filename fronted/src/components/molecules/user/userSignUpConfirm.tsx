@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as React from 'react';
 import { useSignUpConfirm } from '../../../contexts/authUserContext';
-import { userUrl } from '../../../urls';
+import { userUrl } from '../../../utils/urls';
 import * as H from 'history';
 import {Link} from 'react-router-dom'
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { getMylists } from '../apis/mylist';
 import { MylistType } from '../components/molecules/types';
-import { mylistUrl } from '../urls';
+import { mylistUrl } from '../utils/urls';
 import axios from 'axios';
 
 const {useEffect, useState, useContext, createContext} = React;

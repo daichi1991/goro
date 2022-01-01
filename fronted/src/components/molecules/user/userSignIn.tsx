@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as H from 'history';
 import { Link, RouteComponentProps, useLocation, useParams } from 'react-router-dom';
 import { useSignIn, SignInErrorContext } from '../../../contexts/authUserContext';
-import { LinkButton,linkStyle, StyledInput, StyleSubmit, tableStyle }from '../../../components/atoms/styles';
+import { linkText,LinkText, LinkButton,linkStyle, StyledInput, StyleSubmit, tableStyle }from '../../../components/atoms/styles';
 import queryString from 'query-string';
 
 const {useState, useContext} = React;
@@ -24,7 +24,6 @@ export const UserSignIn:React.FC<PageProps> = (props: PageProps) =>{
     const signInCheck = useContext(SignInErrorContext);
     const location = useLocation<{ status:string}>();
     const qs = queryString.parse(location.search);
-    console.log(qs.confirm)
 
     const userSignIn = (e:React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
@@ -82,8 +81,8 @@ export const UserSignIn:React.FC<PageProps> = (props: PageProps) =>{
                     ユーザ登録画面へ
                 </LinkButton>
             </Link>
-            <Link to="/reset_password_confirm">
-                パスワードをお忘れですか？
+            <Link to="/reset_password_confirm" style={linkText}>
+                <LinkText>パスワードをお忘れですか？</LinkText>
             </Link>
         </>
     )

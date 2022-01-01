@@ -44,10 +44,16 @@ export const ItemsList:React.FC = () =>{
                 <SearchBox />
 
                 <h3>アイテムリスト</h3>
-                {itemsState.map((item,index) =>
-                    <ItemsWrapper key={index} item={item} />
-                    
-                )}
+                {
+                    Object.keys(itemsState).length != 0?
+                        <span>
+                            {itemsState.map((item,index) =>
+                            <ItemsWrapper key={index} item={item} />
+                            )}
+                        </span>  
+                    :
+                    <span></span>
+                }
             </div>
         </>
     )
