@@ -30,12 +30,21 @@ module Api
 
             def get_profile_id
                 @profile = Profile.find_by(user_id: params[:user_id])
-                render :show
+                logger.debug(@profile)
+                if @profile
+                    render :show
+                else
+                    render json: {id:nil}, status: 200
+                end
             end
 
             def my_profile
                 @profile = Profile.find_by(user_id: current_user.id)
-                render :show
+                if @profile
+                    render :show
+                else
+                    render json: {id:nil}, status: 200
+                end
             end
             
 
