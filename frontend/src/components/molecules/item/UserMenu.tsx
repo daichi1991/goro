@@ -109,7 +109,7 @@ export const UserMenu:React.FC = () =>{
             goro_text:itemGoroText,
             description:itemDescription
         }
-        const newMyItems = [...myItemsState, newItem];
+        const newMyItems:ItemType[] = myItemsState.length===0?[...myItemsState, newItem]:[newItem];
         setMyItems(newMyItems);
 
     }

@@ -74,7 +74,7 @@ const PrivateRoute = ({isAuthenticated, authenticationPath, ...routeProps}: Prot
 
 export const Container: React.FC = () =>{
     const signInCheck = useContext(SignInCheckContext);
-    const auth = useContext(AuthUserContext);
+    const isAuthenticated = useContext(AuthUserContext);
 
     const classes = useStyles();
     const isWide = useMedia({ minWidth: "760px" });
@@ -82,7 +82,7 @@ export const Container: React.FC = () =>{
 
     useEffect(()=>{
         handleSignInCheck()
-    } ,[signInCheck,auth])
+    } ,[signInCheck,isAuthenticated])
 
     return(
         <>
@@ -94,17 +94,17 @@ export const Container: React.FC = () =>{
                     {signInCheck &&
                         <Switch>
                         <Route exact path = '/' component={ItemsList}/>
-                        <PrivateRoute path = '/user_setting' authenticationPath="/user_setting" isAuthenticated={auth} component={UserSetting}  />
-                        <PrivateRoute exact path = '/username_setting' authenticationPath="/username_setting" isAuthenticated={auth} component={UsernameSetting} />
-                        <PrivateRoute exact path = '/avater_upload' authenticationPath="/avater_upload" isAuthenticated={auth} component={AvaterUpload}/>
-                        <PrivateRoute exact path = '/mylists' authenticationPath="/mylists" isAuthenticated={auth} component={Mylists}/>
-                        <PrivateRoute exact path = '/user_menu' authenticationPath="/user_menu" isAuthenticated={auth} component={UserMenu}/>
-                        <PrivateRoute exact path = '/mylist/show/:mylistId' authenticationPath="/mylist/show/:mylistId" isAuthenticated={auth} component={MylistContents}/>
-                        <PrivateRoute exact path = '/users/items/:userId' authenticationPath="/users/items/:userId" isAuthenticated={auth} component={OtherUserMenu}/>
-                        <UnAuthRoute exact path='/sign_in' authenticationPath="/sign_in" isAuthenticated={auth} component={UserSignIn}/>
-                        <UnAuthRoute exact path='/sign_up' authenticationPath="/sign_up" isAuthenticated={auth} component={UserSignUp}/>
-                        <UnAuthRoute exact path='/sign_up_send_mail' authenticationPath="/sign_up_send_mail" isAuthenticated={auth} component={UserSignUpSendMail}/>
-                        <UnAuthRoute exact path='/sign_up_confirm' authenticationPath="/sign_up_confirm" isAuthenticated={auth} component={UserSignUpConfirm}/>
+                        <PrivateRoute path = '/user_setting' authenticationPath="/user_setting" isAuthenticated={isAuthenticated} component={UserSetting}  />
+                        <PrivateRoute exact path = '/username_setting' authenticationPath="/username_setting" isAuthenticated={isAuthenticated} component={UsernameSetting} />
+                        <PrivateRoute exact path = '/avater_upload' authenticationPath="/avater_upload" isAuthenticated={isAuthenticated} component={AvaterUpload}/>
+                        <PrivateRoute exact path = '/mylists' authenticationPath="/mylists" isAuthenticated={isAuthenticated} component={Mylists}/>
+                        <PrivateRoute exact path = '/user_menu' authenticationPath="/user_menu" isAuthenticated={isAuthenticated} component={UserMenu}/>
+                        <PrivateRoute exact path = '/mylist/show/:mylistId' authenticationPath="/mylist/show/:mylistId" isAuthenticated={isAuthenticated} component={MylistContents}/>
+                        <PrivateRoute exact path = '/users/items/:userId' authenticationPath="/users/items/:userId" isAuthenticated={isAuthenticated} component={OtherUserMenu}/>
+                        <UnAuthRoute exact path='/sign_in' authenticationPath="/sign_in" isAuthenticated={isAuthenticated} component={UserSignIn}/>
+                        <UnAuthRoute exact path='/sign_up' authenticationPath="/sign_up" isAuthenticated={isAuthenticated} component={UserSignUp}/>
+                        <UnAuthRoute exact path='/sign_up_send_mail' authenticationPath="/sign_up_send_mail" isAuthenticated={isAuthenticated} component={UserSignUpSendMail}/>
+                        <UnAuthRoute exact path='/sign_up_confirm' authenticationPath="/sign_up_confirm" isAuthenticated={isAuthenticated} component={UserSignUpConfirm}/>
                         <Redirect to="/"/>
                         </Switch>
                     }

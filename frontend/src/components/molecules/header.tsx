@@ -31,7 +31,7 @@ const handleSignInCheck = async() =>{
 
 export const Header: React.FC = () => {
     const classes = useStyles();
-    const authUser = React.useContext(AuthUserContext);
+    const isAuthenticated = React.useContext(AuthUserContext);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [myProfileId, setMyProfileId] = useState<string>('');
     const open = Boolean(anchorEl);
@@ -44,13 +44,13 @@ export const Header: React.FC = () => {
         })
         .then(res =>{
             setMyProfileId(res.data.id);
+            console.log(res)
         })
     }
 
     useEffect(()=>{
-        getMyProfile();
-        handleSignInCheck();
-    } ,[])
+        isAuthenticated && getMyProfile();
+    } ,[isAuthenticated])
 
     const avaterImageUrl = `http://localhost:3000/uploads/profile/image/${myProfileId}/avater.jpg`
 
@@ -78,7 +78,7 @@ export const Header: React.FC = () => {
                     </Link>
                 </Typography>
 
-            {authUser?
+            {isAuthenticated?
                     <div>
                         <IconButton
                         aria-label="account of current user"
@@ -87,7 +87,12 @@ export const Header: React.FC = () => {
                         onClick={handleMenu}
                         color="inherit"
                         >
-                            <Avatar alt="g" src={avaterImageUrl} />
+                            {myProfileId?
+                                <Avatar src={avaterImageUrl} />:
+                                (<Avatar>
+                                    <PersonIcon />
+                                </Avatar>)
+                            }
                         </IconButton>
                         <Menu
                         id="menu-appbar"

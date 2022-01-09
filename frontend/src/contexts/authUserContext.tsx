@@ -183,7 +183,7 @@ const AuthUserProvider: React.FC = (children) =>{
 
     useEffect(()=>{
         getSignInCheck();
-        getMyProfile();
+        isAuthenticated && getMyProfile();
         getUserInfo();
     } ,[])
 

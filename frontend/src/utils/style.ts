@@ -47,9 +47,14 @@ export const useStyles = makeStyles((theme: Theme) =>
             flex: 1
         },
         addMylistBtn: {
+            position:'absolute',
             right: 0,
             top: '50%',
             transform: 'translate(0, -50%)',
+        },
+        mylistContentBtn: {
+            position:'absolute',
+            right: 0,
         },
         itemLinkIcon :{
             width:"100%",

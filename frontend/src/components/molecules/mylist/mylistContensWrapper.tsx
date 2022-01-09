@@ -121,6 +121,7 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
     const [open, setOpen] = useState(false);
 
     const [menuAnchorEl, setMenuAnchorEl] = useState<null| HTMLElement>(null);
+    const [profileId, setProfileId] = useState<string|null>(null);
     const [avaterImageUrl, setAvaterImageUrl] = useState<string>('');
 
     const [userItemUrl, setUserItemUrl] = useState<string>('');
@@ -129,9 +130,10 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
     const menuId = menuOpen ? 'menu-popper' : undefined;
 
     const getMyprofileImage = async() =>{
-        const profileId = await getProfile(item.item_user_id);
+        const tmpProfileId = await getProfile(item.item_user_id);
         setUserItemUrl(`/users/items/${item.item_user_id}`);
-        setAvaterImageUrl(`http://localhost:3000/uploads/profile/image/${profileId}/avater.jpg`);
+        setAvaterImageUrl(`http://localhost:3000/uploads/profile/image/${tmpProfileId}/avater.jpg`);
+        setProfileId(tmpProfileId)
     }
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -238,8 +240,8 @@ export const MylistContentsWrapper:React.FC<Props> = (props:Props) => {
                     <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
                         <Typography>{item.title}</Typography>
                         <Link to={userItemUrl} className={classes.avaterBtn}>
-                            {avaterImageUrl?
-                                <Avatar alt="g" src={avaterImageUrl} />:
+                            {profileId?
+                                <Avatar src={avaterImageUrl} />:
                             <Avatar>
                                 <PersonIcon />
                             </Avatar>

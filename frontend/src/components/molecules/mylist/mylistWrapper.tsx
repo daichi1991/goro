@@ -43,8 +43,8 @@ export const MylistWrapper:React.FC<Props> = (props:Props) => {
 
                 <PopupState variant="popover" popupId="demo-popup-popover">
                         {(popupState: any) => (
-                            <span style={{display: "inline"}}>
-                                <Button {...bindTrigger(popupState)} style={{position:"absolute"}} className={classes.addMylistBtn}>
+                            <span className={classes.mylistContentBtn}>
+                                <Button {...bindTrigger(popupState)}>
                                     <MoreHorizIcon/>
                                 </Button>
                                 <Popover
