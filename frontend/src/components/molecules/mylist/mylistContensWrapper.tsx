@@ -118,17 +118,19 @@ export const MylistContentsWrapper: React.FC<Props> = (props: Props) => {
     newMylistContents.id = mylistContentsState.id
     newMylistContents.name = mylistContentsState.name
 
-    const allMylistContents = [...mylistContentsState.items!]
-    const targetIndex: number = allMylistContents.findIndex(
-      ({ item_mylist_id }) => item_mylist_id === item.item_mylist_id,
-    )
-    allMylistContents.splice(targetIndex, 1)
+    if (mylistContentsState.items) {
+      const allMylistContents = [...mylistContentsState.items]
+      const targetIndex: number = allMylistContents.findIndex(
+        ({ item_mylist_id }) => item_mylist_id === item.item_mylist_id,
+      )
+      allMylistContents.splice(targetIndex, 1)
 
-    deleteItemMylist(item.item_mylist_id)
+      deleteItemMylist(item.item_mylist_id)
 
-    newMylistContents.items = allMylistContents
+      newMylistContents.items = allMylistContents
 
-    setMylistContents(newMylistContents)
+      setMylistContents(newMylistContents)
+    }
   }
 
   const handleMemoryLevel = () => {
@@ -149,11 +151,15 @@ export const MylistContentsWrapper: React.FC<Props> = (props: Props) => {
       name: mylistContentsState.name,
       items: mylistContentItems,
     }
-    const itemIndex = newMylistContent.items!.findIndex(
-      ({ item_mylist_id }) => item_mylist_id === item.item_mylist_id,
-    )
-    newMylistContent.items![itemIndex].memory_level = memoryLevel
-    setMylistContents(newMylistContent)
+    if (newMylistContent.items) {
+      const itemIndex =
+        newMylistContent.items &&
+        newMylistContent.items.findIndex(
+          ({ item_mylist_id }) => item_mylist_id === item.item_mylist_id,
+        )
+      newMylistContent.items[itemIndex].memory_level = memoryLevel
+      setMylistContents(newMylistContent)
+    }
   }
 
   const handleOpenForm = () => {
