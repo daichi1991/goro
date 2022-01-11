@@ -252,10 +252,12 @@ export const MylistContents: React.FC<Props> = (props: Props) => {
     inputArray: MylistItemType[],
     yearEnd: number | null,
   ) => {
-    const tmpArray = [...inputArray]
+    if (!yearEnd) {
+      return inputArray
+    }
 
-    const outputArray = tmpArray.filter(function (tmp) {
-      return tmp.year_for_sort <= yearEnd!
+    const outputArray = inputArray.filter((mylistItem) => {
+      return mylistItem.year_for_sort <= yearEnd
     })
 
     return outputArray
