@@ -5,19 +5,22 @@ import MenuItem from '@material-ui/core/MenuItem'
 import ToolBar from '@material-ui/core/Toolbar'
 import PersonIcon from '@material-ui/icons/Person'
 import axios from 'axios'
-import * as React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AuthUserContext, useSignOut } from '../../contexts/authUserContext'
+import {
+  AuthOperationContext,
+  AuthUserContext,
+} from '../../contexts/authUserContext'
 import { useStyles } from '../../utils/style'
 import { myProfileUrl } from '../../utils/urls'
 
-const { useState, useEffect } = React
-
 export const Header: React.FC = () => {
   const classes = useStyles()
-  const isAuthenticated = React.useContext(AuthUserContext)
+  const isAuthenticated = useContext(AuthUserContext)
+  const signOut = useContext(AuthOperationContext).signOut
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [myProfileId, setMyProfileId] = useState<string>('')
+
   const open = Boolean(anchorEl)
 
   const getMyProfile = () => {
@@ -39,8 +42,6 @@ export const Header: React.FC = () => {
   }, [isAuthenticated])
 
   const avaterImageUrl = `http://localhost:3000/uploads/profile/image/${myProfileId}/avater.jpg`
-
-  const signOut = useSignOut()
 
   const handleSignOut = () => {
     setAnchorEl(null)

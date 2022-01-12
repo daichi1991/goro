@@ -8,7 +8,26 @@ import {
   userUrl,
 } from '../utils/urls'
 
-const { createContext, useContext, useState, useEffect } = React
+const { createContext, useState, useEffect } = React
+
+export const AuthUserContext = createContext<boolean>(false)
+export const MyProfileIdContext = createContext<string>('')
+export const SignInErrorContext = createContext<boolean>(false)
+
+type UserInfo = {
+  userInfo: UserType
+  getUserInfo: () => void
+  postUserInfo: (id: string, username: string) => boolean
+}
+
+const defaultUserInfo: UserInfo = {
+  userInfo: { id: '', username: '' },
+  getUserInfo: () => console.error('Proveiderが設定されていません'),
+  postUserInfo: () => false,
+}
+
+export const UserInfoContext = createContext<UserInfo>(defaultUserInfo)
+export const SignInCheckContext = createContext<boolean>(false)
 
 type OperationType = {
   // handleSetAuthUser:(token:AuthUser) => void;
@@ -21,13 +40,7 @@ type OperationType = {
   postUserInfo: (id: string, username: string) => boolean
 }
 
-export const AuthUserContext = createContext<boolean>(false)
-export const MyProfileIdContext = createContext<string>('')
-export const SignInErrorContext = createContext<boolean>(false)
-export const UserInfoContext = createContext<UserType>({ id: '', username: '' })
-export const SignInCheckContext = createContext<boolean>(false)
-
-const AuthOperationContext = createContext<OperationType>({
+export const AuthOperationContext = createContext<OperationType>({
   // handleSetAuthUser: () => console.error("Proveiderが設定されていません"),
   // deleteAuthUser: () => console.error("Proveiderが設定されていません"),
   signUp: () => console.error('Proveiderが設定されていません'),
@@ -225,7 +238,9 @@ const AuthUserProvider: React.FC = (children) => {
       <AuthUserContext.Provider value={isAuthenticated}>
         <SignInCheckContext.Provider value={signInCheck}>
           <MyProfileIdContext.Provider value={myProfileId}>
-            <UserInfoContext.Provider value={userInfo}>
+            <UserInfoContext.Provider
+              value={{ userInfo, getUserInfo, postUserInfo }}
+            >
               <SignInErrorContext.Provider value={signInError}>
                 {children.children}
               </SignInErrorContext.Provider>
@@ -236,23 +251,5 @@ const AuthUserProvider: React.FC = (children) => {
     </AuthOperationContext.Provider>
   )
 }
-
-export const useAuthUser = () => useContext(AuthUserContext)
-export const useSignInCheck = () => useContext(SignInCheckContext)
-export const useMyProfileId = () => useContext(MyProfileIdContext)
-export const useUserInfo = () => useContext(UserInfoContext)
-export const usePostUserInfo = (id: string, username: string) =>
-  useContext(AuthOperationContext).postUserInfo
-// export const useHandleSetAuthUser = (token:AuthUser) => useContext(AuthOperationContext).handleSetAuthUser
-// export const useDeleteAuthUser = () => useContext(AuthOperationContext).deleteAuthUser
-export const useSignUp = (email: string, password: string) =>
-  useContext(AuthOperationContext).signUp
-export const useSignUpConfirm = (token: string | null) =>
-  useContext(AuthOperationContext).signUpConfirm
-export const useSignIn = (email: string, password: string) =>
-  useContext(AuthOperationContext).signIn
-export const useSignOut = () => useContext(AuthOperationContext).signOut
-export const useGetSignInCheck = () =>
-  useContext(AuthOperationContext).getSignInCheck
 
 export default AuthUserProvider

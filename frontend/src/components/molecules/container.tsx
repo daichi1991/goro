@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useContext } from 'react'
 import {
   BrowserRouter as Router,
   Redirect,
@@ -26,21 +26,7 @@ import { useStyles } from '../.././utils/style'
 import {
   AuthUserContext,
   SignInCheckContext,
-  useGetSignInCheck,
 } from '../../contexts/authUserContext'
-
-const { useEffect, useContext } = React
-
-// let getAuthUser;
-
-// const handleAuthUser = async() =>{
-//     const authUser = getAuthUser;
-//     return authUser;
-// }
-
-const handleSignInCheck = async () => {
-  useGetSignInCheck
-}
 
 export type ProtectedRouteProps = {
   isAuthenticated: boolean
@@ -84,10 +70,6 @@ export const Container: React.FC = () => {
   const classes = useStyles()
   const isWide = useMedia({ minWidth: '760px' })
   const contentMarginLeft = isWide ? 170 : 0
-
-  useEffect(() => {
-    handleSignInCheck()
-  }, [signInCheck, isAuthenticated])
 
   return (
     <>

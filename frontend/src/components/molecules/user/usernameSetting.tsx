@@ -7,19 +7,16 @@ import CardContent from '@mui/material/CardContent'
 import Divider from '@mui/material/Divider'
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import {
-  usePostUserInfo,
-  UserInfoContext,
-} from '../../../contexts/authUserContext'
+import { UserInfoContext } from '../../../contexts/authUserContext'
 import { useStyles } from '../../../utils/style'
 
 const { useState, useContext, useEffect } = React
 
 export const UsernameSetting = () => {
-  const userInfo = useContext(UserInfoContext)
+  const { userInfo, postUserInfo } = useContext(UserInfoContext)
   const [username, setUsername] = useState<string>('')
   const [openSnackbar, setOpenSnackbar] = useState(false)
-  const postUserInfo = usePostUserInfo(userInfo.id, username)
+
   const classes = useStyles()
 
   const handelUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +24,7 @@ export const UsernameSetting = () => {
   }
 
   const handelPostUserInfo = async () => {
-    const infoSuccess = await postUserInfo(userInfo.id, username)
+    const infoSuccess = postUserInfo(userInfo.id, username)
     setOpenSnackbar(infoSuccess)
   }
 

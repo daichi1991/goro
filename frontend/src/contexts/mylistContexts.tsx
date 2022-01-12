@@ -61,7 +61,4 @@ MylistsProvider.propTypes = {
   type: PropTypes.string,
 }
 
-// export const usePutMylist = (id: string, name: string) =>
-//   useContext(MylistOperationContext).putMylist
-
 export default MylistsProvider

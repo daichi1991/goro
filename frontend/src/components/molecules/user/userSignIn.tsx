@@ -1,5 +1,5 @@
 import queryString from 'query-string'
-import * as React from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, RouteComponentProps, useLocation } from 'react-router-dom'
 import {
   LinkButton,
@@ -11,18 +11,16 @@ import {
   tableStyle,
 } from '../../../components/atoms/styles'
 import {
+  AuthOperationContext,
   SignInErrorContext,
-  useSignIn,
 } from '../../../contexts/authUserContext'
-
-const { useState, useContext } = React
 
 type PageProps = Record<string, null> & RouteComponentProps<{ status: string }>
 
 export const UserSignIn: React.FC<PageProps> = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-  const signIn = useSignIn(email, password)
+  const signIn = useContext(AuthOperationContext).signIn
   const signInCheck = useContext(SignInErrorContext)
   const location = useLocation<{ status: string }>()
   const qs = queryString.parse(location.search)

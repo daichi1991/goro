@@ -1,5 +1,5 @@
 import * as H from 'history'
-import * as React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import {
   LinkButton,
@@ -8,7 +8,7 @@ import {
   StyleSubmit,
   tableStyle,
 } from '../../../components/atoms/styles'
-import { useSignUp } from '../../../contexts/authUserContext'
+import { AuthOperationContext } from '../../../contexts/authUserContext'
 
 const { useState } = React
 
@@ -20,7 +20,7 @@ export const UserSignUp: React.FC<Props> = (props: Props) => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [passwordConfirm, setPasswordConfirm] = useState<string>('')
-  const signUp = useSignUp(email, password)
+  const signUp = useContext(AuthOperationContext).signUp
 
   const userSignUp = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
