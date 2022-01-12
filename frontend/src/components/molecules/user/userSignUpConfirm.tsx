@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { userUrl } from '../../../utils/urls'
 
-const { useEffect, useContext, useState } = React
+const { useEffect, useState } = React
 
 interface Props {
   history: H.History
@@ -14,7 +14,6 @@ export const UserSignUpConfirm: React.FC<Props> = (props: Props) => {
   const url = new URL(window.location.href)
   const params = url.searchParams
   const confirmationToken = params.get('confirmation_token')
-  const [success, setSuccess] = useState<boolean>(false)
   const [status, setStatus] = useState<string>('')
 
   const signUpConfirm = (confirmationToken: string | null) => {
@@ -45,6 +44,7 @@ export const UserSignUpConfirm: React.FC<Props> = (props: Props) => {
     const response = signUpConfirm(confirmationToken)
     console.log(confirmationToken)
     console.log(response)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

@@ -5,7 +5,7 @@ import { getMylists } from '../apis/mylist'
 import { MylistType } from '../components/molecules/types'
 import { mylistUrl } from '../utils/urls'
 
-const { useEffect, useState, useContext, createContext } = React
+const { useEffect, useState, createContext } = React
 
 export const MylistsContext = createContext(
   {} as {
@@ -18,7 +18,7 @@ type OperationType = {
   putMylist: (id: string, name: string) => void
 }
 
-const MylistOperationContext = createContext<OperationType>({
+export const MylistOperationContext = createContext<OperationType>({
   putMylist: () => console.error('Proveiderが設定されていません'),
 })
 
@@ -61,7 +61,7 @@ MylistsProvider.propTypes = {
   type: PropTypes.string,
 }
 
-export const usePutMylist = (id: string, name: string) =>
-  useContext(MylistOperationContext).putMylist
+// export const usePutMylist = (id: string, name: string) =>
+//   useContext(MylistOperationContext).putMylist
 
 export default MylistsProvider

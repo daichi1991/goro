@@ -1,4 +1,3 @@
-import * as H from 'history'
 import queryString from 'query-string'
 import * as React from 'react'
 import { Link, RouteComponentProps, useLocation } from 'react-router-dom'
@@ -18,14 +17,9 @@ import {
 
 const { useState, useContext } = React
 
-interface Props {
-  history: H.History
-  urlProps: RouteComponentProps<{ status: string }>
-}
-
 type PageProps = Record<string, null> & RouteComponentProps<{ status: string }>
 
-export const UserSignIn: React.FC<PageProps> = (props: PageProps) => {
+export const UserSignIn: React.FC<PageProps> = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const signIn = useSignIn(email, password)
@@ -44,14 +38,6 @@ export const UserSignIn: React.FC<PageProps> = (props: PageProps) => {
 
   const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value)
-  }
-
-  const accountConfirmCheck = () => {
-    const confirmParam = window.location.search
-    if (confirmParam === '?account_confirmation_success=true') {
-      return true
-    }
-    return false
   }
 
   return (

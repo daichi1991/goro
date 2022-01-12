@@ -18,7 +18,6 @@ const { useState, useContext, useEffect } = React
 export const UsernameSetting = () => {
   const userInfo = useContext(UserInfoContext)
   const [username, setUsername] = useState<string>('')
-  const [userInfoSuccess, setUserInfoSuccess] = useState<boolean>(false)
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const postUserInfo = usePostUserInfo(userInfo.id, username)
   const classes = useStyles()

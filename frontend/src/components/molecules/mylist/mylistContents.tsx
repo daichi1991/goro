@@ -19,12 +19,15 @@ import TextField from '@mui/material/TextField'
 import * as H from 'history'
 import PopupState, { bindPopover, bindTrigger } from 'material-ui-popup-state'
 import { PopupState as PopupStateType } from 'material-ui-popup-state/core'
-import * as React from 'react'
+import React, { useContext } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getItemMylistShow } from '../../../apis/itemMylist'
 import { deleteMylist } from '../../../apis/mylist'
 import { MylistContentsContext } from '../../../contexts/mylistContensContexts'
-import { MylistsContext, usePutMylist } from '../../../contexts/mylistContexts'
+import {
+  MylistOperationContext,
+  MylistsContext,
+} from '../../../contexts/mylistContexts'
 import { useStyles } from '../../../utils/style'
 import { MylistContentsType, MylistItemType } from '../types'
 import { MylistContentsWrapper } from './mylistContensWrapper'
@@ -69,7 +72,7 @@ export const MylistContents: React.FC<Props> = (props: Props) => {
   const [yearEndDisabled, setYearEndDisabled] = useState<boolean>(true)
   const [filterOn, setFilterOn] = useState<boolean>(false)
   const open = Boolean(anchorEl)
-  const putMylist = usePutMylist(mylistContentsState.id, newMylistName)
+  const putMylist = useContext(MylistOperationContext).putMylist
   const classes = useStyles()
 
   useEffect(() => {

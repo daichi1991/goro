@@ -98,7 +98,7 @@ const AuthUserProvider: React.FC = (children) => {
           withCredentials: true,
         },
       )
-      .then((res) => {
+      .then(() => {
         setSignInError(false)
         setIsAuthenticated(true)
       })
@@ -208,6 +208,7 @@ const AuthUserProvider: React.FC = (children) => {
     getSignInCheck()
     isAuthenticated && getMyProfile()
     getUserInfo()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
