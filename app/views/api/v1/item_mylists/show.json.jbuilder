@@ -1,1 +1,0 @@
-json.(@item_mylist, :id, :my_list_id, :item_id, :memory_level)
