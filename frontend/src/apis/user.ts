@@ -47,32 +47,21 @@ export const userSignOut = (
 }
 
 export const deleteUser = () => {
-  const userToken = JSON.parse(localStorage.getItem('token')!)
   return axios
     .request({
       method: 'delete',
       url: userUrl,
-      data: {
-        uid: userToken.uid,
-        'access-token': userToken.accessToken,
-        client: userToken.client,
-      },
     })
     .then(() => {
       console.log('success')
-      localStorage.removeItem('token')
-      console.log('removeToken')
       return true
     })
     .catch((e) => console.error(e))
 }
 
 export const changePassword = (password: string, passwordConfirm: string) => {
-  const userToken = JSON.parse(localStorage.getItem('token')!)
   const changePasswordUrl = userUrl + '/password'
-  const newToken: AuthUser = {
-    token: '',
-  }
+
   return axios
     .patch(
       changePasswordUrl,
@@ -83,15 +72,10 @@ export const changePassword = (password: string, passwordConfirm: string) => {
       {
         headers: {
           'Content-Type': 'application/json',
-          uid: userToken.uid,
-          'access-token': userToken.accessToken,
-          client: userToken.client,
         },
       },
     )
     .then((res) => {
-      const cookies = document.cookie
-      userToken.token = cookies
       return res.data
     })
     .catch((e) => console.error(e))
@@ -151,14 +135,9 @@ export const resetPassword = (
 export const resetPasswordNoSignIn = (
   password: string,
   passwordConfirm: string,
-  uid: string,
-  accessToken: string,
-  client: string,
 ) => {
   const changePasswordUrl = userUrl + '/password'
-  const newToken: AuthUser = {
-    token: '',
-  }
+
   return axios
     .patch(
       changePasswordUrl,
