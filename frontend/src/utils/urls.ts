@@ -1,29 +1,33 @@
-const DEDAUTL_API_LOCALHOST = 'http://localhost:3000/api/v1'
+const mode = process.env.REACT_APP_MODE
 
-export const userUrl = `${DEDAUTL_API_LOCALHOST}/auth`
+const HOST = mode === 'PRODUCTION' ? '' : 'http://localhost:3000'
 
-export const defaultUrl = 'http://localhost:3001/'
+const DEFAULT_URL = `${HOST}/api/v1`
 
-export const itemJsonUrl = `${DEDAUTL_API_LOCALHOST}/items.json`
+export const userUrl = `${DEFAULT_URL}/auth`
 
-export const itemUrl = `${DEDAUTL_API_LOCALHOST}/items`
+export const frontUrl = 'http://localhost:3001/'
 
-export const mylistUrl = `${DEDAUTL_API_LOCALHOST}/my_lists`
+export const itemJsonUrl = `${DEFAULT_URL}/items.json`
 
-export const mylistJsonUrl = `${DEDAUTL_API_LOCALHOST}/my_lists.json`
+export const itemUrl = `${DEFAULT_URL}/items`
 
-export const itemMylistUrl = `${DEDAUTL_API_LOCALHOST}/item_mylists`
+export const mylistUrl = `${DEFAULT_URL}/my_lists`
 
-export const itemMylistJsonUrl = `${DEDAUTL_API_LOCALHOST}/item_mylists.json`
+export const mylistJsonUrl = `${DEFAULT_URL}/my_lists.json`
 
-export const imageUploadUrl = `${DEDAUTL_API_LOCALHOST}/profiles/upload_image`
+export const itemMylistUrl = `${DEFAULT_URL}/item_mylists`
 
-export const profileUrl = `${DEDAUTL_API_LOCALHOST}/profiles.json`
+export const itemMylistJsonUrl = `${DEFAULT_URL}/item_mylists.json`
 
-export const getProfileIdUrl = `${DEDAUTL_API_LOCALHOST}/profiles/get_profile_id.json`
+export const imageUploadUrl = `${DEFAULT_URL}/profiles/upload_image`
 
-export const myProfileUrl = `${DEDAUTL_API_LOCALHOST}/profiles/my_profile.json`
+export const profileUrl = `${DEFAULT_URL}/profiles.json`
 
-export const currentUserUrl = `${DEDAUTL_API_LOCALHOST}/users/current_user_show.json`
+export const getProfileIdUrl = `${DEFAULT_URL}/profiles/get_profile_id.json`
 
-export const userInfoUrl = `${DEDAUTL_API_LOCALHOST}/users/`
+export const myProfileUrl = `${DEFAULT_URL}/profiles/my_profile.json`
+
+export const currentUserUrl = `${DEFAULT_URL}/users/current_user_show.json`
+
+export const userInfoUrl = `${DEFAULT_URL}/users/`

@@ -1,7 +1,7 @@
 import axios, { AxiosPromise } from 'axios'
 import { AuthUser } from '../components/molecules/types'
 import {
-  defaultUrl,
+  frontUrl,
   getProfileIdUrl,
   imageUploadUrl,
   userUrl,
@@ -83,7 +83,7 @@ export const changePassword = (password: string, passwordConfirm: string) => {
 
 export const postPassword = (email: string) => {
   const postPasswordUrl = userUrl + '/password'
-  const resetPasswordUrl = defaultUrl + 'reset_password'
+  const resetPasswordUrl = frontUrl + 'reset_password'
   return axios
     .post(postPasswordUrl, {
       email: email,

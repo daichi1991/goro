@@ -12,7 +12,7 @@ import {
   AuthUserContext,
 } from '../../contexts/authUserContext'
 import { useStyles } from '../../utils/style'
-import { myProfileUrl } from '../../utils/urls'
+import { myProfileUrl, userUrl } from '../../utils/urls'
 
 export const Header: React.FC = () => {
   const classes = useStyles()
@@ -39,6 +39,7 @@ export const Header: React.FC = () => {
 
   useEffect(() => {
     isAuthenticated && getMyProfile()
+    console.log(userUrl)
   }, [isAuthenticated])
 
   const avaterImageUrl = `http://localhost:3000/uploads/profile/image/${myProfileId}/avater.jpg`
