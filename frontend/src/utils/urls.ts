@@ -1,12 +1,12 @@
 const mode = process.env.REACT_APP_MODE
 
-const HOST = mode === 'PRODUCTION' ? '' : 'http://localhost:3000'
+const HOST = mode === 'TEST' ? 'http://localhost:3000/' : 'https://goro-backend.herokuapp.com'
 
 const DEFAULT_URL = `${HOST}/api/v1`
 
 export const userUrl = `${DEFAULT_URL}/auth`
 
-export const frontUrl = 'http://localhost:3001/'
+export const frontUrl = mode === 'TEST'?'http://localhost:3001/':'https://goro-frontend.herokuapp.com/'
 
 export const itemJsonUrl = `${DEFAULT_URL}/items.json`
 
