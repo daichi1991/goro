@@ -26,7 +26,7 @@ module Goro
 
     config.action_dispatch.default_headers = {
       'Access-Control-Allow-Credentials' => 'true',
-      'Access-Control-Allow-Origin' => 'http://localhost:3001',
+      'Access-Control-Allow-Origin' => 'https://goro-frontend.herokuapp.com',
       'Access-Control-Request-Method' => '*'
     }
     

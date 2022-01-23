@@ -13,8 +13,8 @@ default: &default
   adapter: mysql2
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: <%= ENV["DB_USERNAME"] %>
-  password: <%= ENV["DB_PASSWORD"] %>
+  username: <%= ENV["DEV_DB_USERNAME"] %>
+  password: <%= ENV["DEV_DB_PASSWORD"] %>
   socket: /tmp/mysql.sock
 
 development:
@@ -23,8 +23,8 @@ development:
   reconnect: false
   database: goro_development
   pool: 5
-  username: <%= ENV["DB_USERNAME"] %>
-  password: <%= ENV["DB_PASSWORD"] %>
+  username: <%= ENV["DEV_DB_USERNAME"] %>
+  password: <%= ENV["DEV_DB_PASSWORD"] %>
   host: localhost
 
 # Warning: The database defined as "test" will be erased and
@@ -36,8 +36,8 @@ test:
   reconnect: false
   database: goro_test
   pool: 5
-  username: <%= ENV["DB_USERNAME"] %>
-  password: <%= ENV["DB_PASSWORD"] %>
+  username: <%= ENV["DEV_DB_USERNAME"] %>
+  password: <%= ENV["DEV_DB_PASSWORD"] %>
   host: localhost
 
 # As with config/credentials.yml, you never want to store sensitive information,
@@ -63,8 +63,7 @@ production:
   adapter: mysql2
   encoding: utf8mb4
   reconnect: false
-  database: goro_production
+  database: <%= ENV["PLD_DB_NAME"] %>
   pool: 5
-  username: <%= ENV["DB_USERNAME"] %>
-  password: <%= ENV["DB_PASSWORD"] %>
-  host: localhost
+  username: <%= ENV["PLD_DB_USERNAME"] %>
+  password: <%= ENV["PLD_DB_PASSWORD"] %>

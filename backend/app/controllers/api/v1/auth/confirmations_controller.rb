@@ -9,4 +9,5 @@ class Api::V1::Auth::ConfirmationsController < Devise::ConfirmationsController
             render json: { result:'ng' }, status: :unprocessable_entity
         end
     end
+
 end

@@ -5,6 +5,11 @@ Rails.application.routes.draw do
     sessions: "api/v1/auth/sessions",
     confirmations: "api/v1/auth/confirmations"
   }
+
+  devise_scope :user do
+    post 'api/v1/auth/resend_confirmation' => 'api/v1/auth/registrations#resend_confirmation'
+  end
+
     
 
   namespace :api do

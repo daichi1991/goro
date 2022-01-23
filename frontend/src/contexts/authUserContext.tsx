@@ -30,9 +30,6 @@ export const UserInfoContext = createContext<UserInfo>(defaultUserInfo)
 export const SignInCheckContext = createContext<boolean>(false)
 
 type OperationType = {
-  // handleSetAuthUser:(token:AuthUser) => void;
-  // deleteAuthUser:() => void;
-  signUp: (email: string, password: string, passwordConfirm: string) => void
   signUpConfirm: (token: string | null) => void
   signIn: (email: string, password: string) => void
   signOut: () => void
@@ -41,15 +38,58 @@ type OperationType = {
 }
 
 export const AuthOperationContext = createContext<OperationType>({
-  // handleSetAuthUser: () => console.error("Proveiderが設定されていません"),
-  // deleteAuthUser: () => console.error("Proveiderが設定されていません"),
-  signUp: () => console.error('Proveiderが設定されていません'),
   signUpConfirm: () => console.error('Proveiderが設定されていません'),
   signIn: () => console.error('Proveiderが設定されていません'),
   signOut: () => console.error('Providerが設定されていません'),
   getSignInCheck: () => console.error('Providerが設定されていません'),
   postUserInfo: () => false,
 })
+
+export const signUp = (
+  email: string,
+  password: string,
+  passwordConfirm: string,
+) => {
+  return axios
+    .post(
+      userUrl,
+      {
+        user: {
+          email: email,
+          password: password,
+          password_confirmation: passwordConfirm,
+        },
+      },
+      {
+        headers: { 'Content-Type': 'application/json' },
+      },
+    )
+    .then((res) => {
+      return res
+    })
+}
+
+export const resendConfirmMail = (email: string) => {
+  const resendUrl = userUrl + '/resend_confirmation'
+  return axios
+    .post(
+      resendUrl,
+      {
+        email: email,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+    .then((res) => {
+      return res.data
+    })
+    .catch((e) => {
+      return e
+    })
+}
 
 const AuthUserProvider: React.FC = (children) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
@@ -65,32 +105,13 @@ const AuthUserProvider: React.FC = (children) => {
 
   const postUserSignInUrl: string = userUrl + '/sign_in.json'
 
-  const signUp = (email: string, password: string, passwordConfirm: string) =>
-    axios
-      .post(
-        userUrl,
-        {
-          user: {
-            email: email,
-            password: password,
-            password_confirmation: passwordConfirm,
-          },
-        },
-        {
-          headers: { 'Content-Type': 'application/json' },
-        },
-      )
-      .then((res) => {
-        return res
-      })
-
   const signUpConfirm = (confirmationToken: string | null) => {
     const getUserConfirmUrl =
       userUrl + '/confirmation?confirmation_token=' + confirmationToken
     axios
       .get(getUserConfirmUrl)
       .then((res) => {
-        return res.data
+        return res
       })
       .catch((e) => {
         return e
@@ -227,7 +248,6 @@ const AuthUserProvider: React.FC = (children) => {
   return (
     <AuthOperationContext.Provider
       value={{
-        signUp,
         signUpConfirm,
         signIn,
         signOut,

@@ -6,6 +6,12 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+  config.action_dispatch.default_headers = {
+    'Access-Control-Allow-Credentials' => 'true',
+    'Access-Control-Allow-Origin' => 'http://localhost:3001',
+    'Access-Control-Request-Method' => '*'
+  }
+
   # Do not eager load code on boot.
   config.eager_load = false
 
@@ -35,6 +41,16 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = {  host: 'localhost', port: 3000 }
   ActionMailer::Base.delivery_method = :letter_opener
+
+  # ActionMailer::Base.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  #   :address => "smtp.gmail.com",
+  #   :port => 587,
+  #   :user_name => ENV["DEV_MAIL_USERNAME"],
+  #   :password => ENV["DEV_MAIL_PASSWORD"],
+  #   :authentication => :plain,
+  #   :enable_starttls_auto => true
+  #   }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
