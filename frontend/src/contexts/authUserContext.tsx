@@ -172,17 +172,13 @@ const AuthUserProvider: React.FC = (children) => {
       })
       .then((res) => {
         tmpAuthUser = res.data.data
-      })
-      .then(() => {
         if (tmpAuthUser) {
           setIsAuthenticated(true)
         } else {
           setIsAuthenticated(false)
         }
       })
-      .then(() => {
-        setSignInCheck(true)
-      })
+    setSignInCheck(true)
   }
 
   const getMyProfile = () => {

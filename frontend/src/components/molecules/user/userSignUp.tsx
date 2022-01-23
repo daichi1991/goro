@@ -6,6 +6,7 @@ import {
   LinkButton,
   linkStyle,
   StyledInput,
+  StyleResendConfirm,
   StyleSubmit,
   tableStyle,
 } from '../../../components/atoms/styles'
@@ -23,6 +24,7 @@ export const UserSignUp: React.FC<Props> = (props: Props) => {
   const [passwordConfirm, setPasswordConfirm] = useState<string>('')
   const [registerDuplication, setRegisterDuplication] = useState<boolean>(false)
   const [sendConfirmMessage, setSendConfrimMessage] = useState<string>('')
+  const [formLock, setFormLock] = useState<boolean>(false)
 
   const userSignUp = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -35,6 +37,7 @@ export const UserSignUp: React.FC<Props> = (props: Props) => {
         const duplication: boolean = e.response.data.duplication
         if (duplication) {
           setRegisterDuplication(true)
+          setFormLock(true)
         } else {
           props.history.replace('/sign_up_send_mail')
         }
@@ -65,6 +68,12 @@ export const UserSignUp: React.FC<Props> = (props: Props) => {
         setSendConfrimMessage('送信に失敗しました')
       }
     })
+    setFormLock(false)
+  }
+
+  const canselResendConfirm = () => {
+    setFormLock(false)
+    setRegisterDuplication(false)
   }
 
   return (
@@ -76,7 +85,12 @@ export const UserSignUp: React.FC<Props> = (props: Props) => {
           <tr>
             <td>メールアドレス</td>
             <td>
-              <StyledInput type="text" value={email} onChange={handleEmail} />
+              <StyledInput
+                type="text"
+                value={email}
+                onChange={handleEmail}
+                disabled={formLock}
+              />
             </td>
           </tr>
           <tr>
@@ -86,6 +100,7 @@ export const UserSignUp: React.FC<Props> = (props: Props) => {
                 type="password"
                 value={password}
                 onChange={handlePassword}
+                disabled={formLock}
               />
             </td>
           </tr>
@@ -96,6 +111,7 @@ export const UserSignUp: React.FC<Props> = (props: Props) => {
                 type="password"
                 value={passwordConfirm}
                 onChange={handlePasswordConfirm}
+                disabled={formLock}
               />
             </td>
           </tr>
@@ -107,7 +123,7 @@ export const UserSignUp: React.FC<Props> = (props: Props) => {
         )}
       </form>
       {registerDuplication && !sendConfirmMessage && (
-        <div>
+        <StyleResendConfirm>
           既にユーザー登録されていますが、認証が完了していません。
           <br />
           認証メールを再送しますか？
@@ -119,9 +135,14 @@ export const UserSignUp: React.FC<Props> = (props: Props) => {
           >
             再送
           </Button>
-        </div>
+          <Button variant="text" color="primary" onClick={canselResendConfirm}>
+            キャンセル
+          </Button>
+        </StyleResendConfirm>
       )}
-      {sendConfirmMessage && <div>{sendConfirmMessage}</div>}
+      {sendConfirmMessage && (
+        <StyleResendConfirm>{sendConfirmMessage}</StyleResendConfirm>
+      )}
       <Link to="/sign_in" style={linkStyle}>
         <LinkButton>ログイン画面へ</LinkButton>
       </Link>

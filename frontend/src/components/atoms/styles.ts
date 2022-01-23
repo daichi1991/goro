@@ -70,6 +70,15 @@ export const StyleSubmitDisable = styled.input`
   font-size: 16px;
 `
 
+export const StyleResendConfirm = styled.div`
+  margin: 10px auto;
+  padding: 10px;
+  width: 80%;
+  border: solid 1px #a1a1a1;
+  border-radius: 5px;
+  text-align: center;
+`
+
 export const tableStyle = {
   margin: '0 auto',
 }
