@@ -1,6 +1,7 @@
 module Api
     module V1
         class UsersController < ApplicationController
+            before_action :signed_in?
 
             def update
                 @user = User.find(current_user.id)
@@ -8,8 +9,12 @@ module Api
             end
 
             def current_user_show
-                @user = User.find(current_user.id)
-                render :show
+                if signed_in?
+                    @user = User.find(current_user.id)
+                    render :show
+                else
+                    render json: {id:nil, username:nil}
+                end
             end
 
             def show

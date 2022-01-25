@@ -205,7 +205,12 @@ const AuthUserProvider: React.FC = (children) => {
         withCredentials: true,
       })
       .then((res) => {
-        setUserInfo({ id: res.data.id, username: res.data.username })
+        if (res.data.id) {
+          setUserInfo({ id: res.data.id, username: res.data.username })
+        }
+      })
+      .catch((e) => {
+        console.log(e)
       })
   }
 
