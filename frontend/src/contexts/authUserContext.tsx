@@ -178,7 +178,9 @@ const AuthUserProvider: React.FC = (children) => {
           setIsAuthenticated(false)
         }
       })
-    setSignInCheck(true)
+      .then(() => {
+        setSignInCheck(true)
+      })
   }
 
   const getMyProfile = () => {
