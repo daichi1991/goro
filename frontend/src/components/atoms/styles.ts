@@ -70,7 +70,7 @@ export const StyleSubmitDisable = styled.input`
   font-size: 16px;
 `
 
-export const StyleResendConfirm = styled.div`
+export const StyleSignUpError = styled.div`
   margin: 10px auto;
   padding: 10px;
   width: 80%;

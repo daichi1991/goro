@@ -52,9 +52,6 @@ RSpec.describe "Users", type: :request do
 
   describe "GET /api/v1/users/resend_confirmation" do
     before do
-      ActionMailer::Base.deliveries.clear
-    end
-    it "send confirm mail collectly" do
       post '/api/v1/auth', params: {
         user:{
           email:'a@gmail.com',
@@ -62,6 +59,9 @@ RSpec.describe "Users", type: :request do
           password_confirmation: '123456',
         }
       }
+      ActionMailer::Base.deliveries.clear
+    end
+    it "send confirm mail collectly" do
       post '/api/v1/auth/resend_confirmation', params:{
         email:'a@gmail.com'
       }

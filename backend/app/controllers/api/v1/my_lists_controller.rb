@@ -3,9 +3,6 @@ module Api
         class MyListsController < ApplicationController
             
             def index
-                
-                binding.pry
-                
                 if signed_in?
                     @my_lists = MyList.where(user_id: current_user.id)
                     render :index

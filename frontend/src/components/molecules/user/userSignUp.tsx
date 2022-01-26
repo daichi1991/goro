@@ -6,7 +6,7 @@ import {
   LinkButton,
   linkStyle,
   StyledInput,
-  StyleResendConfirm,
+  StyleSignUpError,
   StyleSubmit,
   tableStyle,
 } from '../../../components/atoms/styles'
@@ -25,21 +25,26 @@ export const UserSignUp: React.FC<Props> = (props: Props) => {
   const [registerDuplication, setRegisterDuplication] = useState<boolean>(false)
   const [sendConfirmMessage, setSendConfrimMessage] = useState<string>('')
   const [formLock, setFormLock] = useState<boolean>(false)
+  const [alreadyRegisterd, setAlreadyRegisterd] = useState<boolean>(false)
 
   const userSignUp = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     signUp(email, password, passwordConfirm)
-      .then(() => {
-        props.history.replace('/sign_up_send_mail')
+      .then((res) => {
+        if (res.data.status === 'success') {
+          props.history.replace('/sign_up_send_mail')
+        }
       })
       .catch((e) => {
-        console.log(e.response.data.duplication)
-        const duplication: boolean = e.response.data.duplication
-        if (duplication) {
-          setRegisterDuplication(true)
-          setFormLock(true)
-        } else {
-          props.history.replace('/sign_up_send_mail')
+        const already: boolean = e.response.data.already
+        const confirmed: boolean = e.response.data.confirmed
+        if (already) {
+          if (!confirmed) {
+            setRegisterDuplication(true)
+            setFormLock(true)
+          } else {
+            setAlreadyRegisterd(true)
+          }
         }
       })
   }
@@ -123,7 +128,7 @@ export const UserSignUp: React.FC<Props> = (props: Props) => {
         )}
       </form>
       {registerDuplication && !sendConfirmMessage && (
-        <StyleResendConfirm>
+        <StyleSignUpError>
           既にユーザー登録されていますが、認証が完了していません。
           <br />
           認証メールを再送しますか？
@@ -138,10 +143,15 @@ export const UserSignUp: React.FC<Props> = (props: Props) => {
           <Button variant="text" color="primary" onClick={canselResendConfirm}>
             キャンセル
           </Button>
-        </StyleResendConfirm>
+        </StyleSignUpError>
       )}
       {sendConfirmMessage && (
-        <StyleResendConfirm>{sendConfirmMessage}</StyleResendConfirm>
+        <StyleSignUpError>{sendConfirmMessage}</StyleSignUpError>
+      )}
+      {alreadyRegisterd && (
+        <StyleSignUpError>
+          このメールアドレスは既に登録されています。
+        </StyleSignUpError>
       )}
       <Link to="/sign_in" style={linkStyle}>
         <LinkButton>ログイン画面へ</LinkButton>

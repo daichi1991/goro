@@ -2,17 +2,20 @@ class Api::V1::Auth::RegistrationsController < Devise::RegistrationsController
 
     def create
         user = User.new(sign_up_params)
-        begin
-            if user.save
-                render json: {success:'success'}, status: 201
+        exist_user = User.find_by(email: user.email)
+        if exist_user.present?
+            if exist_user.confirmed_at != nil
+                render json: {status:'error',message:'already registerd and confirmed', already:true, confirmed:true}, status: 422
             else
-                render json: { errors:'error' }, status: 422
+                render json: {status:'error',message:'already registerd but not confirmed yet',already:true, confirmed:false }, status: 422
             end
-        rescue ActiveRecord::RecordNotUnique
-            render json: { errors:'already registerd but not confirmed yet',duplication:true }, status: 422
+        else
+            if user.save
+                render json: {status:'success',message:'success', already:false, confirmed:false}, status: 201
+            else
+                render json: {status:'error',message:'unknown error', already:false, confirmed:false}, status: 422
+            end
         end
-
-
     end
 
     def after_sign_up_path_for(resource)
