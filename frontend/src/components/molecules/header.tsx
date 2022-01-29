@@ -96,11 +96,12 @@ export const Header: React.FC = () => {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <Link to="/user_setting">
+              <Link to="/user_setting" className={classes.itemLinkIcon}>
                 <MenuItem onClick={handleClose}>アカウント設定</MenuItem>
               </Link>
-              <Button onClick={handleSignOut}>ログアウト</Button>
+              <Button onClick={handleSignOut} fullWidth>
+                ログアウト
+              </Button>
             </Menu>
           </div>
         ) : (

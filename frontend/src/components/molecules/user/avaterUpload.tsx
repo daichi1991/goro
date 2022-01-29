@@ -1,12 +1,17 @@
-import { Button } from '@material-ui/core'
+import { Button, Divider } from '@material-ui/core'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { Box, Typography } from '@mui/material'
 import * as React from 'react'
 import Cropper, { Crop } from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
+import { Link } from 'react-router-dom'
 import { createAvater } from '../../../apis/user'
+import { useStyles } from '../../../utils/style'
 
 const { useState } = React
 
 export const AvaterUpload = () => {
+  const classes = useStyles()
   const [src, setSrc] = useState<FileReader['result']>(null)
   const [image, setImage] = useState<File | null>(null)
   const [crop, setCrop] = useState<Crop>({
@@ -91,8 +96,44 @@ export const AvaterUpload = () => {
 
   return (
     <>
+      <Box
+        sx={{
+          marginBottom: 2,
+          width: '100%',
+          maxWidth: 360,
+          bgcolor: 'background.paper',
+        }}
+      >
+        <Typography variant="h5" component="div">
+          <Link to="/user_setting" className={classes.itemLinkIcon}>
+            <ArrowBackIcon />
+          </Link>
+          <span className={classes.pageTitleText}>
+            アバター画像アップロード
+          </span>
+        </Typography>
+      </Box>
+      <Divider />
+      <Typography variant="subtitle1" display="block" gutterBottom></Typography>
       <form onSubmit={handleCreatePost}>
-        <input type="file" accept="image/*" onChange={onSelectFile} />
+        <div className={classes.avaterContents}>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={onSelectFile}
+            className={classes.avaterInput}
+          />
+          {src && (
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.avaterInput}
+            >
+              アップロード
+            </Button>
+          )}
+        </div>
         {typeof src == 'string' && (
           <Cropper
             src={src}
@@ -101,9 +142,9 @@ export const AvaterUpload = () => {
             onImageLoaded={onImageLoaded}
             onComplete={onCropComplete}
             onChange={onCropChange}
+            className={classes.avaterContents}
           />
         )}
-        <Button type="submit">アップロード</Button>
       </form>
     </>
   )

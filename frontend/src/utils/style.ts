@@ -32,6 +32,7 @@ export const useStyles = makeStyles((theme: Theme) =>
       padding: 10,
     },
     itemListContent: {
+      margin: 10,
       paddingLeft: 10,
       height: 40,
       fontSize: 12,
@@ -90,6 +91,13 @@ export const useStyles = makeStyles((theme: Theme) =>
     },
     dialogContent: {
       display: 'block',
+    },
+    avaterContents: {
+      display: 'block',
+      margin: 10,
+    },
+    avaterInput: {
+      display: 'inline',
     },
   }),
 )
