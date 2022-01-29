@@ -5,7 +5,6 @@ import {
   makeStyles,
   Paper,
 } from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import * as React from 'react'
 import { searchItems } from '../../../apis/item'
@@ -23,6 +22,7 @@ const useStyles = makeStyles(() =>
       minWidth: 300,
     },
     input: {
+      padding: '2px 10px',
       flex: 1,
     },
     iconButton: {
@@ -52,9 +52,6 @@ export const SearchBox = () => {
 
   return (
     <Paper component="form" className={classes.root}>
-      <IconButton className={classes.iconButton} area-label="menu">
-        <MenuIcon />
-      </IconButton>
       <InputBase
         className={classes.input}
         placeholder="キーワード"
