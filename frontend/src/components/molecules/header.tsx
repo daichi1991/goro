@@ -60,7 +60,7 @@ export const Header: React.FC = () => {
       <ToolBar>
         <Typography variant="h6" noWrap className={classes.headerTitle}>
           <Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>
-            語呂合わせアプリ
+            ゴロ合わせアプリ
           </Link>
         </Typography>
 
