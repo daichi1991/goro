@@ -22,7 +22,9 @@ module Api
             end
 
             def sign_in_check
-                token = cookies[:token]
+                token = cookies["token"]
+                logger.debug('bbbbbb')
+                logger.debug(token)
                 if signed_in?
                     render json: {status: 'SUCCESS', data: token}
                 else

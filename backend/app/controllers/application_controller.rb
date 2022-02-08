@@ -23,9 +23,17 @@ class ApplicationController < ActionController::API
             begin
                 # token_user = cookies["token"].split(".")[1]
                 token_user = cookies["token"]
-                jwt_payload = JWT.decode(token_user, Rails.application.secrets.secret_key_base)[0]
-                @current_user_id = jwt_payload['id'].to_i
-            rescue JWT::ExpiredSignature, JWT::VerificationError, JWT::DecodeError
+                logger.debug('aaaaaaaa')
+                logger.debug(token_user)
+                # jwt_payload = JWT.decode(token_user, Rails.application.secrets.secret_key_base)[1]
+                jwt_payload = JWT.decode token_user, 'my_secret', true, { :algorithm => 'HS256' }
+                logger.debug(jwt_payload)
+                @current_user_id = jwt_payload[0]['id'].to_i
+            # rescue JWT::ExpiredSignature, JWT::VerificationError, JWT::DecodeError
+            rescue => e
+                logger.debug('cccccc')
+                logger.debug(e)
+                render json: { message:e }, status: :unprocessable_entity
                 head :unauthorized
             end
         end

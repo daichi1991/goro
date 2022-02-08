@@ -10,7 +10,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
         if Rails.env.development? || Rails.env.test?
             origins 'http://localhost:3001'
         else
-            origins 'https://goro-frontend.herokuapp.com'
+            origins 'https://www.goroawaseapp.net'
         end
 
     resource '*',

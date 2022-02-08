@@ -26,7 +26,7 @@ module Goro
 
     config.action_dispatch.default_headers = {
       'Access-Control-Allow-Credentials' => 'true',
-      'Access-Control-Allow-Origin' => 'https://goro-frontend.herokuapp.com',
+      'Access-Control-Allow-Origin' => 'https://www.goroawaseapp.net',
       'Access-Control-Request-Method' => '*'
     }
     
