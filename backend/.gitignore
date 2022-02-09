@@ -27,3 +27,5 @@
 /node_modules/vendor/bundle
 /vendor/bundle
 .foreman
+
+/.env
