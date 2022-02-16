@@ -185,6 +185,6 @@ export const getProfile = (userId: string) => {
       },
     })
     .then((res) => {
-      return res.data.id
+      return res.data
     })
 }

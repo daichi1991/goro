@@ -417,6 +417,9 @@ GEM
     ruby-vips (2.1.2)
       ffi (~> 1.12)
     ruby_dep (1.5.0)
+    ruby_http_client (3.5.4)
+    sendgrid-ruby (6.6.1)
+      ruby_http_client (~> 3.4)
     signet (0.15.0)
       addressable (~> 2.3)
       faraday (>= 0.17.3, < 2.0)
@@ -479,6 +482,7 @@ DEPENDENCIES
   rails (~> 6.0.2)
   rails_same_site_cookie
   rspec-rails
+  sendgrid-ruby
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data

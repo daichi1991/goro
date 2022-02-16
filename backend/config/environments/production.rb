@@ -9,12 +9,13 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   ActionMailer::Base.delivery_method = :smtp
   ActionMailer::Base.smtp_settings = {
-    :port           => ENV['MAILGUN_SMTP_PORT'],
-    :address        => ENV['MAILGUN_SMTP_SERVER'],
-    :user_name      => ENV['MAILGUN_SMTP_LOGIN'],
-    :password       => ENV['MAILGUN_SMTP_PASSWORD'],
-    :domain         => 'www.goroawaseapp-backend.net',
+    :user_name => 'apikey',
+    :password => ENV["SENDGRID_API_KEY"],
+    :domain => ENV["SENDGRID_DOMAIN"],
+    :address => 'smtp.sendgrid.net',
+    :port => 587,
     :authentication => :plain,
+    :enable_starttls_auto => true
   }
 
   # Eager load code on boot. This eager loads most of Rails and

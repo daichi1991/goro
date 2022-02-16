@@ -105,12 +105,10 @@ export const MylistContentsWrapper: React.FC<Props> = (props: Props) => {
   const [userItemUrl, setUserItemUrl] = useState<string>('')
 
   const getMyprofileImage = async () => {
-    const tmpProfileId = await getProfile(item.item_user_id)
+    const tmpProfile = await getProfile(item.item_user_id)
     setUserItemUrl(`/users/items/${item.item_user_id}`)
-    setAvaterImageUrl(
-      `http://localhost:3000/uploads/profile/image/${tmpProfileId}/avater.jpg`,
-    )
-    setProfileId(tmpProfileId)
+    setAvaterImageUrl(tmpProfile.image.url)
+    setProfileId(tmpProfile.id)
   }
 
   const handleDeleteMylistContent = () => {

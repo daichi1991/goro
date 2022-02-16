@@ -20,6 +20,7 @@ export const Header: React.FC = () => {
   const signOut = useContext(AuthOperationContext).signOut
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [myProfileId, setMyProfileId] = useState<string>('')
+  const [avaterImage, setAvaterImage] = useState<string>('')
 
   const open = Boolean(anchorEl)
 
@@ -32,6 +33,7 @@ export const Header: React.FC = () => {
         withCredentials: true,
       })
       .then((res) => {
+        setAvaterImage(res.data.image.url)
         setMyProfileId(res.data.id)
       })
   }
@@ -40,7 +42,7 @@ export const Header: React.FC = () => {
     isAuthenticated && getMyProfile()
   }, [isAuthenticated])
 
-  const avaterImageUrl = `http://localhost:3000/uploads/profile/image/${myProfileId}/avater.jpg`
+  const avaterImageUrl = avaterImage
 
   const handleSignOut = () => {
     setAnchorEl(null)

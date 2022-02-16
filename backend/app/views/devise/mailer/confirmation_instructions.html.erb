@@ -4,5 +4,5 @@
 <% if Rails.env.development? || Rails.env.test?  %>
   <p><%= link_to 'Confirm my account', "http://localhost:3001/sign_up_confirm?confirmation_token=#{@token}" %></p>
 <% else %>
-  <p><%= link_to 'Confirm my account', "https://goro-frontend.herokuapp.com/sign_up_confirm?confirmation_token=#{@token}" %></p>
+  <p><%= link_to 'Confirm my account', "https://www.goroawaseapp.net/sign_up_confirm?confirmation_token=#{@token}" %></p>
 <% end %>

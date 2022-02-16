@@ -18,10 +18,8 @@ export const OtherUserMenu: React.FC = () => {
   const [avaterImageUrl, setAvaterImageUrl] = useState<string>('')
 
   const getProfileImage = async () => {
-    const profileId = await getProfile(params.userId)
-    setAvaterImageUrl(
-      `http://localhost:3000/uploads/profile/image/${profileId}/avater.jpg`,
-    )
+    const profile = await getProfile(params.userId)
+    setAvaterImageUrl(profile.image.url)
   }
 
   useEffect(() => {
