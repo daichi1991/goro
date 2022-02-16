@@ -47,6 +47,12 @@ export const StyledInput = styled.input`
   width: 300px;
 `
 
+export const SignInForm = styled.div`
+  margin: 10px auto;
+  max-width: 500px;
+  text-align: center;
+`
+
 export const StyleSubmit = styled.input`
   display: block;
   margin: 10px auto;

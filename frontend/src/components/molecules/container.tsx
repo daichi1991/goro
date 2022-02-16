@@ -76,7 +76,7 @@ export const Container: React.FC = () => {
       <Router>
         <Header />
         <div className={classes.appBody}>
-          {isWide ? <SideMenu /> : <FooterMenu />}
+          {isWide && <SideMenu />}
           <div
             className={classes.content}
             style={{ marginLeft: contentMarginLeft }}
@@ -165,6 +165,7 @@ export const Container: React.FC = () => {
             )}
           </div>
         </div>
+        {!isWide && <FooterMenu />}
       </Router>
     </>
   )

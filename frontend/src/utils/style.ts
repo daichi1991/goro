@@ -99,5 +99,16 @@ export const useStyles = makeStyles((theme: Theme) =>
     avaterInput: {
       display: 'inline',
     },
+    footer: {
+      position: 'fixed',
+      zIndex: 101,
+      bottom: 0,
+      width: '100%',
+    },
+    footerContent: {
+      flexGrow: 1,
+      paddingLeft: 0,
+      paddingRight: 0,
+    },
   }),
 )

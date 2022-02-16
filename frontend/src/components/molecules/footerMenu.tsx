@@ -1,24 +1,10 @@
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core'
 import { Folder, Person, Search } from '@material-ui/icons'
-import { makeStyles } from '@mui/styles'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useStyles } from '../../utils/style'
 
 export const FooterMenu: React.FC = () => {
-  const useStyles = makeStyles({
-    footer: {
-      position: 'fixed',
-      zIndex: 101,
-      bottom: 0,
-      width: '100%',
-    },
-    footerContent: {
-      flexGrow: 1,
-      paddingLeft: 0,
-      paddingRight: 0,
-    },
-  })
-
   const classes = useStyles()
   const [value, setValue] = React.useState('search')
 
